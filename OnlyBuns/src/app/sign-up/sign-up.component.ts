@@ -15,24 +15,12 @@ interface DisplayMessage {
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.css']
 })
-export class SignUpComponent implements OnInit {
+export class SignUpComponent implements OnInit, OnDestroy {
 
   title = 'Sign up';
   form!: FormGroup;
-
-  /**
-   * Boolean used in telling the UI
-   * that the form has been submitted
-   * and is awaiting a response
-   */
   submitted = false;
-
-  /**
-   * Notification message from received
-   * form request or router
-   */
   notification!: DisplayMessage;
-
   returnUrl!: string;
   private ngUnsubscribe: Subject<void> = new Subject<void>();
 
@@ -42,9 +30,7 @@ export class SignUpComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder
-  ) {
-
-  }
+  ) {}
 
   ngOnInit() {
     this.route.params
@@ -52,15 +38,18 @@ export class SignUpComponent implements OnInit {
       .subscribe((params: any) => {
         this.notification = params as DisplayMessage;
       });
-    // get return url from route parameters or default to '/'
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    
     this.form = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(32)])],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
+      confirmPassword: ['', Validators.required],
       firstname: [''],
       lastname: [''],
-      email: ['']
-    });
+      address: ['']
+    }, { validator: this.passwordMatchValidator });
   }
 
   ngOnDestroy() {
@@ -68,28 +57,34 @@ export class SignUpComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
 
+  // Custom validator to check if password and confirmPassword fields match
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
+  }
+
   onSubmit() {
-    /**
-     * Innocent until proven guilty
-     */
-    this.notification;
+    if (this.form.invalid) {
+      return;
+    }
+
     this.submitted = true;
 
     this.authService.signup(this.form.value)
       .subscribe(data => {
         console.log(data);
-        this.authService.login(this.form.value).subscribe(() => {
-          this.userService.getMyInfo().subscribe();
-        });
-        this.router.navigate([this.returnUrl]);
+        this.notification = {
+          msgType: 'success',
+          msgBody: 'Registration successful! Please check your email to activate your account.'
+        };
+        this.submitted = false;
+        this.router.navigate(['/login']);
       },
-        error => {
-          this.submitted = false;
-          console.log('Sign up error');
-          this.notification = { msgType: 'error', msgBody: error['error'].message };
-        });
-
+      error => {
+        this.submitted = false;
+        console.log('Sign up error');
+        this.notification = { msgType: 'error', msgBody: error.error.message };
+      });
   }
-
-
 }
