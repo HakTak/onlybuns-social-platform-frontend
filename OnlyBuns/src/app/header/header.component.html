@@ -7,16 +7,18 @@
             <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/login">
                 <span>Login</span>
             </button>
-            <button *ngIf="hasSignedIn()" [matMenuTriggerFor]="userMenu" class="greeting-button" 
+            <button *ngIf="hasSignedIn()"  class="greeting-button" 
             mat-button>
                 <span>Hello, {{userName()}}</span>
             </button>
-            <button *ngIf="hasSignedIn()" [matMenuTriggerFor]="userMenu" class="greeting-hamburger" 
+            <button *ngIf="hasSignedIn()"  class="greeting-hamburger" 
             mat-icon-button>
             </button>
-            <mat-menu #userMenu ="matMenu">
-                <mat-button (click)="logout()">sign out</mat-button>
-            </mat-menu>
+           
+            <button *ngIf="hasSignedIn()" (click)="logout()" mat-raised-button>
+                <span>Log out</span>
+            </button>
+           
         </div>
     </div>
 </mat-toolbar>

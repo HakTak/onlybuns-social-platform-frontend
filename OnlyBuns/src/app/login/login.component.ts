@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.form = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],
+      email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(32)])]
     });
   }
@@ -64,18 +64,15 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    /**
-     * Innocent until proven guilty
-     */
+  
     
     this.notification;
     this.submitted = true;
 
     this.authService.login(this.form.value)
       .subscribe(data => {
-        console.log(data);
-          this.userService.getMyInfo().subscribe();
-          this.router.navigate([this.returnUrl]);
+        this.router.navigate(['']);
+          
         },
         error => {
           console.log(error);

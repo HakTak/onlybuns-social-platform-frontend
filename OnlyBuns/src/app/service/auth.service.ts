@@ -26,9 +26,9 @@ export class AuthService {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     });
-    // const body = `username=${user.username}&password=${user.password}`;
+
     const body = {
-      'username': user.username,
+      'email': user.email,
       'password': user.password
     };
     return this.apiService.post(this.config.login_url, JSON.stringify(body), loginHeaders)
@@ -39,12 +39,13 @@ export class AuthService {
       }));
   }
 
-  signup(user:any) {
-    const signupHeaders = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
-    return this.apiService.post(this.config.signup_url, JSON.stringify(user), signupHeaders)
+
+
+
+
+
+  signup(user: any) {
+    return this.apiService.post(this.config.signup_url, user)
       .pipe(map(() => {
         console.log('Sign up success');
       }));
@@ -63,6 +64,11 @@ export class AuthService {
 
   getToken() {
     return this.access_token;
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem("jwt");
+    return !!token; // Vraća true ako token postoji, u suprotnom false
   }
 
 }

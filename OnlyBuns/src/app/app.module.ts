@@ -18,6 +18,7 @@ import {FooService} from './service/foo.service';
 import {AuthService} from './service/auth.service';
 import {UserService} from './service/user.service';
 import {ConfigService} from './service/config.service';
+import { AuthGuard } from './guards/auth.guard';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
@@ -52,8 +53,10 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
     ApiService,
     UserService,
     ConfigService,
+    AuthGuard
   ],
   bootstrap: [AppComponent],
+  
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

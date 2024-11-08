@@ -70,6 +70,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     }
 
     this.submitted = true;
+    console.log(JSON.stringify(this.form.value));
+
+
+
 
     this.authService.signup(this.form.value)
       .subscribe(data => {
