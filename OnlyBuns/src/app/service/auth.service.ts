@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
-
+import { tap } from 'rxjs/operators';
 
 
 @Injectable()
@@ -65,37 +65,16 @@ export class AuthService {
   
 
 
-  /*logout() {
+  logout() {
     this.userService.currentUser = null;
     localStorage.removeItem("jwt");
     this.access_token = null;
     this.router.navigate(['/login']);
-  }*/
+  }
 
     
-    logout(): Observable<void> {
-      const userName = this.getCurrentUserName();
-      const body = { userName };
     
-      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.access_token}`);
-
     
-      return this.apiService.post(this.config.logout_url, body, headers ).pipe(
-        map((response: any) => {
-          localStorage.removeItem("jwt");
-          this.access_token = null;
-          this.userService.currentUser = null;
-          this.router.navigate(['/login']);
-          console.log("User logged out and role updated to unauthenticated.");
-        }),
-        catchError((error: any) => {
-          console.error("Logout error:", error);
-          return throwError(() => error);
-        })
-      );
-    }
-    
-
 
 
   tokenIsPresent() {
