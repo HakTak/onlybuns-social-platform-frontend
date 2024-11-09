@@ -7,10 +7,7 @@
             <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/login">
                 <span>Login</span>
             </button>
-            <button *ngIf="hasSignedIn()"  class="greeting-button" 
-            mat-button>
-                <span>Hello, {{userName()}}</span>
-            </button>
+           
             <button *ngIf="hasSignedIn()"  class="greeting-hamburger" 
             mat-icon-button>
             </button>

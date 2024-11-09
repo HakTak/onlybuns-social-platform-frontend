@@ -13,6 +13,12 @@
           <mat-error *ngIf="form.get('username')?.hasError('required')">Username is required</mat-error>
           <mat-error *ngIf="form.get('username')?.hasError('minlength')">Minimum length is 3 characters</mat-error>
         </mat-form-field>
+
+
+        <mat-form-field>
+          <label>Address:</label>
+          <input formControlName="address" matInput>
+        </mat-form-field>
   
         <mat-form-field>
           <label>Email:</label>
@@ -33,6 +39,8 @@
           <input formControlName="confirmPassword" matInput required type="password">
           <mat-error *ngIf="form.hasError('mismatch')">Passwords do not match</mat-error>
         </mat-form-field>
+
+
   
         <mat-form-field>
           <label>First Name:</label>

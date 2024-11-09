@@ -64,31 +64,38 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return password === confirmPassword ? null : { mismatch: true };
   }
 
+
+
   onSubmit() {
     if (this.form.invalid) {
       return;
     }
-
+  
     this.submitted = true;
     console.log(JSON.stringify(this.form.value));
-
-
-
-
+  
     this.authService.signup(this.form.value)
-      .subscribe(data => {
-        console.log(data);
-        this.notification = {
-          msgType: 'success',
-          msgBody: 'Registration successful! Please check your email to activate your account.'
-        };
-        this.submitted = false;
-        this.router.navigate(['/login']);
-      },
-      error => {
-        this.submitted = false;
-        console.log('Sign up error');
-        this.notification = { msgType: 'error', msgBody: error.error.message };
+      .subscribe({
+        next: (message) => {
+          console.log('Success message:', message);
+          this.notification = {
+            msgType: 'success',
+            msgBody: message
+          };
+          this.submitted = false;
+          this.router.navigate(['/login']);
+        },
+        error: (error) => {
+          this.submitted = false;
+          console.log('Sign up error:', error);
+          this.notification = { msgType: 'error', msgBody: error.error?.message || 'An unknown error occurred.' };
+        }
       });
   }
+  
+  
+
+
+
+
 }

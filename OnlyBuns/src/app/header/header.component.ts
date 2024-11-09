@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
 
   userName() {
     const user = this.userService.currentUser;
-    return user.firstName + ' ' + user.lastName;
+    return user.userName
   }
   logout() {
     this.authService.logout();

@@ -5,8 +5,11 @@ import { UserService } from './user.service';
 import { ConfigService } from './config.service';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { of } from 'rxjs/internal/observable/of';
+import { jwtDecode } from 'jwt-decode';
 import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
+
+
 
 @Injectable()
 export class AuthService {
@@ -19,44 +22,81 @@ export class AuthService {
   ) {
   }
 
-  private access_token = null;
+  private access_token: string | null = null;
 
-  login(user:any) {
-    const loginHeaders = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
 
+  
+  login(user: any): Observable<string> {
     const body = {
-      'email': user.email,
-      'password': user.password
+      email: user.email,
+      password: user.password
     };
-    return this.apiService.post(this.config.login_url, JSON.stringify(body), loginHeaders)
-      .pipe(map((res) => {
-        console.log('Login success');
-        this.access_token = res.body.accessToken;
-        localStorage.setItem("jwt", res.body.accessToken)
-      }));
+  
+    return this.apiService.post(this.config.login_url, body)
+      .pipe(
+        map((response:any) => {
+          const responseBody = response.body; // Pristupamo `body` delu odgovora
+          console.log('Full response body:', responseBody); // Provera celog `body` odgovora
+          const accessToken = responseBody.access_token; // Pristup `access_token` u `body`
+          console.log('Access token received:', accessToken);
+  
+          if (accessToken) {
+            localStorage.setItem("jwt", accessToken);
+            this.access_token = accessToken;
+          } else {
+            console.error("No access token found in response");
+          }
+  
+          return accessToken;
+        })
+      );
   }
-
-
-
-
-
-
-  signup(user: any) {
+  
+  
+  signup(user: any): Observable<string> {
     return this.apiService.post(this.config.signup_url, user)
-      .pipe(map(() => {
-        console.log('Sign up success');
-      }));
+      .pipe(
+        map((response: any) => {
+          console.log('Sign up success:', response.message);
+          return response.message;
+        })
+      );
   }
+  
 
-  logout() {
+
+  /*logout() {
     this.userService.currentUser = null;
     localStorage.removeItem("jwt");
     this.access_token = null;
     this.router.navigate(['/login']);
-  }
+  }*/
+
+    
+    logout(): Observable<void> {
+      const userName = this.getCurrentUserName();
+      const body = { userName };
+    
+      const headers = new HttpHeaders().set('Authorization', `Bearer ${this.access_token}`);
+
+    
+      return this.apiService.post(this.config.logout_url, body, headers ).pipe(
+        map((response: any) => {
+          localStorage.removeItem("jwt");
+          this.access_token = null;
+          this.userService.currentUser = null;
+          this.router.navigate(['/login']);
+          console.log("User logged out and role updated to unauthenticated.");
+        }),
+        catchError((error: any) => {
+          console.error("Logout error:", error);
+          return throwError(() => error);
+        })
+      );
+    }
+    
+
+
 
   tokenIsPresent() {
     return this.access_token != undefined && this.access_token != null;
@@ -69,6 +109,17 @@ export class AuthService {
   isAuthenticated(): boolean {
     const token = localStorage.getItem("jwt");
     return !!token; // Vraća true ako token postoji, u suprotnom false
+  }
+
+
+
+  getCurrentUserName(): string | null {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.sub; 
+    }
+    return null;
   }
 
 }
