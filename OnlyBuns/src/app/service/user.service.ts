@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {ConfigService} from './config.service';
 import {map} from 'rxjs/operators';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class UserService {
 
   constructor(
     private apiService: ApiService,
-    private config: ConfigService
+    private config: ConfigService,
   ) {
   }
 
@@ -25,7 +26,14 @@ export class UserService {
   }
 
   getAll() {
-    return this.apiService.get(this.config.users_url);
+    const token = localStorage.getItem('jwt');  // Uzmite token sa localStorage
+
+    console.log(token)
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`  // Dodajte token u Authorization header
+    });
+
+    return this.apiService.get(this.config.users_url,  headers);  // Proslijedite headers kao opciju
   }
 
 }
