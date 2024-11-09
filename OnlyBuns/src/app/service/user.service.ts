@@ -26,14 +26,13 @@ export class UserService {
   }
 
   getAll() {
-    const token = localStorage.getItem('jwt');  // Uzmite token sa localStorage
-
-    console.log(token)
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    alert(token)
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`  // Dodajte token u Authorization header
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
     });
 
-    return this.apiService.get(this.config.users_url,  headers);  // Proslijedite headers kao opciju
+    // Prosleđivanje headers kao opcija
+    return this.apiService.get(this.config.users_url, { headers });
   }
-
 }
