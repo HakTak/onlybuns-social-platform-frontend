@@ -63,7 +63,8 @@ export class LoginComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
 
-  onSubmit() {
+  onSubmit(): void {
+
     if (this.form.invalid) {
       return;
     }
@@ -71,23 +72,27 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
     console.log(JSON.stringify(this.form.value));
   
-    this.authService.login(this.form.value)
-      .subscribe({
-        next: (accessToken) => {
-          console.log('Login successful, token:', accessToken);
-          this.notification = {
-            msgType: 'success',
-            msgBody: 'Login successful!'
-          };
-          this.submitted = false;
-          this.router.navigate(['/']);
-        },
-        error: (error) => {
-          this.submitted = false;
-          console.log('Login error:', error);
-          this.notification = { msgType: 'error', msgBody: error.error || 'Invalid credentials' };
-        }
-      });
+    
+    
+    this.authService.login(this.form.value).subscribe({
+      next: (accessToken) => {
+        console.log('Login successful, token:', accessToken);
+        this.notification = {
+          msgType: 'success',
+          msgBody: 'Login successful!'
+        };
+        this.submitted = false;
+        this.router.navigate(['/']); // Redirekcija na početnu stranicu nakon prijave
+      },
+      error: (error) => {
+        this.submitted = false;
+        console.log('Login error:', error);
+        this.notification = {
+          msgType: 'error',
+          msgBody: error.error || 'Invalid credentials'
+        };
+      }
+    });
   }
   
 

@@ -8,7 +8,7 @@
     fxFlex subTitle="Authorized role: USER" title='"Who am I"'>
   </app-card>
 
-  <app-card (apiClick)="makeRequest($event)" [responseObj]="allUserResponse" apiText="/api/user/all" class="last"
+  <app-card *ngIf="authService.isAdmin()"  (apiClick)="makeRequest($event)" [responseObj]="allUserResponse" apiText="/api/user/all" class="last"
     content='This endpoint will give you a list of all the users. You have to sign in as an Admin to gain the access to this endpoint.'
     fxFlex subTitle="Authorized role: ADMIN" title='"All users"'>
   </app-card>
