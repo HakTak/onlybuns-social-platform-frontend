@@ -1,4 +1,17 @@
 <mat-toolbar class="app-navbar" color="primary">
+    <div class="left">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-start center">
+            <img src="assets/logo2.png" alt="App Logo" class="app-logo"> <!-- Zamenite 'assets/logo.png' sa putanjom do vašeg logotipa -->
+            <span class="app-name">Only Buns</span>
+            <button mat-raised-button routerLink="/posts">
+                <span>Posts</span>
+            </button>
+            <button mat-raised-button routerLink="/about">
+                <span>About</span>
+            </button>
+            <!-- Dodajte više dugmadi po potrebi -->
+        </div>
+    </div>
     <div class="right">
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
             <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/signup">
@@ -8,14 +21,13 @@
                 <span>Login</span>
             </button>
            
-            <button *ngIf="hasSignedIn()"  class="greeting-hamburger" 
-            mat-icon-button>
+            <button *ngIf="hasSignedIn()" class="greeting-hamburger" mat-icon-button>
+                <!-- Ikonica ili sadržaj dugmeta -->
             </button>
            
             <button *ngIf="hasSignedIn()" (click)="logout()" mat-raised-button>
                 <span>Log out</span>
             </button>
-           
         </div>
     </div>
 </mat-toolbar>

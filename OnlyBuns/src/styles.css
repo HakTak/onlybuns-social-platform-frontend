@@ -1,10 +1,59 @@
 /* You can add global styles to this file, and also import other style files */
-/* @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/* Definišite CSS varijable za boje teme */
+:root {
+  --primary: #3f51b5; /* Indigo 500 */
+  --primary-rgb: 63, 81, 181;
+  --primary-dark: #303f9f; /* Indigo 700 */
+  --primary-light: #c5cae9; /* Indigo 100 */
+  --accent: #e91e63; /* Pink A200 */
+  --accent-dark: #c2185b; /* Pink 700 */
+  --accent-light: #f8bbd0; /* Pink 100 */
+  --warn: #f44336; /* Red 500 */
+  --warn-dark: #d32f2f; /* Red 700 */
+  --warn-light: #ffcdd2; /* Red 100 */
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+*/
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
