@@ -8,13 +8,13 @@
 .post-card {
   margin: 10px;
   padding: 5px;
-  background-color: rgba(169, 169, 169, 0.099);
+  background-color: rgba(229, 225, 184, 0.615);
   transition: background-color 0.3s ease;
-  box-shadow: 5px -2px 5px rgba(var(--primary-rgb), 1);
+  box-shadow: 5px -2px 5px var(--primary);
 }
 
 .post-card:hover {
-  background-color: rgba(229, 225, 184, 0.615);
+  background-color: var(--accent-light);
 }
 
 .pagination {
@@ -40,6 +40,7 @@ mat-button:hover{
 
 mat-card-header{
   margin-top: -15px;
+  margin-bottom: 10px;
   flex: 0 0 auto;
 }
 
