@@ -6,6 +6,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';  
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,12 @@ export class UserService {
         return user;
       }));
   }
+
+  getUserByUsername(username: string): Observable<any> {
+    return this.apiService.get(`${this.config.prifile_url}/${username}`);
+
+  }
+  
 
   getAll() {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage

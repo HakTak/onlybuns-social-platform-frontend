@@ -11,9 +11,14 @@ export class ConfigService {
   private _login_url = this._user_url + '/login';
   private _logout_url=this._user_url + '/logout'; 
   private _posts_url=this._api_url+'/posts'
+  private _profile_url=this._user_url+'/getUserByName';
 
   get login_url(): string {
     return this._login_url;
+  }
+
+  get prifile_url():string{
+    return this._profile_url;
   }
 
   get logout_url(): string {

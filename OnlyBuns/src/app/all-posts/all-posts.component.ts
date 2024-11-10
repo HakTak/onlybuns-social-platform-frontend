@@ -5,6 +5,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
 import { PostComment } from '../models/postComment.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+
+
+
 
 @Component({
   selector: 'app-all-posts',
@@ -16,7 +20,7 @@ export class AllPostsComponent implements OnInit {
   currentPage: number = 0;
   postsPerPage: number = 28;
 
-  constructor(private postService: PostService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
+  constructor(private postService: PostService, private dialog: MatDialog, private snackBar: MatSnackBar,private router:Router) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -58,6 +62,11 @@ export class AllPostsComponent implements OnInit {
         });
       }
     });
+  }
+
+
+  goToProfile(username: string): void {
+    this.router.navigate(['/profile', username]);
   }
 
   onMouseOver(post: Post): void {

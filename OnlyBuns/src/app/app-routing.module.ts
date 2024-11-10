@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './guards/auth.guard';
 import {AllPostsComponent} from './all-posts/all-posts.component'
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,12 @@ const routes: Routes = [
     component: AllPostsComponent,
     pathMatch: 'full'
   },
+
+  { 
+    path: 'profile/:username',
+    component: ProfileComponent
+  },
+
   {
     path: 'login',
     component: LoginComponent,
