@@ -25,7 +25,7 @@ export class AuthService {
   private access_token: string | null = null;
 
 
-  
+  /*
   login(user: any): Observable<string> {
     const body = {
       email: user.email,
@@ -51,6 +51,45 @@ export class AuthService {
         })
       );
   }
+*/
+
+
+
+login(user: any): Observable<string> {
+  const body = {
+    email: user.email,
+    password: user.password
+  };
+
+  return this.apiService.post(this.config.login_url, body)
+    .pipe(
+      map((response: any) => {
+        console.log('Full response body:', response);  // Proverava se ceo odgovor
+        
+        // Proveri da li `access_token` i `role` postoje u odgovoru
+        const accessToken = response?.access_token;
+        const role = response?.role;
+
+        if (accessToken) {
+          localStorage.setItem("jwt", accessToken);
+          localStorage.setItem("role", role); // Sačuvaj rolu korisnika
+          this.access_token = accessToken;
+        } else {
+          console.error("No access token found in response");
+        }
+
+        return accessToken;
+      })
+    );
+}
+
+
+
+
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
   
   
   signup(user: any): Observable<string> {
@@ -74,7 +113,9 @@ export class AuthService {
 
     
     
-    
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
+  }
 
 
   tokenIsPresent() {

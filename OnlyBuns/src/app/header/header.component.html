@@ -25,7 +25,7 @@
                 <!-- Ikonica ili sadržaj dugmeta -->
             </button>
            
-            <button (click)="logout()" mat-raised-button>
+            <button *ngIf="hasSignedIn()" (click)="logout()" mat-raised-button>
                 <span>Log out</span>
             </button>
         </div>
