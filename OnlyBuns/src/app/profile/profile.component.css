@@ -1,0 +1,20 @@
+h2 {
+    color: #333;
+  }
+  
+  p {
+    font-size: 1.1em;
+  }
+  
+  strong {
+    color: #555;
+  }
+  
+  .profile-actions {
+    margin-top: 10px;
+  }
+  
+  .profile-actions button {
+    margin-right: 10px;
+  }
+  

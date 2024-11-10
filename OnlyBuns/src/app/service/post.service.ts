@@ -18,7 +18,9 @@ export class PostService {
     constructor(private http: HttpClient, private apiService: ApiService,
         private config: ConfigService) { }
 
+    
+
     getPosts(page: number, size: number): Observable<Post[]> {
-        return this.http.get<Post[]>(`${this.config.posts_url}/allPaged?page=${page}&size=${size}`);
+        return this.http.get<Post[]>(`${this.config.posts_url}/allPaged?page=${page}&size=${size}&sort=createdAt,DESC`);
     }
 }
