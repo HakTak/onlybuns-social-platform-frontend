@@ -10,7 +10,7 @@ export class ConfigService {
   private _user_url = this._api_url + '/users';
   private _login_url = this._user_url + '/login';
   private _logout_url=this._user_url + '/logout'; 
-
+  private _posts_url=this._api_url+'/posts'
 
   get login_url(): string {
     return this._login_url;
@@ -47,6 +47,9 @@ export class ConfigService {
 
   get verify_url(): string {
     return this._verify_url;
+  }
+  get posts_url():string{
+    return this._posts_url;
   }
 
 

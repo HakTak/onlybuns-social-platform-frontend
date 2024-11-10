@@ -27,7 +27,6 @@ export class UserService {
 
   getAll() {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
-    alert(token)
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
     });

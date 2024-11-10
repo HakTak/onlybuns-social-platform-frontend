@@ -1,28 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Use this for animations
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from './card/card.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {ApiService} from './service/api.service';
-import {FooService} from './service/foo.service';
-import {AuthService} from './service/auth.service';
-import {UserService} from './service/user.service';
-import {ConfigService} from './service/config.service';
+import { ApiService } from './service/api.service';
+import { FooService } from './service/foo.service';
+import { AuthService } from './service/auth.service';
+import { UserService } from './service/user.service';
+import { ConfigService } from './service/config.service';
 import { AuthGuard } from './guards/auth.guard';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
+import { AllPostsComponent } from './all-posts/all-posts.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,13 +32,14 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
     HeaderComponent,
     LoginComponent,
     SignUpComponent,
+    AllPostsComponent,
    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     AngularMaterialModule,
     FormsModule,
     ReactiveFormsModule

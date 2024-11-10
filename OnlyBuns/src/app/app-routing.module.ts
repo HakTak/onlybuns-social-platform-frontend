@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './guards/auth.guard';
+import {AllPostsComponent} from './all-posts/all-posts.component'
 
 const routes: Routes = [
   {
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'posts',
+    component: AllPostsComponent,
   },
   {
     path: 'signup',
