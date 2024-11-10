@@ -17,7 +17,8 @@
 
         <mat-form-field>
           <label>Address:</label>
-          <input formControlName="address" matInput>
+          <input formControlName="address" matInput required>
+          <mat-error *ngIf="form.get('address')?.hasError('required')">Address is required</mat-error>
         </mat-form-field>
   
         <mat-form-field>
@@ -44,12 +45,14 @@
   
         <mat-form-field>
           <label>First Name:</label>
-          <input formControlName="firstname" matInput>
+          <input formControlName="firstname" matInput required>
+          <mat-error *ngIf="form.get('firstname')?.hasError('required')">First name is required</mat-error>
         </mat-form-field>
-  
+      
         <mat-form-field>
           <label>Last Name:</label>
-          <input formControlName="lastname" matInput>
+          <input formControlName="lastname" matInput required>
+          <mat-error *ngIf="form.get('lastname')?.hasError('required')">Last name is required</mat-error>
         </mat-form-field>
   
         

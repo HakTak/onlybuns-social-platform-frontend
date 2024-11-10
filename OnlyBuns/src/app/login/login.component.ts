@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
       .subscribe((params: any) => {
         this.notification = params as DisplayMessage;
       });
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.form = this.formBuilder.group({
       email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],

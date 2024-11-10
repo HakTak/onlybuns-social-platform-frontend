@@ -42,13 +42,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     
     this.form = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(64)]],
+      username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
       confirmPassword: ['', Validators.required],
-      firstname: [''],
-      lastname: [''],
-      address: ['']
+      firstname: ['', Validators.required], 
+      lastname: ['', Validators.required],  
+      address: ['', Validators.required]   
     }, { validator: this.passwordMatchValidator });
   }
 
