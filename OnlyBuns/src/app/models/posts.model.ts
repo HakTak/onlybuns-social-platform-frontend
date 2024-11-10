@@ -1,3 +1,5 @@
+import { PostComment } from "./postComment.model";
+
 export class Post {
     id: number;
     description: string;
@@ -6,6 +8,7 @@ export class Post {
     location: Location;
     authorUsername: string;
     likes: number;
+    comments: PostComment[];
   
     constructor(
       id: number,
@@ -23,5 +26,6 @@ export class Post {
       this.location = location;
       this.authorUsername = authorUsername;
       this.likes = likes;
+      this.comments=[];
     }
   }

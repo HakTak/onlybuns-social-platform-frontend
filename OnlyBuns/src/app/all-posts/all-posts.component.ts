@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../service/post.service';
 import { Post } from '../models/posts.model';
+import { MatDialog } from '@angular/material/dialog';
+import { PostCommentsComponent } from '../post-comments/post-comments.component';
+import { PostComment } from '../models/postComment.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-all-posts',
@@ -12,7 +16,7 @@ export class AllPostsComponent implements OnInit {
   currentPage: number = 0;
   postsPerPage: number = 28;
 
-  constructor(private postService: PostService) { }
+  constructor(private postService: PostService, private dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -42,7 +46,18 @@ export class AllPostsComponent implements OnInit {
   }
 
   viewComments(post: Post): void {
-    // Implementirajte logiku za prikaz komentara
+    this.postService.getCommentsForPost(post.id).subscribe((data: Post) => {
+      if (data.comments && data.comments.length > 0) {
+        this.dialog.open(PostCommentsComponent, {
+          data: { post: data }
+        });
+      } else {
+        this.snackBar.open('No comments to display', 'Close', {
+          duration: 3000,
+          panelClass: ['custom-snackbar']
+        });
+      }
+    });
   }
 
   onMouseOver(post: Post): void {

@@ -23,6 +23,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
 import { AllPostsComponent } from './all-posts/all-posts.component';
+import { PostCommentsComponent } from './post-comments/post-comments.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { AllPostsComponent } from './all-posts/all-posts.component';
     LoginComponent,
     SignUpComponent,
     AllPostsComponent,
+    PostCommentsComponent,
    
   ],
   imports: [
@@ -42,7 +46,9 @@ import { AllPostsComponent } from './all-posts/all-posts.component';
     BrowserAnimationsModule,
     AngularMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
   providers: [ 
     {

@@ -9,7 +9,7 @@ import {AllPostsComponent} from './all-posts/all-posts.component'
 const routes: Routes = [
   {
     path: '',
-    component: HomeComponent,
+    component: AllPostsComponent,
     pathMatch: 'full'
   },
   {
