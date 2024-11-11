@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
 import { PostComment } from '../models/postComment.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '../service';
@@ -32,40 +32,59 @@ import { AuthService } from '../service';
 export class AllPostsComponent implements OnInit {
   posts: Post[] = [];
   currentPage: number = 0;
-  postsPerPage: number = 28;
+  postsPerPage: number = 3;
 
-  constructor(private postService: PostService,
-      private dialog: MatDialog,
-      private snackBar: MatSnackBar,
-      private router:Router,
-      private authService:AuthService
+  constructor(
+    private postService: PostService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.loadPosts();
+    this.route.queryParams.subscribe(params => {
+      this.currentPage = +params['page'] || 0;
+      this.loadPosts();
+    });
   }
 
   loadPosts(): void {
-    this.postService.getPosts(this.currentPage, this.postsPerPage).subscribe((data: Post[]) => {
-      this.posts = data;
-      if(this.posts.length==0){
-        if(this.currentPage>0){
-          this.previousPage()
-        }
+    this.postService.getPosts(this.currentPage, this.postsPerPage).subscribe((posts: Post[]) => {
+      this.posts = posts;
+      if (this.posts.length == 0 && this.currentPage > 0) {
+        this.previousPage()
       }
     });
   }
 
   nextPage(): void {
     this.currentPage++;
+    this.updateUrl();
     this.loadPosts();
   }
 
   previousPage(): void {
     if (this.currentPage > 0) {
       this.currentPage--;
+      this.updateUrl();
       this.loadPosts();
     }
+  }
+
+  goToPage(page: number): void {
+    this.currentPage = page;
+    this.updateUrl();
+    this.loadPosts();
+  }
+
+  updateUrl(): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: this.currentPage },
+      queryParamsHandling: 'merge'
+    });
   }
 
   viewComments(post: Post): void {
@@ -115,7 +134,7 @@ export class AllPostsComponent implements OnInit {
   }
 
   addComment(post: Post): void {
-    
+
     if (!this.authService.isAuthenticated()) {
       this.snackBar.open('You must be logged in to add a comment.', 'Login', {
         duration: 3000

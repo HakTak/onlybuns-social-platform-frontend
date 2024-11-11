@@ -108,5 +108,7 @@ mat-card-title:hover {
 .dugme {
   font-weight: bolder;
   font-size: larger;
+  margin-left: 20px;
+  margin-right: 20px;
   font-family: 'Pacifico', cursive;
 }
