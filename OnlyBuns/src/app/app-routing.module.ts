@@ -6,6 +6,7 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { AuthGuard } from './guards/auth.guard';
 import {AllPostsComponent} from './all-posts/all-posts.component'
 import { ProfileComponent } from './profile/profile.component';
+import { PostCreationComponent } from './post-creation/post-creation.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
     path: 'signup',
     component: SignUpComponent,
   },
+  {
+    path: 'post-creation',
+    component: PostCreationComponent,
+  }
 ];
 
 @NgModule({
