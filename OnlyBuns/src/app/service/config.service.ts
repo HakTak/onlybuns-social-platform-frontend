@@ -12,6 +12,7 @@ export class ConfigService {
   private _logout_url=this._user_url + '/logout'; 
   private _posts_url=this._api_url+'/posts'
   private _profile_url=this._user_url+'/getUserByName';
+  private _posts_image_url=this._posts_url + '/images';
 
   get login_url(): string {
     return this._login_url;
@@ -56,6 +57,9 @@ export class ConfigService {
   get posts_url():string{
     return this._posts_url;
   }
-
+  
+  get posts_image_url():string{
+    return this._posts_image_url;
+  }
 
 }

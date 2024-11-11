@@ -1,18 +1,42 @@
-<!-- create-post.component.html -->
-<div class="post-form-container">
-    <h2>Create a New Post</h2>
-    <form id="postForm">
-      <div class="form-group">
-        <label for="description">Post Description</label>
-        <textarea id="description" placeholder="Write your post description..." rows="5" required></textarea>
-      </div>
-  
-      <div class="form-group">
-        <label for="image">Upload Image</label>
-        <input type="file" id="image" accept="image/*" required />
-      </div>
-  
-      <button type="submit" class="btn-submit">Create Post</button>
-    </form>
+<div class="post-creation-container">
+    <mat-card class="post-creation-card">
+      <mat-card-header>
+        <mat-card-title>Create a Post</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+            <!-- Description Field -->
+            <mat-form-field class="full-width">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="Description" rows="4" required></textarea>
+              <mat-error *ngIf="postForm.get('description')?.hasError('required')">Description is required</mat-error>
+            </mat-form-field>
+          
+            <!-- Image Upload Field: Material Button triggering file input -->
+            <div class="file-input-container">
+              <!-- Set type="button" to prevent the form from being submitted -->
+              <button mat-raised-button type="button" (click)="fileInput.click()" color="accent">Choose File</button>
+              <input #fileInput type="file" (change)="onImageSelected($event)" style="display: none;" />
+            </div>
+          
+            <!-- Image Preview -->
+            <div *ngIf="imagePreview" class="image-preview">
+              <img [src]="imagePreview" alt="Image Preview" />
+            </div>
+          
+            <!-- Location Map -->
+            <div class="location-container">
+              <app-map-component></app-map-component>  <!-- Replace with your map component -->
+            </div>
+          
+            <!-- Submit Button -->
+            <div class="form-actions">
+              <!-- This button submits the form, triggering onSubmit() -->
+              <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">Create Post</button>
+            </div>
+          </form>
+          
+      </mat-card-content>
+    </mat-card>
   </div>
   

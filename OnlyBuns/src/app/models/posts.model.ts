@@ -1,3 +1,4 @@
+import { Location } from "./location.model";
 import { PostComment } from "./postComment.model";
 
 export class Post {
@@ -34,4 +35,10 @@ export class Post {
     this.likeNumber = likeNumber;
     this.isLikedByMe = isLikedByMe;
   }
+}
+
+export interface PostCreation{
+  description: string;
+  imagePath: string;
+  location: Location;
 }

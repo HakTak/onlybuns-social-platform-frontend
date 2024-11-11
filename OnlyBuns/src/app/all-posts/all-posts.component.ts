@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AuthService } from '../service';
+import { AuthService, ConfigService } from '../service';
 
 
 @Component({
@@ -34,6 +34,7 @@ export class AllPostsComponent implements OnInit {
   currentPage: number = 0;
   postsPerPage: number = 3;
   canGoNext: boolean=true;
+  imagePath: string | null = null;
 
   constructor(
     private postService: PostService,
@@ -41,7 +42,8 @@ export class AllPostsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private config: ConfigService
   ) { }
 
   ngOnInit(): void {
@@ -128,6 +130,11 @@ export class AllPostsComponent implements OnInit {
 
   getRelativeTime(date: Date): string {
     return moment(date).fromNow();
+  }
+
+  getImage(imgPath : string) : string{
+    const ret = `${this.config.posts_image_url}/${imgPath}`;
+    return ret;
   }
 
   toggleLike(post: Post): void {
