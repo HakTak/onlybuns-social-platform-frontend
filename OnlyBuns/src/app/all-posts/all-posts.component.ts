@@ -8,6 +8,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AuthService } from '../service';
+
 
 @Component({
   selector: 'app-all-posts',
@@ -32,7 +34,12 @@ export class AllPostsComponent implements OnInit {
   currentPage: number = 0;
   postsPerPage: number = 28;
 
-  constructor(private postService: PostService, private dialog: MatDialog, private snackBar: MatSnackBar,private router:Router) { }
+  constructor(private postService: PostService,
+      private dialog: MatDialog,
+      private snackBar: MatSnackBar,
+      private router:Router,
+      private authService:AuthService
+  ) { }
 
   ngOnInit(): void {
     this.loadPosts();
@@ -93,12 +100,31 @@ export class AllPostsComponent implements OnInit {
   }
 
   toggleLike(post: Post): void {
+
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('You must be logged in to like a post.', 'Login', {
+        duration: 3000
+      }).onAction().subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+      return;
+    }
+
     post.isLikedByMe = !post.isLikedByMe;
     post.likes += post.isLikedByMe ? 1 : -1;
   }
 
   addComment(post: Post): void {
-    // Implementirajte logiku za dodavanje komentara
+    
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('You must be logged in to add a comment.', 'Login', {
+        duration: 3000
+      }).onAction().subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+      return;
+    }
+
     console.log('Add comment for post:', post);
   }
 }
