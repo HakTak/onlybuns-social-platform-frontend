@@ -27,6 +27,7 @@ import { PostCommentsComponent } from './post-comments/post-comments.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProfileComponent } from './profile/profile.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   providers: [ 
     {

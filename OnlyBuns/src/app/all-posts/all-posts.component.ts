@@ -6,14 +6,26 @@ import { PostCommentsComponent } from '../post-comments/post-comments.component'
 import { PostComment } from '../models/postComment.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-
-
-
+import * as moment from 'moment';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-all-posts',
   templateUrl: './all-posts.component.html',
-  styleUrls: ['./all-posts.component.css']
+  styleUrls: ['./all-posts.component.css'],
+  animations: [
+    trigger('likeAnimation', [
+      state('like', style({
+        transform: 'scale(1)'
+      })),
+      state('liked', style({
+        transform: 'scale(1.2)'
+      })),
+      transition('like <=> liked', [
+        animate('0.2s')
+      ])
+    ])
+  ]
 })
 export class AllPostsComponent implements OnInit {
   posts: Post[] = [];
@@ -64,7 +76,6 @@ export class AllPostsComponent implements OnInit {
     });
   }
 
-
   goToProfile(username: string): void {
     this.router.navigate(['/profile', username]);
   }
@@ -75,5 +86,19 @@ export class AllPostsComponent implements OnInit {
 
   onMouseOut(post: Post): void {
     // Implementirajte logiku za hover efekat ako je potrebno
+  }
+
+  getRelativeTime(date: Date): string {
+    return moment(date).fromNow();
+  }
+
+  toggleLike(post: Post): void {
+    post.isLikedByMe = !post.isLikedByMe;
+    post.likes += post.isLikedByMe ? 1 : -1;
+  }
+
+  addComment(post: Post): void {
+    // Implementirajte logiku za dodavanje komentara
+    console.log('Add comment for post:', post);
   }
 }
