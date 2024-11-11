@@ -21,6 +21,6 @@ export class PostService {
     
 
     getPosts(page: number, size: number): Observable<Post[]> {
-        return this.http.get<Post[]>(`${this.config.posts_url}`);
+        return this.http.get<Post[]>(`${this.config.posts_url}/allPaged?page=${page}&size=${size}&sort=createdAt,DESC`);
     }
 }

@@ -33,6 +33,7 @@ export class AllPostsComponent implements OnInit {
   posts: Post[] = [];
   currentPage: number = 0;
   postsPerPage: number = 3;
+  canGoNext: boolean=true;
 
   constructor(
     private postService: PostService,
@@ -53,8 +54,19 @@ export class AllPostsComponent implements OnInit {
   loadPosts(): void {
     this.postService.getPosts(this.currentPage, this.postsPerPage).subscribe((posts: Post[]) => {
       this.posts = posts;
+      this.checkNextPage();
       if (this.posts.length == 0 && this.currentPage > 0) {
-        this.previousPage()
+        this.goToPage(0)
+      }
+    });
+  }
+
+  checkNextPage():void{
+    this.postService.getPosts(this.currentPage+1, this.postsPerPage).subscribe((posts: Post[]) => {
+      if(posts.length<1){
+        this.canGoNext=false;
+      }else{
+        this.canGoNext=true;
       }
     });
   }

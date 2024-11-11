@@ -37,7 +37,7 @@
   <div class="pagination">
     <button class="dugme" mat-button (click)="previousPage()" [disabled]="currentPage === 0">Previous</button>
     <span class="dugme" style="color: var(--primary);">Page {{ currentPage + 1 }}</span>
-    <button class="dugme" mat-button (click)="nextPage()">Next</button>
+    <button class="dugme" mat-button (click)="nextPage()" [disabled]="!canGoNext">Next</button>
     <button class="dugme" mat-button (click)="goToPage(0)" [disabled]="currentPage === 0">First Page</button>
     <!-- Dodajte dugmad za ostale stranice po potrebi -->
   </div>
