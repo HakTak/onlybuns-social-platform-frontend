@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService, ConfigService } from '../service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
 
 
 @Component({
@@ -44,7 +45,7 @@ export class AllPostsComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
-    private config: ConfigService
+    private config: ConfigService,
   ) { }
 
   ngOnInit(): void {
@@ -211,7 +212,10 @@ export class AllPostsComponent implements OnInit {
       });
       return;
     }
-
-    console.log('Add comment for post:', post);
+    
+    const dialogRef = this.dialog.open(CommentFormComponent, {
+      width: '50%',
+      data: {postId : post.id}
+    });
   }
 }

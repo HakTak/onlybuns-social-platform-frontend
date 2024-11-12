@@ -15,4 +15,8 @@ export class PostComment {
       this.createdAt = createdAt;
       this.authorUsername = authorUsername;
     }
+
   }
+export interface PostCommentCreation{
+  comment:string;
+}

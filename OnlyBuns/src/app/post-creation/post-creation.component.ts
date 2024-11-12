@@ -89,7 +89,7 @@ export class PostCreationComponent implements OnInit {
           location: loc
         }
 
-        this.postService.addPost(postCreation, 1).subscribe({
+        this.postService.addPost(postCreation).subscribe({
           next: (respone) =>{
             console.log(respone)
           },
@@ -101,12 +101,13 @@ export class PostCreationComponent implements OnInit {
         this.imagePreview = null;
         this.location = new Location(0, 0, 0)
         this.map?.removeMarker()
-        alert("Successfully posted")
+        // alert("Successfully posted")
       },
       error: (error) =>{
         console.error("Error uploading image: "+ error);
       },
     });
+    
   }
 
   // Method to handle the search functionality

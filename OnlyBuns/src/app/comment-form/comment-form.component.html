@@ -1,0 +1,14 @@
+<mat-dialog-content>
+    <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Your Comment</mat-label>
+        <textarea matInput formControlName="comment" rows="4" required></textarea>
+        <mat-error *ngIf="commentForm.get('comment')?.hasError('required')">Comment is required</mat-error>
+      </mat-form-field>
+  
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!commentForm.valid">Submit Comment</button>
+      </div>
+    </form>
+ </mat-dialog-content>
+  

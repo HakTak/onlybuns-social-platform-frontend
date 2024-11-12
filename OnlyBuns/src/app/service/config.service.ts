@@ -13,6 +13,7 @@ export class ConfigService {
   private _posts_url=this._api_url+'/posts'
   private _profile_url=this._user_url+'/getUserByName';
   private _posts_image_url=this._posts_url + '/images';
+  private _post_comments_url = this._api_url + '/post/comment';
 
   get login_url(): string {
     return this._login_url;
@@ -62,4 +63,7 @@ export class ConfigService {
     return this._posts_image_url;
   }
 
+  get post_comments_url():string{
+    return this._post_comments_url;
+  }
 }
