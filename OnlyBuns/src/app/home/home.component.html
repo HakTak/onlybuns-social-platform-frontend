@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="authService.isAuthenticated()" color="primary">
+<mat-toolbar *ngIf="!authService.isAdmin() && authService.isAuthenticated()" color="primary">
   <span>Welcome</span>
   <span class="spacer"></span>
   <button mat-button routerLink="/posts">
