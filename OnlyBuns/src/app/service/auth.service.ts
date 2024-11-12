@@ -117,7 +117,7 @@ login(user: any): Observable<string> {
     
     
   isAdmin(): boolean {
-    return this.getRole() === 'ROLE_ADMIN';
+    return this.getRole() === 'ADMIN';
   }
 
 
