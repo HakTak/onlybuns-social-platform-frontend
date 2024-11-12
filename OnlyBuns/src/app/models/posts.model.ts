@@ -11,7 +11,7 @@ export class Post {
   likes: number;
   comments: PostComment[];
   likeNumber: number;
-  isLikedByMe: boolean;
+  likedByMe: boolean;
 
   constructor(
     id: number,
@@ -22,7 +22,7 @@ export class Post {
     authorUsername: string,
     likes: number,
     likeNumber: number,
-    isLikedByMe: boolean,
+    likedByMe: boolean,
   ) {
     this.id = id;
     this.description = description;
@@ -33,7 +33,7 @@ export class Post {
     this.likes = likes;
     this.comments = [];
     this.likeNumber = likeNumber;
-    this.isLikedByMe = isLikedByMe;
+    this.likedByMe = likedByMe;
   }
 }
 

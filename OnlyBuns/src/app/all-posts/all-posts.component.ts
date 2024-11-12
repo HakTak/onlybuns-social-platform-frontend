@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService, ConfigService } from '../service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class AllPostsComponent implements OnInit {
   posts: Post[] = [];
   currentPage: number = 0;
   postsPerPage: number = 3;
-  canGoNext: boolean=true;
+  canGoNext: boolean = true;
   imagePath: string | null = null;
 
   constructor(
@@ -63,12 +64,12 @@ export class AllPostsComponent implements OnInit {
     });
   }
 
-  checkNextPage():void{
-    this.postService.getPosts(this.currentPage+1, this.postsPerPage).subscribe((posts: Post[]) => {
-      if(posts.length<1){
-        this.canGoNext=false;
-      }else{
-        this.canGoNext=true;
+  checkNextPage(): void {
+    this.postService.getPosts(this.currentPage + 1, this.postsPerPage).subscribe((posts: Post[]) => {
+      if (posts.length < 1) {
+        this.canGoNext = false;
+      } else {
+        this.canGoNext = true;
       }
     });
   }
@@ -138,18 +139,66 @@ export class AllPostsComponent implements OnInit {
   }
 
   toggleLike(post: Post): void {
-
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in to like a post.', 'Login', {
+      this.snackBar.open('You must be logged in with user role to like a post.', 'Login', {
         duration: 3000
       }).onAction().subscribe(() => {
         this.router.navigate(['/login']);
       });
       return;
     }
+    if (this.authService.getRole() !== 'ROLE_AUTHENTICATED') {
+      this.snackBar.open('You must be logged in with user role to like a post.', 'Logout', {
+        duration: 3000
+      }).onAction().subscribe(() => {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      });
+      return;
+    }
+    if(post.likedByMe){
+      this.unlikePost(post);
+    }else{
+      this.likePost(post);
+    }
+  }
 
-    post.isLikedByMe = !post.isLikedByMe;
-    post.likes += post.isLikedByMe ? 1 : -1;
+  unlikePost(post:Post){
+    this.postService.unlikePost(post.id).subscribe((data: Post) => {
+      // Uspešno izvršen zahtev
+      post.likedByMe = !post.likedByMe;
+      post.likeNumber--;
+      this.snackBar.open('Post unliked successfully!', 'Close', {
+        duration: 3000
+      });
+    },
+      (error: HttpErrorResponse) => {
+        // Greška pri izvršavanju zahteva
+        console.error('Error liking post:', error);
+        this.snackBar.open('Error unliking post. Please try again later.', 'Close', {
+          duration: 3000
+        });
+      }
+    );
+  }
+
+  likePost(post:Post){
+    this.postService.likePost(post.id).subscribe((data: Post) => {
+      // Uspešno izvršen zahtev
+      post.likedByMe = !post.likedByMe;
+      post.likeNumber++;
+      this.snackBar.open('Post liked successfully!', 'Close', {
+        duration: 3000
+      });
+    },
+      (error: HttpErrorResponse) => {
+        // Greška pri izvršavanju zahteva
+        console.error('Error liking post:', error);
+        this.snackBar.open('Error liking post. Please try again later.', 'Close', {
+          duration: 3000
+        });
+      }
+    );
   }
 
   addComment(post: Post): void {

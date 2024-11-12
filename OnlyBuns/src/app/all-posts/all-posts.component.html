@@ -18,11 +18,11 @@
           <p>{{ post.description }}</p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button (click)="toggleLike(post)" matTooltip="{{ post.isLikedByMe ? 'Unlike' : 'Like' }}">
-            <img [src]="post.isLikedByMe ? 'assets/liked.png' : 'assets/like.png'" 
-                 [@likeAnimation]="post.isLikedByMe ? 'liked' : 'like'" 
+          <button mat-button (click)="toggleLike(post)" matTooltip="{{ post.likedByMe ? 'Unlike' : 'Like' }}">
+            <img [src]="post.likedByMe ? 'assets/liked.png' : 'assets/like.png'" 
+                 [@likeAnimation]="post.likedByMe ? 'liked' : 'like'" 
                  alt="Like">
-            {{ post.likes }}
+            {{ post.likeNumber }}
           </button>
           <button mat-button (click)="addComment(post)" matTooltip="Add Comment">
             <img src="assets/add-comment.png" alt="Add Comment">
