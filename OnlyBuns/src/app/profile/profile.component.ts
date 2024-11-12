@@ -48,15 +48,23 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username') || '';
-    if (this.username) {
-      this.loadUserProfile(this.username);
-      this.route.queryParams.subscribe(params => {
-        this.currentPage = +params['page'] || 0;
+    // Pretplatite se na promene parametara za 'username'
+    this.route.paramMap.subscribe(params => {
+      this.username = params.get('username') || '';
+      if (this.username) {
+        this.loadUserProfile(this.username);
         this.loadPosts();
-      });
-    }
+      }
+    });
+  
+    // Pretplatite se na promene query parametara za paginaciju
+    this.route.queryParams.subscribe(params => {
+      this.currentPage = +params['page'] || 0;
+      this.loadPosts();
+    });
   }
+  
+
 
   loadUserProfile(username: string): void {
     this.userService.getUserByUsername(username).subscribe(
