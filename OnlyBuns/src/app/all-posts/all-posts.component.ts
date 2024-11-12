@@ -149,14 +149,14 @@ export class AllPostsComponent implements OnInit {
       });
       return;
     }
-    if(post.likedByMe){
+    if (post.likedByMe) {
       this.unlikePost(post);
-    }else{
+    } else {
       this.likePost(post);
     }
   }
 
-  unlikePost(post:Post){
+  unlikePost(post: Post) {
     this.postService.unlikePost(post.id).subscribe((data: Post) => {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
@@ -175,7 +175,7 @@ export class AllPostsComponent implements OnInit {
     );
   }
 
-  likePost(post:Post){
+  likePost(post: Post) {
     this.postService.likePost(post.id).subscribe((data: Post) => {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;

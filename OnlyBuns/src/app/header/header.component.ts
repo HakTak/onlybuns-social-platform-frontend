@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service';
-import {UserService} from '../service/user.service';
+import { UserService } from '../service/user.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
@@ -21,18 +21,22 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ]
 })
 export class HeaderComponent implements OnInit {
+  username: string;
 
-  constructor( private userService: UserService, private authService: AuthService) { }
+  constructor(private userService: UserService, private authService: AuthService) {
+    this.username = this.authService.getCurrentUserName() || '';
+  }
 
   ngOnInit() {
   }
 
   hasSignedIn(): boolean {
     return this.authService.isAuthenticated();
-}
+  }
 
   userName() {
     const user = this.userService.currentUser;
+    this.username=user.userName;
     return user.userName
   }
   logout() {

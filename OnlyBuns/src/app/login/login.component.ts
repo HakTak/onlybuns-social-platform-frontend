@@ -80,8 +80,8 @@ export class LoginComponent implements OnInit {
           msgType: 'success',
           msgBody: 'Login successful!'
         };
-        this.submitted = false;
         this.router.navigate(['/']); // Redirekcija na početnu stranicu nakon prijave
+        this.submitted = false;
       },
       error: (error) => {
         this.submitted = false;

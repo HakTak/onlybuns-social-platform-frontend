@@ -1,20 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from './api.service';
 import { UserService } from './user.service';
 import { ConfigService } from './config.service';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 
 @Injectable()
 export class AuthService {
+  private loggedIn = new BehaviorSubject<boolean>(this.isAuthenticated());
+  public loggedIn$ = this.loggedIn.asObservable();
 
   constructor(
+    private http: HttpClient,
     private apiService: ApiService,
     private userService: UserService,
     private config: ConfigService,
@@ -60,7 +63,7 @@ login(user: any): Observable<string> {
     email: user.email,
     password: user.password
   };
-
+  this.loggedIn.next(true);
   return this.apiService.post(this.config.login_url, body)
     .pipe(
       map((response: any) => {

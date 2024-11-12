@@ -1,7 +1,8 @@
 <mat-toolbar class="app-navbar" color="primary">
     <div class="left">
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-start center">
-            <img src="assets/logo2.png" alt="App Logo" class="app-logo"> <!-- Zamenite 'assets/logo.png' sa putanjom do vašeg logotipa -->
+            <img src="assets/logo2.png" alt="App Logo" class="app-logo">
+            <!-- Zamenite 'assets/logo.png' sa putanjom do vašeg logotipa -->
             <span class="app-name">Only Buns</span>
             <button mat-raised-button routerLink="/posts">
                 <span>Posts</span>
@@ -20,14 +21,17 @@
             <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/login">
                 <span>Login</span>
             </button>
-           
-            <button *ngIf="hasSignedIn()" class="greeting-hamburger" mat-icon-button>
-                <!-- Ikonica ili sadržaj dugmeta -->
-            </button>
-           
-            <button *ngIf="hasSignedIn()" (click)="logout()" mat-raised-button>
-                <span>Log out</span>
-            </button>
+            <div *ngIf="hasSignedIn()" class="profile-actions">
+                <button (click)="logout()" mat-raised-button>
+                    <span>Log out</span>
+                </button>
+                <button mat-button routerLink="/profile" class="profile-button" matTooltip="Show profile">
+                    <div class="profile-container">
+                        <img src="assets/logo.png" alt="Profile Picture" class="profile-picture">
+                        <span class="username">{{ username }}</span>
+                    </div>
+                </button>
+            </div>
         </div>
     </div>
 </mat-toolbar>
