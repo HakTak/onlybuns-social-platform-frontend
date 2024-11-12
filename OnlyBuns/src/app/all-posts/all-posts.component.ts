@@ -148,7 +148,7 @@ export class AllPostsComponent implements OnInit {
       });
       return;
     }
-    if (this.authService.getRole() !== 'ROLE_AUTHENTICATED') {
+    if (this.authService.getRole() !== 'AUTHENTICATED') {
       this.snackBar.open('You must be logged in with user role to like a post.', 'Logout', {
         duration: 3000
       }).onAction().subscribe(() => {
