@@ -50,10 +50,9 @@ export class LoginComponent implements OnInit {
       .subscribe((params: any) => {
         this.notification = params as DisplayMessage;
       });
-    // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.form = this.formBuilder.group({
-      username: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],
+      email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(64)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(32)])]
     });
   }
@@ -63,25 +62,37 @@ export class LoginComponent implements OnInit {
     this.ngUnsubscribe.complete();
   }
 
-  onSubmit() {
-    /**
-     * Innocent until proven guilty
-     */
-    
-    this.notification;
-    this.submitted = true;
+  onSubmit(): void {
 
-    this.authService.login(this.form.value)
-      .subscribe(data => {
-        console.log(data);
-          this.userService.getMyInfo().subscribe();
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-          console.log(error);
-          this.submitted = false;
-          this.notification = {msgType: 'error', msgBody: 'Incorrect username or password.'};
-        });
+    if (this.form.invalid) {
+      return;
+    }
+  
+    this.submitted = true;
+    console.log(JSON.stringify(this.form.value));
+  
+    
+    
+    this.authService.login(this.form.value).subscribe({
+      next: (accessToken) => {
+        console.log('Login successful, token:', accessToken);
+        this.notification = {
+          msgType: 'success',
+          msgBody: 'Login successful!'
+        };
+        this.router.navigate(['/']); // Redirekcija na početnu stranicu nakon prijave
+        this.submitted = false;
+      },
+      error: (error) => {
+        this.submitted = false;
+        console.log('Login error:', error);
+        this.notification = {
+          msgType: 'error',
+          msgBody: error.error || 'Invalid credentials'
+        };
+      }
+    });
   }
+  
 
 }

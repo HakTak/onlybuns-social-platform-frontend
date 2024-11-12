@@ -1,36 +1,112 @@
 :host {
-    position: relative;
-    z-index: 10;
-    color: rgb(93, 117, 196);
-  }
-  
-  .app-navbar {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .app-navbar span {
-    text-transform: uppercase !important;
-  }
-  
-  .right {
-    margin-left: auto;
-    float: right;
-  }
-  
-  .app-angular-logo {
-    margin: 0 4px 3px 0;
-    height: 26px;
-  }
-  
-  .greeting-hamburger {
-    display: none;
-  }
-mat-button{
-   margin-left: 30px; 
+  position: relative;
+  z-index: 10;
+  color: rgb(93, 117, 196);
+}
+
+.app-logo {
+  margin-top: 0px;
+  height: 90px;
+  border-radius: 10%;
+  margin-left: 1vw;
+  animation: rotateLogo 2s ease-in-out;
+}
+
+@keyframes rotateLogo {
+  from {
+    transform: rotate(0deg);
   }
 
-  
-  
-  
+  to {
+    transform: rotate(360deg);
+    /* 2 kruga (360 * 2) */
+  }
+}
+
+button {
+  margin: -25px 10px 0px 10px;
+}
+
+.app-name {
+  font-size: 24px;
+  font-style: italic;
+  font-family: 'Pacifico', cursive;
+  color: white;
+  margin-right: 50px;
+  margin-left: -70px;
+  position: relative;
+  top: -12px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 2s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.app-navbar {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.app-navbar span {
+  text-transform: uppercase !important;
+}
+
+.right {
+  margin-left: auto;
+  float: right;
+}
+
+.app-angular-logo {
+  margin: 0 4px 3px 0;
+  height: 26px;
+}
+
+.greeting-hamburger {
+  display: none;
+}
+
+mat-button {
+  margin-left: 30px;
+}
+
+.profile-actions {
+  display: flex;
+  align-items: center;
+}
+
+.profile-button {
+  display: flex;
+  align-items: center;
+  text-transform: none;
+}
+
+.profile-container {
+  display: flex;
+  margin-top: 5px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  width: 55px;
+  height: 55px;
+  transition: transform 0.3s ease;
+}
+
+.profile-picture:hover {
+  transform: rotate(360deg);
+}
+
+.username {
+  font-size: 12px;
+  color: white;
+  margin-top: -10px;
+  /* font-family: 'Pacifico', cursive; */
+}

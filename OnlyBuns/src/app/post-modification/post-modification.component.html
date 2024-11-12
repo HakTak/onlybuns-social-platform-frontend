@@ -1,0 +1,50 @@
+<div class="post-modification-container">
+  <mat-card class="post-modification-card">
+    <mat-card-header>
+      <mat-card-title>Modify Post</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+        <!-- Description Field -->
+        <mat-form-field class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="Description" rows="4" required></textarea>
+          <mat-error *ngIf="postForm.get('Description')?.hasError('required')">Description is required</mat-error>
+        </mat-form-field>
+
+        <!-- Location Map -->
+        <div class="location-container">
+          <!-- Search Field -->
+          <mat-form-field class="full-width">
+            <mat-label>Search Location</mat-label>
+            <input matInput [(ngModel)]="searchQuery" [ngModelOptions]="{standalone: true}" placeholder="Enter location of a bunny" />
+            <button mat-icon-button matSuffix type="button" (click)="onSearch()">
+              <mat-icon>search</mat-icon>
+            </button>
+          </mat-form-field>
+          <app-map [longitude]="post?.location?.longitude ?? 0" [latitude]="post?.location?.latitude ?? 0" (setLocation)="setLocation($event)"></app-map>  <!-- Replace with your map component -->
+        </div>
+
+        <!-- Image Upload Field: Material Button triggering file input -->
+        <div class="file-input-container">
+          <button mat-raised-button type="button" (click)="fileInput.click()" color="accent">Upload Photo</button>
+          <input #fileInput type="file" (change)="onImageSelected($event)" style="display: none;" />
+        </div>
+
+        <!-- Image Preview -->
+        <div *ngIf="imagePreview" class="image-preview">
+          <img [src]="imagePreview" alt="Image Preview" />
+        </div>
+
+        <div *ngIf="!imagePreview" class="image-preview">
+          <img [src]="getImage(post?.imagePath ?? '')" alt="Image Preview" />
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit" [disabled]="!postForm.valid">Modify Post</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

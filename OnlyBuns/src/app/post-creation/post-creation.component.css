@@ -1,0 +1,96 @@
+/* The container will be fixed in the center of the screen */
+.post-creation-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center it both horizontally and vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items in the center vertically */
+    padding: 20px;
+    width: 100%; /* Full width of the viewport */
+    height: auto; /* Allow the container to grow with content */
+    max-height: 90vh; /* Max height to ensure the form doesn't stretch too much */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+  }
+  
+  /* The card that holds the form */
+  .post-creation-card {
+    width: 100%;
+    max-width: 600px; /* Maximum width for the card */
+    height: 80vh; /* Set a height for the card */
+    max-height: 80vh; /* Prevent card from overflowing the screen */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: white;
+    border-radius: 8px; /* Optional: rounded corners for the card */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    position: relative;
+  }
+  
+  .post-creation-card mat-card-header {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+  }
+  
+  /* Full width form input */
+  .full-width {
+    width: 100%;
+  }
+  
+/* Use a more specific selector */
+.post-creation-card .location-container {
+    margin-top: 20px;
+    height: 400px;  /* Set the height you want for the map */
+    min-height: 200px; /* Prevent the container from collapsing too much */
+    max-height: 400px; /* Optionally limit the max height */
+    overflow: hidden; /* Prevent map from overflowing if the height is fixed */
+  }
+  
+  
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .file-input-button {
+    width: 100%; /* Full width button */
+    text-align: left; /* Align text to the left */
+  }
+  
+  .file-input-button:before {
+    content: "Choose a file";
+  }
+  
+  .file-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+  
+  .file-input-container button {
+    margin-bottom: 10px;
+  }
+  
+  .image-preview {
+    margin-top: 15px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Adds spacing after the image preview */
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    max-height: 200px; /* Limit image size */
+    object-fit: contain; /* Ensures image is scaled properly */
+  }
+  
+  

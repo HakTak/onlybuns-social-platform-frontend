@@ -1,0 +1,86 @@
+.search-sort-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+}
+
+.post-card {
+  margin: 10px;
+  padding: 5px;
+  width: 100%;
+  max-width: 255px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: rgba(229, 225, 184, 0.615);
+  transition: background-color 0.3s ease;
+  box-shadow: 5px -2px 5px var(--primary);
+}
+
+.post-card:hover {
+  background-color: var(--accent-light);
+}
+
+.pagination {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+  justify-content: center;
+  position: relative;
+  bottom: 0px;
+  border-radius: 10px;
+}
+
+.dugme {
+  font-weight: bolder;
+  font-size: larger;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-family: 'Pacifico', cursive;
+}
+
+.user-card {
+  width: 100%;
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mat-card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Pacifico', cursive;
+  font-size: xx-large;
+  font-weight: bold;
+
+  color: var(--primary);
+  /* Koristite CSS varijablu za primarnu boju */
+  transition: transform 0.3s ease;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.no-users-message {
+  text-align: center;
+  font-size: 18px;
+  color: gray;
+  margin-top: 20px;
+}
+
+.search-form-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -3,6 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+import { AuthGuard } from './guards/auth.guard';
+import {AllPostsComponent} from './all-posts/all-posts.component'
+import { ProfileComponent } from './profile/profile.component';
+import { PostCreationComponent } from './post-creation/post-creation.component';
+import { AllUsersComponent } from './all-users/all-users.component';
 
 const routes: Routes = [
   {
@@ -11,13 +16,30 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: 'users',
+    component: AllUsersComponent
+  },
+  { 
+    path: 'profile/:username',
+    component: ProfileComponent
+  },
+
+  {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'posts',
+    component: AllPostsComponent,
   },
   {
     path: 'signup',
     component: SignUpComponent,
   },
+  {
+    path: 'post-creation',
+    component: PostCreationComponent,
+  }
 ];
 
 @NgModule({

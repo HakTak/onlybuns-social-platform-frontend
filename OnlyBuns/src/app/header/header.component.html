@@ -1,4 +1,18 @@
 <mat-toolbar class="app-navbar" color="primary">
+    <div class="left">
+        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-start center">
+            <img src="assets/logo2.png" alt="App Logo" class="app-logo">
+            <!-- Zamenite 'assets/logo.png' sa putanjom do vašeg logotipa -->
+            <span class="app-name">Only Buns</span>
+            <button mat-raised-button routerLink="/posts">
+                <span>Posts</span>
+            </button>
+            <button mat-raised-button routerLink="/about">
+                <span>About</span>
+            </button>
+            <!-- Dodajte više dugmadi po potrebi -->
+        </div>
+    </div>
     <div class="right">
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
             <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/signup">
@@ -7,16 +21,20 @@
             <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/login">
                 <span>Login</span>
             </button>
-            <button *ngIf="hasSignedIn()" [matMenuTriggerFor]="userMenu" class="greeting-button" 
-            mat-button>
-                <span>Hello, {{userName()}}</span>
-            </button>
-            <button *ngIf="hasSignedIn()" [matMenuTriggerFor]="userMenu" class="greeting-hamburger" 
-            mat-icon-button>
-            </button>
-            <mat-menu #userMenu ="matMenu">
-                <mat-button (click)="logout()">sign out</mat-button>
-            </mat-menu>
+            <div *ngIf="hasSignedIn()" class="profile-actions">
+                <button *ngIf="isAdmin()" (click)="showUsers()" mat-raised-button>
+                    <span>Users</span>
+                </button>
+                <button (click)="logout()" mat-raised-button>
+                    <span>Log out</span>
+                </button>
+                <button mat-button (click)="goToProfile()" class="profile-button" matTooltip="Show profile">
+                    <div class="profile-container">
+                        <img src="assets/logo.png" alt="Profile Picture" class="profile-picture">
+                        <span class="username">{{ email }}</span>
+                    </div>
+                </button>
+            </div>
         </div>
     </div>
 </mat-toolbar>

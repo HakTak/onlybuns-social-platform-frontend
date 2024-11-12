@@ -1,27 +1,40 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Use this for animations
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from './card/card.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { LoginComponent } from './login/login.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import {ApiService} from './service/api.service';
-import {FooService} from './service/foo.service';
-import {AuthService} from './service/auth.service';
-import {UserService} from './service/user.service';
-import {ConfigService} from './service/config.service';
+import { ApiService } from './service/api.service';
+import { FooService } from './service/foo.service';
+import { AuthService } from './service/auth.service';
+import { UserService } from './service/user.service';
+import { ConfigService } from './service/config.service';
+import { AuthGuard } from './guards/auth.guard';
 
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptor/TokenInterceptor';
 import { AngularMaterialModule } from './angular-material/angular-material.module';
+import { AllPostsComponent } from './all-posts/all-posts.component';
+import { PostCommentsComponent } from './post-comments/post-comments.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProfileComponent } from './profile/profile.component';
+import { PostCreationComponent } from './post-creation/post-creation.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MapComponent } from './map/map.component';
+import { CommentFormComponent } from './comment-form/comment-form.component';
+import { ConfirmDeleteDialog } from './confirm-delete-dialog/confirm-delete-dialog.component';
+import { PostModificationComponent } from './post-modification/post-modification.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,16 +43,28 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
     HeaderComponent,
     LoginComponent,
     SignUpComponent,
+    AllPostsComponent,
+    PostCommentsComponent,
+    ProfileComponent,
+    PostCreationComponent,
+    MapComponent,
+    CommentFormComponent,
+    ConfirmDeleteDialog,
+    PostModificationComponent,
+    AllUsersComponent,
    
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     AngularMaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   providers: [ 
     {
@@ -52,8 +77,10 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
     ApiService,
     UserService,
     ConfigService,
+    AuthGuard
   ],
   bootstrap: [AppComponent],
+  
   schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule { }

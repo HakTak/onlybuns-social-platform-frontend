@@ -1,10 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
-/* @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
-/* You can add global styles to this file, and also import other style files */
+/*@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* Definišite CSS varijable za boje teme */
+:root {
+    --primary: #673AB7; /* Deep Purple 500 */
+    --primary-dark: #512DA8; /* Deep Purple 700 */
+    --primary-light: #D1C4E9; /* Deep Purple 100 */
+    --accent: #FFC107; /* Amber A200 */
+    --accent-dark: #FFAB00; /* Amber A700 */
+    --accent-light: #FFE082; /* Amber A100 */
+    --warn: #F44336; /* Red 500 */
+    --warn-dark: #D32F2F; /* Red 700 */
+    --warn-light: #FFCDD2; /* Red 100 */
+    --background: #FAFAFA;
+    --card: #FFFFFF;
+    --dialog: #FFFFFF;
+    --disabled-button: #E0E0E0;
+    --raised-button: #FFFFFF;
+    --focused-button: #D1C4E9;
+    --hover: #EEEEEE;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.custom-snackbar {
+  background-color: #673AB7 !important; /* Deep Purple 500 */
+  border-radius: 30px;
+  color: white !important;
+  font-size: 24px;
+  text-align: center;
+}
+
+.custom-snackbar .mat-simple-snackbar-action {
+  color: #FFC107 !important; /* Amber A200 */
+}

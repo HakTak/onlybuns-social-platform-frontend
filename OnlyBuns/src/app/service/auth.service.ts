@@ -1,17 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ApiService } from './api.service';
 import { UserService } from './user.service';
 import { ConfigService } from './config.service';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { of } from 'rxjs/internal/observable/of';
-import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { throwError } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 
 @Injectable()
 export class AuthService {
+  private loggedIn = new BehaviorSubject<boolean>(this.isAuthenticated());
+  public loggedIn$ = this.loggedIn.asObservable();
 
   constructor(
+    private http: HttpClient,
     private apiService: ApiService,
     private userService: UserService,
     private config: ConfigService,
@@ -19,36 +25,87 @@ export class AuthService {
   ) {
   }
 
-  private access_token = null;
+  private access_token: string | null = null;
 
-  login(user:any) {
-    const loginHeaders = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
-    // const body = `username=${user.username}&password=${user.password}`;
+
+  /*
+  login(user: any): Observable<string> {
     const body = {
-      'username': user.username,
-      'password': user.password
+      email: user.email,
+      password: user.password
     };
-    return this.apiService.post(this.config.login_url, JSON.stringify(body), loginHeaders)
-      .pipe(map((res) => {
-        console.log('Login success');
-        this.access_token = res.body.accessToken;
-        localStorage.setItem("jwt", res.body.accessToken)
-      }));
+  
+    return this.apiService.post(this.config.login_url, body)
+      .pipe(
+        map((response:any) => {
+          const responseBody = response.body; // Pristupamo `body` delu odgovora
+          console.log('Full response body:', responseBody); // Provera celog `body` odgovora
+          const accessToken = responseBody.access_token; // Pristup `access_token` u `body`
+          console.log('Access token received:', accessToken);
+  
+          if (accessToken) {
+            localStorage.setItem("jwt", accessToken);
+            this.access_token = accessToken;
+          } else {
+            console.error("No access token found in response");
+          }
+  
+          return accessToken;
+        })
+      );
   }
+*/
 
-  signup(user:any) {
-    const signupHeaders = new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    });
-    return this.apiService.post(this.config.signup_url, JSON.stringify(user), signupHeaders)
-      .pipe(map(() => {
-        console.log('Sign up success');
-      }));
+
+
+login(user: any): Observable<string> {
+  const body = {
+    email: user.email,
+    password: user.password
+  };
+  this.loggedIn.next(true);
+  return this.apiService.post(this.config.login_url, body)
+    .pipe(
+      map((response: any) => {
+        console.log('Full response body:', response);  // Proverava se ceo odgovor
+        
+        // Proveri da li `access_token` i `role` postoje u odgovoru
+        const accessToken = response?.access_token;
+        const role = response?.role;
+
+        if (accessToken) {
+          localStorage.setItem("jwt", accessToken);
+          localStorage.setItem("role", role); // Sačuvaj rolu korisnika
+          this.access_token = accessToken;
+        } else {
+          console.error("No access token found in response");
+        }
+
+        return accessToken;
+      })
+    );
+}
+
+
+
+
+
+  getRole(): string | null {
+    return localStorage.getItem('role');
   }
+  
+  
+  signup(user: any): Observable<string> {
+    return this.apiService.post(this.config.signup_url, user)
+      .pipe(
+        map((response: any) => {
+          console.log('Sign up success:', response.message);
+          return response.message;
+        })
+      );
+  }
+  
+
 
   logout() {
     this.userService.currentUser = null;
@@ -57,12 +114,35 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+    
+    
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
+  }
+
+
   tokenIsPresent() {
     return this.access_token != undefined && this.access_token != null;
   }
 
   getToken() {
     return this.access_token;
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem("jwt");
+    return !!token; // Vraća true ako token postoji, u suprotnom false
+  }
+
+
+
+  getCurrentUserName(): string | null {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.sub; 
+    }
+    return null;
   }
 
 }

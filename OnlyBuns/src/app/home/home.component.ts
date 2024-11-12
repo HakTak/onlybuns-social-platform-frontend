@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FooService} from '../service/foo.service';
 import {UserService} from '../service/user.service';
 import {ConfigService} from '../service/config.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +14,13 @@ export class HomeComponent implements OnInit {
   fooResponse = {};
   whoamIResponse = {};
   allUserResponse = {};
+  
 
   constructor(
     private config: ConfigService,
     private fooService: FooService,
-    private userService: UserService
+    private userService: UserService,
+    public authService:AuthService
   ) {
   }
 

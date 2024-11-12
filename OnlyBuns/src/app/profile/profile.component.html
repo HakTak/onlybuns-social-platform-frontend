@@ -1,0 +1,65 @@
+<div *ngIf="user; else loading">
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Address:</strong> {{ user.address }}</p>
+    <p><strong>First Name:</strong> {{ user.firstname }}</p>
+    <p><strong>Last Name:</strong> {{ user.lastname }}</p>
+    <div *ngIf="posts.length > 0; else noPostsTemplate">
+      <div class="post-list">
+        <mat-card *ngFor="let post of posts" class="post-card"
+                  (mouseover)="onMouseOver(post)" (mouseout)="onMouseOut(post)">
+          <mat-card-header>
+            <div *ngIf="isThisMyProfile" class="profile-header">
+              <button mat-icon-button matTooltip="Modify post" (click)="modifyPost(post)">
+                <img src="assets/modify.png" alt="Modify Post" class="delete-icon">
+              </button>
+              <button mat-icon-button matTooltip="Delete post" (click)="confirmDelete(post)">
+                <img src="assets/delete.png" alt="Delete Post" class="delete-icon">
+              </button>
+            </div>
+            <mat-card-subtitle>
+              {{ getRelativeTime(post.createdAt) }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <img mat-card-image [src]="getImage(post.imagePath)" alt="Post image">
+          </mat-card-content>
+          <mat-card-footer>
+            <mat-card-content>
+              <p>{{ post.description }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button (click)="toggleLike(post)" matTooltip="{{ post.likedByMe ? 'Unlike' : 'Like' }}">
+                <img [src]="post.likedByMe ? 'assets/liked.png' : 'assets/like.png'" 
+                     [@likeAnimation]="post.likedByMe ? 'liked' : 'like'" 
+                     alt="Like">
+                {{ post.likeNumber }}
+              </button>
+              <button mat-button (click)="addComment(post)" matTooltip="Add Comment">
+                <img src="assets/add-comment.png" alt="Add Comment">
+              </button>
+              <button mat-button (click)="viewComments(post)" matTooltip="Show Comments">
+                <img src="assets/comment.png" alt="Show Comments">
+              </button>
+            </mat-card-actions>
+          </mat-card-footer>
+        </mat-card>
+      </div>
+      <div class="pagination">
+        <button class="dugme" mat-button (click)="previousPage()" [disabled]="currentPage === 0">Previous</button>
+        <span class="dugme" style="color: var(--primary);">Page {{ currentPage + 1 }}</span>
+        <button class="dugme" mat-button (click)="nextPage()" [disabled]="!canGoNext">Next</button>
+        <button class="dugme" mat-button (click)="goToPage(0)" [disabled]="currentPage === 0">First Page</button>
+        <!-- Dodajte dugmad za ostale stranice po potrebi -->
+      </div>
+    </div>
+    <ng-template #noPostsTemplate>
+      <div class="no-posts-message">There are no posts</div>
+    </ng-template>
+  </div>
+  
+  <ng-template #loading>
+    <p>Loading user profile...</p>
+  </ng-template>
+  
+  
