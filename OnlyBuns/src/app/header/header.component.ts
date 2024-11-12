@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../service';
 import { UserService } from '../service/user.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -21,22 +22,37 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
   ]
 })
 export class HeaderComponent implements OnInit {
-  username: string;
+  email: string;
 
-  constructor(private userService: UserService, private authService: AuthService) {
-    this.username = this.authService.getCurrentUserName() || '';
+  constructor(private userService: UserService, private authService: AuthService,private router: Router) {
+    this.email = this.authService.getCurrentUserName() || '';
   }
 
   ngOnInit() {
+    this.email = this.authService.getCurrentUserName() || '';
   }
 
   hasSignedIn(): boolean {
+    this.email = this.authService.getCurrentUserName() || '';
     return this.authService.isAuthenticated();
+  }
+
+  goToProfile() {
+    var username='';
+    this.userService.getUserByEmail(this.email).subscribe(
+      (data: any) => {
+        username = data.username;
+        this.router.navigate(['/profile', username]);
+      },
+      (error) => {
+        console.error('Error loading user profile:', error);
+      }
+    );
   }
 
   userName() {
     const user = this.userService.currentUser;
-    this.username=user.userName;
+    this.email = user.userName;
     return user.userName
   }
   logout() {

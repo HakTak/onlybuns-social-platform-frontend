@@ -1,134 +1,165 @@
 h2 {
-    color: #333;
-  }
-  
-  p {
-    font-size: 1.1em;
-  }
-  
-  strong {
-    color: #555;
-  }
-  
-  .profile-actions {
-    margin-top: 10px;
-  }
-  
-  .profile-actions button {
-    margin-right: 10px;
-  }
-  
-  .post-list {
-    display: flex;
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  
-  .post-card {
-    margin: 10px;
-    padding: 5px;
-    background-color: rgba(229, 225, 184, 0.615);
-    transition: background-color 0.3s ease;
-    box-shadow: 5px -2px 5px var(--primary);
-  }
-  
-  .post-card:hover {
-    background-color: var(--accent-light);
-  }
-  
-  .pagination {
-    display: flex;
-    width: 100%;
-    margin-top: 20px;
-    justify-content: center;
-    position: relative;
-    bottom: 0px;
-    border-radius: 10px;
-  }
-  
-  mat-button:hover{
-    background-color: var(--primary);
-  }
-  
-  .no-posts-message {
-    text-align: center;
-    font-size: 18px;
-    color: gray;
-    margin-top: 20px;
-  }
-  
-  mat-card-header{
-    margin-top: -15px;
-    margin-bottom: 10px;
-    flex: 0 0 auto;
-  }
-  
-  mat-card-actions {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  mat-card-actions {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  mat-card-actions button img {
-    width: 28px;
-    height: 28px;
-    margin-right: 8px;
-  }
-  
-  img{
-    width: 100%;
-    max-height: 100%; /* Ograničite visinu slike */
-    object-fit: cover; /* Zadržava aspekt proporcija slike */
-  }
-  
-  mat-card {
-    display: flex;
-    flex-direction: column;
-    height: 450px;
-    width: 320px;
-  }
-  
-  mat-card-content {
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Dodajte overflow kako bi se sadržaj pravilno prikazao */
-  }
-  
-  mat-card-footer {
-    flex: 0 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: auto;
-    overflow: hidden; /* Dodajte overflow kako bi se sadržaj pravilno prikazao */
-  }
-  
-  mat-card-title {
-    font-family: 'Pacifico', cursive;
-    font-size: xx-large;
-    font-weight: bold;
-    color: var(--primary);
-    /* Koristite CSS varijablu za primarnu boju */
-    transition: transform 0.3s ease;
-  }
-  
-  mat-card-title:hover {
-    transform: scale(1.3);
-    /* Uvećanje na hover */
-  }
-  
-  .dugme {
-    font-weight: bolder;
-    font-size: larger;
-    margin-left: 20px;
-    margin-right: 20px;
-    font-family: 'Pacifico', cursive;
-  }
+  color: #333;
+}
+
+p {
+  font-size: 1.1em;
+}
+
+.delete-icon {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.delete-icon:hover {
+  transform: scale(1.2);
+}
+
+strong {
+  color: #555;
+}
+
+.profile-actions {
+  margin-top: 10px;
+  display: flex;
+  align-items: end;
+}
+
+.profile-actions button {
+  margin-right: 10px;
+}
+
+.post-list {
+  display: flex;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.post-card {
+  margin: 10px;
+  padding: 5px;
+  background-color: rgba(229, 225, 184, 0.615);
+  transition: background-color 0.3s ease;
+  box-shadow: 5px -2px 5px var(--primary);
+}
+
+.profile-header {
+  margin-left: auto;
+}
+
+.post-card:hover {
+  background-color: var(--accent-light);
+}
+
+.pagination {
+  display: flex;
+  width: 100%;
+  margin-top: 20px;
+  justify-content: center;
+  position: relative;
+  bottom: 0px;
+  border-radius: 10px;
+}
+
+mat-button:hover {
+  background-color: var(--primary);
+}
+
+.no-posts-message {
+  text-align: center;
+  font-size: 18px;
+  color: gray;
+  margin-top: 20px;
+}
+
+mat-card-header {
+  margin-top: -15px;
+  margin-bottom: 10px;
+  flex: 0 0 auto;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+mat-card-actions button img {
+  width: 28px;
+  height: 28px;
+  margin-right: 8px;
+}
+
+img {
+  width: 100%;
+  max-height: 100%;
+  /* Ograničite visinu slike */
+  object-fit: cover;
+  /* Zadržava aspekt proporcija slike */
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  height: 450px;
+  width: 320px;
+}
+
+mat-card-content {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  /* Dodajte overflow kako bi se sadržaj pravilno prikazao */
+}
+
+mat-card-footer {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto;
+  overflow: hidden;
+  /* Dodajte overflow kako bi se sadržaj pravilno prikazao */
+}
+
+mat-card-title {
+  font-family: 'Pacifico', cursive;
+  font-size: xx-large;
+  font-weight: bold;
+  color: var(--primary);
+  /* Koristite CSS varijablu za primarnu boju */
+  transition: transform 0.3s ease;
+}
+
+mat-card-title:hover {
+  transform: scale(1.3);
+  /* Uvećanje na hover */
+}
+
+.dugme {
+  font-weight: bolder;
+  font-size: larger;
+  margin-left: 20px;
+  margin-right: 20px;
+  font-family: 'Pacifico', cursive;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-icon {
+  width: 24px;
+  height: 24px;
+}

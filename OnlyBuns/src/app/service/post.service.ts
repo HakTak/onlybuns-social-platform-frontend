@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
     providedIn: 'root'
 })
 export class PostService {
+    
     constructor(private http: HttpClient,
         private config: ConfigService, private router: Router) { }
 
@@ -50,6 +51,24 @@ export class PostService {
         );
     }
 
+    deletePost(id: number): Observable<any> {
+        const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+        });
+
+        return this.http.delete<Post>(`${this.config.posts_url}/delete/${id}`, { headers }).pipe(
+            catchError(error => {
+                if (error.status === 403) {
+                    // Preusmeravanje na login ako je zabranjen pristup
+                    this.router.navigate(['/login']);
+                    alert("Only the user who created this post can perform this action.")
+                }
+                return throwError(() => error);  // Prosleđivanje greške dalje
+            })
+        );
+      }
+
     getCommentsForPost(id: number): Observable<Post> {
         return this.http.get<Post>(`${this.config.posts_url}/allPostComments?id=${id}`);
     }
@@ -64,7 +83,24 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged as Amin")
+                    alert("You must be logged in")
+                }
+                return throwError(() => error);  // Prosleđivanje greške dalje
+            })
+        );
+    }
+
+    getUserPosts(page: number, size: number,username:string): Observable<Post[]> {
+        const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+        });
+        return this.http.get<Post[]>(`${this.config.posts_url}/allUserPostsPaged/${username}?page=${page}&size=${size}&sort=createdAt,DESC`, { headers }).pipe(
+            catchError(error => {
+                if (error.status === 403) {
+                    // Preusmeravanje na login ako je zabranjen pristup
+                    this.router.navigate(['/login']);
+                    alert("You must be logged in")
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
@@ -77,35 +113,35 @@ export class PostService {
             'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
         });
 
-        return this.http.post<string>(`${this.config.posts_image_url}`, formData, { headers, responseType: 'text' as 'json'  }).pipe(
-        catchError(error => {
-            if (error.status === 403) {
-            // Preusmeravanje na login ako je zabranjen pristup
-                this.router.navigate(['/login']);
-                alert("You must be logged as User")
-            }
-            return throwError(() => error);  // Prosleđivanje greške dalje
-        }));
+        return this.http.post<string>(`${this.config.posts_image_url}`, formData, { headers, responseType: 'text' as 'json' }).pipe(
+            catchError(error => {
+                if (error.status === 403) {
+                    // Preusmeravanje na login ako je zabranjen pristup
+                    this.router.navigate(['/login']);
+                    alert("You must be logged as User")
+                }
+                return throwError(() => error);  // Prosleđivanje greške dalje
+            }));
     }
 
     greet(name: string): Observable<string> {
-        return this.http.post<string>(`${this.config.posts_url}/upload/string`, name, {responseType: 'text' as 'json'});
-    }  
+        return this.http.post<string>(`${this.config.posts_url}/upload/string`, name, { responseType: 'text' as 'json' });
+    }
 
-    addPost(post: PostCreation): Observable<Post>{
+    addPost(post: PostCreation): Observable<Post> {
         const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
         console.log(token)
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
         });
-        return this.http.post<Post>(`${this.config.posts_url}/add`, post, {headers}).pipe(
-        catchError(error => {
-            if (error.status === 403) {
-            // Preusmeravanje na login ako je zabranjen pristup
-                this.router.navigate(['/login']);
-                alert("You must be logged as User")
-            }
-            return throwError(() => error);  // Prosleđivanje greške dalje
-        }));
+        return this.http.post<Post>(`${this.config.posts_url}/add`, post, { headers }).pipe(
+            catchError(error => {
+                if (error.status === 403) {
+                    // Preusmeravanje na login ako je zabranjen pristup
+                    this.router.navigate(['/login']);
+                    alert("You must be logged as User")
+                }
+                return throwError(() => error);  // Prosleđivanje greške dalje
+            }));
     }
 }

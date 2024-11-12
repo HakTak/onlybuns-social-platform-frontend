@@ -5,25 +5,36 @@ import { Post } from '../models/posts.model';
 import { PostService } from '../service/post.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from '../service';
+import { AuthService, ConfigService } from '../service';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
 import * as moment from 'moment';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { ConfirmDeleteDialog } from '../confirm-delete-dialog/confirm-delete-dialog.component';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
+  animations: [
+    trigger('likeAnimation', [
+      state('liked', style({ /* stil za liked stanje */ })),
+      state('unliked', style({ /* stil za unliked stanje */ })),
+      transition('unliked => liked', animate('300ms ease-in')),
+      transition('liked => unliked', animate('300ms ease-out'))
+    ])
+  ]
 })
 export class ProfileComponent implements OnInit {
-  username: string | null = null;
+  username: string = '';
   user: any;
   posts: Post[] = [];
   currentPage: number = 0;
   postsPerPage: number = 3;
   canGoNext: boolean = true;
-  
+  isThisMyProfile: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,11 +43,12 @@ export class ProfileComponent implements OnInit {
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private config: ConfigService,
+  ) { }
 
   ngOnInit(): void {
-    this.username = this.route.snapshot.paramMap.get('username');
+    this.username = this.route.snapshot.paramMap.get('username') || '';
     if (this.username) {
       this.loadUserProfile(this.username);
       this.route.queryParams.subscribe(params => {
@@ -50,6 +62,9 @@ export class ProfileComponent implements OnInit {
     this.userService.getUserByUsername(username).subscribe(
       (data: any) => {
         this.user = data;
+        if (this.authService.getCurrentUserName() === this.user.email) {
+          this.isThisMyProfile = true;
+        }
       },
       (error) => {
         console.error('Error loading user profile:', error);
@@ -58,7 +73,7 @@ export class ProfileComponent implements OnInit {
   }
 
   loadPosts(): void {
-    this.postService.getPosts(this.currentPage, this.postsPerPage).subscribe((posts: Post[]) => {
+    this.postService.getUserPosts(this.currentPage, this.postsPerPage, this.username).subscribe((posts: Post[]) => {
       this.posts = posts;
       this.checkNextPage();
       if (this.posts.length == 0 && this.currentPage > 0) {
@@ -68,7 +83,7 @@ export class ProfileComponent implements OnInit {
   }
 
   checkNextPage(): void {
-    this.postService.getPosts(this.currentPage + 1, this.postsPerPage).subscribe((posts: Post[]) => {
+    this.postService.getUserPosts(this.currentPage + 1, this.postsPerPage, this.username).subscribe((posts: Post[]) => {
       if (posts.length < 1) {
         this.canGoNext = false;
       } else {
@@ -120,6 +135,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  goToProfile(username: string): void {
+    this.router.navigate(['/profile', username]);
+  }
+
   onMouseOver(post: Post): void {
     // Implementirajte logiku za hover efekat ako je potrebno
   }
@@ -132,6 +151,11 @@ export class ProfileComponent implements OnInit {
     return moment(date).fromNow();
   }
 
+  getImage(imgPath: string): string {
+    const ret = `${this.config.posts_image_url}/${imgPath}`;
+    return ret;
+  }
+
   toggleLike(post: Post): void {
     if (!this.authService.isAuthenticated()) {
       this.snackBar.open('You must be logged in with user role to like a post.', 'Login', {
@@ -141,7 +165,7 @@ export class ProfileComponent implements OnInit {
       });
       return;
     }
-    if (this.authService.getRole() !== 'ROLE_AUTHENTICATED') {
+    if (this.authService.getRole() !== 'AUTHENTICATED') {
       this.snackBar.open('You must be logged in with user role to like a post.', 'Logout', {
         duration: 3000
       }).onAction().subscribe(() => {
@@ -206,7 +230,40 @@ export class ProfileComponent implements OnInit {
       return;
     }
 
-    console.log('Add comment for post:', post);
+    const dialogRef = this.dialog.open(CommentFormComponent, {
+      width: '50%',
+      data: { postId: post.id }
+    });
   }
-  
+
+  confirmDelete(post: Post): void {
+    const dialogRef = this.dialog.open(ConfirmDeleteDialog, {
+      width: '250px',
+      data: { post }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.deletePost(post);
+      }
+    });
+  }
+
+  deletePost(post: Post): void {
+    this.postService.deletePost(post.id).subscribe(
+      () => {
+        this.loadPosts();
+        this.snackBar.open('Post deleted successfully', 'Close', {
+          duration: 3000
+        });
+        this.loadPosts(); // Reload posts after deletion
+      },
+      (error) => {
+        console.error('Error deleting post:', error);
+        this.snackBar.open('Error deleting post', 'Close', {
+          duration: 3000
+        });
+      }
+    );
+  }
 }

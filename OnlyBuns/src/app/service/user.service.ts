@@ -32,7 +32,10 @@ export class UserService {
 
   getUserByUsername(username: string): Observable<any> {
     return this.apiService.get(`${this.config.prifile_url}/${username}`);
+  }
 
+  getUserByEmail(email: string): Observable<any> {
+    return this.apiService.get(`${this.config.user_url}/findByEmail?email=${email}`);
   }
   
 

@@ -25,10 +25,10 @@
                 <button (click)="logout()" mat-raised-button>
                     <span>Log out</span>
                 </button>
-                <button mat-button routerLink="/profile" class="profile-button" matTooltip="Show profile">
+                <button mat-button (click)="goToProfile()" class="profile-button" matTooltip="Show profile">
                     <div class="profile-container">
                         <img src="assets/logo.png" alt="Profile Picture" class="profile-picture">
-                        <span class="username">{{ username }}</span>
+                        <span class="username">{{ email }}</span>
                     </div>
                 </button>
             </div>

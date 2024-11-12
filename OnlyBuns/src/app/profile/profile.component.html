@@ -9,15 +9,17 @@
         <mat-card *ngFor="let post of posts" class="post-card"
                   (mouseover)="onMouseOver(post)" (mouseout)="onMouseOut(post)">
           <mat-card-header>
-            <mat-card-title matTooltip="Show profile" class="clickable">
-              {{ post.authorUsername }}
-            </mat-card-title>
+            <div *ngIf="isThisMyProfile" class="profile-header">
+              <button mat-icon-button matTooltip="Delete post" (click)="confirmDelete(post)">
+                <img src="assets/delete.png" alt="Delete Post" class="delete-icon">
+              </button>
+            </div>
             <mat-card-subtitle>
               {{ getRelativeTime(post.createdAt) }}
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <img mat-card-image [src]="post.imagePath" alt="Post image">
+            <img mat-card-image [src]="getImage(post.imagePath)" alt="Post image">
           </mat-card-content>
           <mat-card-footer>
             <mat-card-content>
