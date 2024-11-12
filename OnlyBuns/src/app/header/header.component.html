@@ -4,6 +4,12 @@
             <img src="assets/logo2.png" alt="App Logo" class="app-logo">
             <!-- Zamenite 'assets/logo.png' sa putanjom do vašeg logotipa -->
             <span class="app-name">Only Buns</span>
+            <button mat-raised-button routerLink="/">
+                <span>Home</span>
+            </button>
+            <button *ngIf="authService.isAuthenticated()" mat-raised-button routerLink="/post-creation">
+                <span>Add Post</span>
+            </button>
             <button mat-raised-button routerLink="/posts">
                 <span>Posts</span>
             </button>

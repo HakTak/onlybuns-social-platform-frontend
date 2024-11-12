@@ -1,15 +1,25 @@
-<div class="content" fxLayout="row" fxLayoutAlign="center none">
-  <app-card (apiClick)="makeRequest($event)" [responseObj]="fooResponse" apiText="/api/foo"
-    content='This is an demo public endpoint which requires no authentication.' fxFlex subTitle="Public" title='"Foo"'>
-  </app-card>
+<mat-toolbar *ngIf="authService.isAuthenticated()" color="primary">
+  <span>Welcome</span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/posts">
+    <mat-icon>subscriptions</mat-icon>
+    Subscriptions
+  </button>
+  <button mat-button routerLink="/trends">
+    <mat-icon>trending_up</mat-icon>
+    Trends
+  </button>
+  <button mat-button routerLink="/map">
+    <mat-icon>near_me</mat-icon>
+    Near Posts
+  </button>
+  <button mat-button routerLink="/chat">
+    <mat-icon>chat</mat-icon>
+    Chat
+  </button>
+</mat-toolbar>
 
-  <app-card (apiClick)="makeRequest($event)" [responseObj]="whoamIResponse" apiText="/api/whoami"
-    content='The regular endpoint which returns the current user information. You have to sign in as either a User or an Admin to gain the access to this endpoint.'
-    fxFlex subTitle="Authorized role: USER" title='"Who am I"'>
-  </app-card>
-
-  <app-card *ngIf="authService.isAdmin() && authService.isAuthenticated()"  (apiClick)="makeRequest($event)" [responseObj]="allUserResponse" apiText="/api/user/all" class="last"
-    content='This endpoint will give you a list of all the users. You have to sign in as an Admin to gain the access to this endpoint.'
-    fxFlex subTitle="Authorized role: ADMIN" title='"All users"'>
-  </app-card>
+<div class="home-content">
+  <h2>Dobrodošli na početnu stranicu!</h2>
+  <p>Izaberite opciju iz gornje navigacije za dalje aktivnosti.</p>
 </div>

@@ -24,7 +24,10 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   email: string;
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) {
+  constructor(private userService: UserService, 
+    public authService:AuthService,
+    private router: Router
+  ) {
     this.email = this.authService.getCurrentUserName() || '';
   }
 
