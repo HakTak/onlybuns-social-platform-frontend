@@ -32,6 +32,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MapComponent } from './map/map.component';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ConfirmDeleteDialog } from './confirm-delete-dialog/confirm-delete-dialog.component';
+import { PostModificationComponent } from './post-modification/post-modification.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { ConfirmDeleteDialog } from './confirm-delete-dialog/confirm-delete-dial
     MapComponent,
     CommentFormComponent,
     ConfirmDeleteDialog,
+    PostModificationComponent,
    
   ],
   imports: [

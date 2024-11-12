@@ -144,4 +144,21 @@ export class PostService {
                 return throwError(() => error);  // Prosleđivanje greške dalje
             }));
     }
+
+    modifyPost(postId: number, post: PostCreation): Observable<Post> {
+        const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+        });
+        return this.http.put<Post>(`${this.config.posts_url}/modify/${postId}`, post, { headers }).pipe(
+            catchError(error => {
+                if (error.status === 403) {
+                    // Preusmeravanje na login ako je zabranjen pristup
+                    this.router.navigate(['/login']);
+                    alert("You must be logged in");
+                }
+                return throwError(() => error);  // Prosleđivanje greške dalje
+            })
+        );
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, AfterViewInit, Output, EventEmitter, Input } from '@angular/core';
 import * as L from 'leaflet';
 import { MapService } from './map.service';
 
@@ -11,12 +11,14 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private currentMarker: L.Marker | null = null;  // Track the current marker
   @Output() setLocation = new EventEmitter<number[]>();
+  @Input() longitude=45.2396;
+  @Input() latitude=19.8227;
 
   constructor(private mapService: MapService) {}
 
   private initMap(): void {
     this.map = L.map('map', {
-      center: [45.2396, 19.8227],
+      center: [this.longitude, this.latitude],
       zoom: 13,
     });
 
@@ -39,6 +41,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     L.Marker.prototype.options.icon = DefaultIcon;
+    this.setMarker(this.longitude,this.latitude)
     this.initMap();
   }
 
@@ -86,6 +89,19 @@ export class MapComponent implements AfterViewInit {
 
       this.setLocation.emit([lat, lng])
     });
+  }
+
+  setMarker(lat: number, lng: number): void {
+    this.removeMarker()
+
+      // Add the new marker at the clicked location
+      this.mapService.reverseSearch(lat, lng).subscribe((res) => {
+
+        this.currentMarker = new L.Marker([lat, lng])
+          .addTo(this.map)
+          .bindPopup(res.display_name)
+          .openPopup();
+      });
   }
 
   removeMarker(){

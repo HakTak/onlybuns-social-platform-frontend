@@ -10,6 +10,9 @@
                   (mouseover)="onMouseOver(post)" (mouseout)="onMouseOut(post)">
           <mat-card-header>
             <div *ngIf="isThisMyProfile" class="profile-header">
+              <button mat-icon-button matTooltip="Modify post" (click)="modifyPost(post)">
+                <img src="assets/modify.png" alt="Modify Post" class="delete-icon">
+              </button>
               <button mat-icon-button matTooltip="Delete post" (click)="confirmDelete(post)">
                 <img src="assets/delete.png" alt="Delete Post" class="delete-icon">
               </button>

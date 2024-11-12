@@ -1,0 +1,46 @@
+.mat-dialog-content {
+    max-height: 70vh; /* Postavite maksimalnu visinu za sadržaj dijaloga */
+    overflow-y: scroll; /* Omogućite vertikalno skrolovanje */
+  }
+  
+  .mat-dialog-container {
+    max-height: 80vh; /* Postavite maksimalnu visinu za kontejner dijaloga */
+  }
+  
+  .post-modification-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 90vh;
+    overflow-y: scroll;
+  }
+  
+  .post-modification-card {
+    width: 100%;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .location-container {
+    margin-top: 20px;
+  }
+  
+  .file-input-container {
+    margin-top: 20px;
+  }
+  
+  .image-preview {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .form-actions {
+    margin-top: 20px;
+    text-align: right;
+  }

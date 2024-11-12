@@ -12,6 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { ConfirmDeleteDialog } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { PostModificationComponent } from '../post-modification/post-modification.component';
 
 
 @Component({
@@ -28,6 +29,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 export class ProfileComponent implements OnInit {
+
   username: string = '';
   user: any;
   posts: Post[] = [];
@@ -56,6 +58,19 @@ export class ProfileComponent implements OnInit {
         this.loadPosts();
       });
     }
+  }
+
+  modifyPost(post: Post) {
+    const dialogRef = this.dialog.open(PostModificationComponent, {
+      width: '600px',
+      data: { post }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.loadPosts(); // Reload posts after modification
+      }
+    });
   }
 
   loadUserProfile(username: string): void {
