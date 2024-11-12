@@ -11,7 +11,7 @@ import { PostCreationComponent } from './post-creation/post-creation.component';
 const routes: Routes = [
   {
     path: '',
-    component: AllPostsComponent,
+    component: HomeComponent,
     pathMatch: 'full'
   },
 
