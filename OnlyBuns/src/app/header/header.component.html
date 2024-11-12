@@ -22,6 +22,9 @@
                 <span>Login</span>
             </button>
             <div *ngIf="hasSignedIn()" class="profile-actions">
+                <button *ngIf="isAdmin()" (click)="showUsers()" mat-raised-button>
+                    <span>Users</span>
+                </button>
                 <button (click)="logout()" mat-raised-button>
                     <span>Log out</span>
                 </button>

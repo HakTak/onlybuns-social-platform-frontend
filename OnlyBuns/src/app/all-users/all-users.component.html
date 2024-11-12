@@ -1,0 +1,64 @@
+<div class="search-sort-container">
+  <button mat-raised-button (click)="toggleSearchForm()">Search</button>
+  <mat-form-field>
+    <mat-label>Sort by:</mat-label>
+    <mat-select [(value)]="sortDirection" (selectionChange)="onSortChange()">
+      <mat-option value="emailasc">Email Ascending</mat-option>
+      <mat-option value="emaildesc">Email Descending</mat-option>
+      <mat-option value="numprasc">Number of followed accounts Ascending</mat-option>
+      <mat-option value="numprdesc">Number of followed accounts Descending</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<div *ngIf="showSearchForm" class="search-form-container">
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" placeholder="Enter first name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" placeholder="Enter last name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" placeholder="Enter email">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Min Posts</mat-label>
+      <input matInput formControlName="minPosts" type="number" placeholder="Enter minimum number of posts">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Max Posts</mat-label>
+      <input matInput formControlName="maxPosts" type="number" placeholder="Enter maximum number of posts">
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Search</button>
+  </form>
+</div>
+
+<div *ngIf="users.length > 0; else noUsersTemplate">
+  <div class="user-list">
+    <mat-card *ngFor="let user of users" class="user-card" (click)="goToProfile(user.username)" class="post-card">
+      <mat-card-header>
+        <mat-card-title style="text-overflow: ellipsis;max-width: 250px;">{{ user.firstname }}</mat-card-title>
+        <mat-card-title style="text-overflow: ellipsis;max-width: 250px;">{{ user.lastname }}</mat-card-title>
+        <mat-card-subtitle style="margin-top: 10px;text-overflow: ellipsis;max-width: 200px;">Username: {{ user.username }}</mat-card-subtitle>
+        <mat-card-subtitle style="text-overflow: ellipsis;">Email: {{ user.email }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p style="margin-top: 10px;"><strong>Number of Posts:</strong> {{ user.numberOfPosts }}</p>
+        <p><strong>Followed accounts:</strong> {{ user.numberOfFollowedAccounts }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="pagination">
+    <button class="dugme" mat-button (click)="previousPage()" [disabled]="currentPage === 0">Previous</button>
+    <span class="dugme" style="color: var(--primary);">Page {{ currentPage + 1 }}</span>
+    <button class="dugme" mat-button (click)="nextPage()" [disabled]="!canGoNext">Next</button>
+    <button class="dugme" mat-button (click)="goToPage(0)" [disabled]="currentPage === 0">First Page</button>
+  </div>
+</div>
+<ng-template #noUsersTemplate>
+  <div class="no-users-message">There are no users</div>
+</ng-template>

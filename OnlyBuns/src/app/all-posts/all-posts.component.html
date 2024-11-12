@@ -2,14 +2,16 @@
   <div class="post-list">
     <mat-card *ngFor="let post of posts" class="post-card"
               (mouseover)="onMouseOver(post)" (mouseout)="onMouseOut(post)">
-      <mat-card-header>
-        <mat-card-title (click)="goToProfile(post.authorUsername)" matTooltip="Show profile" class="clickable">
-          {{ post.authorUsername }}
-        </mat-card-title>
-        <mat-card-subtitle>
-          {{ getRelativeTime(post.createdAt) }}
-        </mat-card-subtitle>
-      </mat-card-header>
+              <mat-card-header class="post-header">
+                <div class="post-header-content">
+                  <mat-card-title (click)="goToProfile(post.authorUsername)" matTooltip="Show profile" class="clickable">
+                    {{ post.authorUsername }}
+                  </mat-card-title>
+                  <mat-card-subtitle class="post-subtitle">
+                    {{ getRelativeTime(post.createdAt) }}
+                  </mat-card-subtitle>
+                </div>
+              </mat-card-header>
       <mat-card-content>
         <img mat-card-image [src]="getImage(post.imagePath)" alt="Post image">
       </mat-card-content>

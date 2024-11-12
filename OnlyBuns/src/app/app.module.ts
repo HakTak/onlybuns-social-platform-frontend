@@ -33,6 +33,7 @@ import { MapComponent } from './map/map.component';
 import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ConfirmDeleteDialog } from './confirm-delete-dialog/confirm-delete-dialog.component';
 import { PostModificationComponent } from './post-modification/post-modification.component';
+import { AllUsersComponent } from './all-users/all-users.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { PostModificationComponent } from './post-modification/post-modification
     CommentFormComponent,
     ConfirmDeleteDialog,
     PostModificationComponent,
+    AllUsersComponent,
    
   ],
   imports: [

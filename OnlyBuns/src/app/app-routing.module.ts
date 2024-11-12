@@ -7,6 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import {AllPostsComponent} from './all-posts/all-posts.component'
 import { ProfileComponent } from './profile/profile.component';
 import { PostCreationComponent } from './post-creation/post-creation.component';
+import { AllUsersComponent } from './all-users/all-users.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,10 @@ const routes: Routes = [
     component: HomeComponent,
     pathMatch: 'full'
   },
-
+  {
+    path: 'users',
+    component: AllUsersComponent
+  },
   { 
     path: 'profile/:username',
     component: ProfileComponent
