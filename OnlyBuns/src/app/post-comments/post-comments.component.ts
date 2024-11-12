@@ -4,6 +4,7 @@ import { Post } from '../models/posts.model';
 import { AuthService } from '../service';
 import { CommentService } from '../service/comment.service';
 import { PostComment } from '../models/postComment.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post-comments',
@@ -14,6 +15,7 @@ export class PostCommentsComponent {
   post : Post | undefined
   constructor(
     public authService:AuthService,
+    private router:Router,
     private commentService : CommentService,
     public dialogRef: MatDialogRef<PostCommentsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { post: Post }
@@ -43,4 +45,11 @@ export class PostCommentsComponent {
       }
     });
   }
+
+  goToProfile(username: string): void {
+    this.router.navigate(['/profile', username]);
+    this.dialogRef.close();
+  }
+
+
 }

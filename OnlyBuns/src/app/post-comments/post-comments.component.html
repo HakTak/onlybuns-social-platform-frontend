@@ -2,7 +2,10 @@
   <h2>Comments</h2>
   <div class="komentar" *ngFor="let comment of data.post.comments; let i = index" [ngClass]="{'odd-comment': i % 2 !== 0, 'even-comment': i % 2 === 0}">
     <div class="comment-header">
-      <p class="comment-author">{{ comment.authorUsername }}</p>
+      <!-- Dodajte klikabilno korisničko ime sa pozivom funkcije za navigaciju -->
+      <p class="comment-author" (click)="goToProfile(comment.authorUsername)">
+        {{ comment.authorUsername }}
+      </p>
     </div>
     <div class="comment-body">
       <p>{{ comment.comment }}</p>

@@ -67,3 +67,8 @@ div.comment {
   text-align: left;  /* Align the date to the left side */
   margin-left: 10px; /* Optional spacing from left */
 }
+
+.comment-author:hover {
+  color: #0056b3; 
+  transform: scale(1.25); 
+}
