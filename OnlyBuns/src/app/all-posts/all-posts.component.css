@@ -4,6 +4,25 @@
   flex-wrap: wrap;
   justify-content: space-around;
 }
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.post-header-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.post-subtitle {
+  text-align: right; /* Poravnanje teksta uz desnu ivicu */
+}
+
+.clickable {
+  cursor: pointer;
+}
 
 .post-card {
   margin: 10px;

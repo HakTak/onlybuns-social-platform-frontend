@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToProfile() {
-    var username='';
+    var username = '';
     this.userService.getUserByEmail(this.email).subscribe(
       (data: any) => {
         username = data.username;
@@ -53,6 +53,10 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  isAdmin(): boolean {
+    return this.authService.getRole() === 'ADMIN';
+  }
+
   userName() {
     const user = this.userService.currentUser;
     this.email = user.userName;
@@ -60,5 +64,8 @@ export class HeaderComponent implements OnInit {
   }
   logout() {
     this.authService.logout();
+  }
+  showUsers() {
+    this.router.navigate(['/users']);
   }
 }

@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {ApiService} from './api.service';
 import {ConfigService} from './config.service';
 import {map} from 'rxjs/operators';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';  
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,8 @@ export class UserService {
   constructor(
     private apiService: ApiService,
     private config: ConfigService,
-    private router:Router
+    private router:Router,
+    private http: HttpClient,
   ) {
   }
 
@@ -37,7 +39,32 @@ export class UserService {
   getUserByEmail(email: string): Observable<any> {
     return this.apiService.get(`${this.config.user_url}/findByEmail?email=${email}`);
   }
-  
+
+  getUsers(page: number, size: number, searchParams: any, sort: string): Observable<User[]> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    const params = new URLSearchParams();
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+    params.append('sort', sort);
+    for (const key in searchParams) {
+      if (searchParams[key]) {
+        params.append(key, searchParams[key]);
+      }
+    }
+    return this.http.get<User[]>(`${this.config.user_url}/allPaged?${params.toString()}`, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          alert("You must be logged in as Admin");
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
 
   getAll() {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
@@ -55,6 +82,6 @@ export class UserService {
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
     );
-    
+
   }
 }
