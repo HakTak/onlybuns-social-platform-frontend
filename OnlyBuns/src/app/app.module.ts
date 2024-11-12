@@ -29,6 +29,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProfileComponent } from './profile/profile.component';
 import { PostCreationComponent } from './post-creation/post-creation.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MapComponent } from './map/map.component';
+import { CommentFormComponent } from './comment-form/comment-form.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     PostCommentsComponent,
     ProfileComponent,
     PostCreationComponent,
+    MapComponent,
+    CommentFormComponent,
    
   ],
   imports: [

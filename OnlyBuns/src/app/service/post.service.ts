@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Post, PostCreation } from '../models/posts.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { Post } from '../models/posts.model';
 import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
 import { PostComment } from '../models/postComment.model';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
     providedIn: 'root'
 })
 export class PostService {
-    constructor(private http: HttpClient, private apiService: ApiService,
+    constructor(private http: HttpClient,
         private config: ConfigService, private router: Router) { }
 
     likePost(id: number) {
@@ -69,5 +69,43 @@ export class PostService {
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
         );
+    }
+
+    uploadImage(formData: FormData): Observable<string> {
+        const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+        });
+
+        return this.http.post<string>(`${this.config.posts_image_url}`, formData, { headers, responseType: 'text' as 'json'  }).pipe(
+        catchError(error => {
+            if (error.status === 403) {
+            // Preusmeravanje na login ako je zabranjen pristup
+                this.router.navigate(['/login']);
+                alert("You must be logged as User")
+            }
+            return throwError(() => error);  // Prosleđivanje greške dalje
+        }));
+    }
+
+    greet(name: string): Observable<string> {
+        return this.http.post<string>(`${this.config.posts_url}/upload/string`, name, {responseType: 'text' as 'json'});
+    }  
+
+    addPost(post: PostCreation): Observable<Post>{
+        const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+        console.log(token)
+        const headers = new HttpHeaders({
+            'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+        });
+        return this.http.post<Post>(`${this.config.posts_url}/add`, post, {headers}).pipe(
+        catchError(error => {
+            if (error.status === 403) {
+            // Preusmeravanje na login ako je zabranjen pristup
+                this.router.navigate(['/login']);
+                alert("You must be logged as User")
+            }
+            return throwError(() => error);  // Prosleđivanje greške dalje
+        }));
     }
 }

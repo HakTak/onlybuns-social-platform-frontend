@@ -1,81 +1,96 @@
-/* create-post.component.css */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
+/* The container will be fixed in the center of the screen */
+.post-creation-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center it both horizontally and vertically */
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Align items in the center vertically */
+    padding: 20px;
+    width: 100%; /* Full width of the viewport */
+    height: auto; /* Allow the container to grow with content */
+    max-height: 90vh; /* Max height to ensure the form doesn't stretch too much */
+    overflow-y: auto; /* Allow scrolling if content overflows */
   }
   
-  body {
-    background-color: #f4f7fc;
+  /* The card that holds the form */
+  .post-creation-card {
+    width: 100%;
+    max-width: 600px; /* Maximum width for the card */
+    height: 80vh; /* Set a height for the card */
+    max-height: 80vh; /* Prevent card from overflowing the screen */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: white;
+    border-radius: 8px; /* Optional: rounded corners for the card */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    position: relative;
   }
   
-  .post-form-container {
+  .post-creation-card mat-card-header {
+    position: sticky;
+    top: 0;
     background: #fff;
-    padding: 30px;
-    max-width: 500px;
-    margin: 50px auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1;
   }
   
-  h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  label {
-    font-weight: 600;
-    color: #555;
-    margin-bottom: 8px;
-    display: block;
-  }
-  
-  textarea {
+  /* Full width form input */
+  .full-width {
     width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
-    resize: none;
   }
   
-  textarea:focus {
-    border-color: #7e88c3;
+/* Use a more specific selector */
+.post-creation-card .location-container {
+    margin-top: 20px;
+    height: 400px;  /* Set the height you want for the map */
+    min-height: 200px; /* Prevent the container from collapsing too much */
+    max-height: 400px; /* Optionally limit the max height */
+    overflow: hidden; /* Prevent map from overflowing if the height is fixed */
   }
   
-  input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    outline: none;
+  
+  .form-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
   }
   
-  input[type="file"]:focus {
-    border-color: #7e88c3;
+  .file-input-button {
+    width: 100%; /* Full width button */
+    text-align: left; /* Align text to the left */
   }
   
-  .btn-submit {
-    width: 100%;
-    padding: 12px;
-    background-color: #7e88c3;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
+  .file-input-button:before {
+    content: "Choose a file";
   }
   
-  .btn-submit:hover {
-    background-color: #5e6fa3;
+  .file-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
   }
+  
+  .file-input-container button {
+    margin-bottom: 10px;
+  }
+  
+  .image-preview {
+    margin-top: 15px;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Adds spacing after the image preview */
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    max-height: 200px; /* Limit image size */
+    object-fit: contain; /* Ensures image is scaled properly */
+  }
+  
   

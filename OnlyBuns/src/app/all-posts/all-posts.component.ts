@@ -8,8 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AuthService } from '../service';
+import { AuthService, ConfigService } from '../service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
 
 
 @Component({
@@ -35,6 +36,7 @@ export class AllPostsComponent implements OnInit {
   currentPage: number = 0;
   postsPerPage: number = 3;
   canGoNext: boolean = true;
+  imagePath: string | null = null;
 
   constructor(
     private postService: PostService,
@@ -42,7 +44,8 @@ export class AllPostsComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private config: ConfigService,
   ) { }
 
   ngOnInit(): void {
@@ -131,6 +134,11 @@ export class AllPostsComponent implements OnInit {
     return moment(date).fromNow();
   }
 
+  getImage(imgPath : string) : string{
+    const ret = `${this.config.posts_image_url}/${imgPath}`;
+    return ret;
+  }
+
   toggleLike(post: Post): void {
     if (!this.authService.isAuthenticated()) {
       this.snackBar.open('You must be logged in with user role to like a post.', 'Login', {
@@ -204,7 +212,10 @@ export class AllPostsComponent implements OnInit {
       });
       return;
     }
-
-    console.log('Add comment for post:', post);
+    
+    const dialogRef = this.dialog.open(CommentFormComponent, {
+      width: '50%',
+      data: {postId : post.id}
+    });
   }
 }
