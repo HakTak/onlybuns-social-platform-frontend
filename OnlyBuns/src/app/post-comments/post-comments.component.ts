@@ -24,8 +24,7 @@ export class PostCommentsComponent {
   }
 
   isUsers(comment : PostComment) : boolean{
-    // console.log(this.authService.getCurrentUserName() + " == " + comment.authorUsername) iz nekog razloga getcurrentUSerName je email a getAuthorUsername je username
-    return this.authService.getCurrentUserName() == comment.email;
+    return this.authService.getCurrentUserName() == comment.authorEmail;
   }
 
   close(): void {
