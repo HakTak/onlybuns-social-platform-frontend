@@ -4,35 +4,54 @@
             <img src="assets/logo2.png" alt="App Logo" class="app-logo">
             <!-- Zamenite 'assets/logo.png' sa putanjom do vašeg logotipa -->
             <span class="app-name">Only Buns</span>
-            <button mat-raised-button routerLink="/">
+            <!-- <button mat-raised-button routerLink="/">
                 <span>Home</span>
+            </button> -->
+            <button color="hover" mat-raised-button routerLink="/">
+                <mat-icon>home</mat-icon>
+                Home
             </button>
-            <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" mat-raised-button routerLink="/post-creation">
+            <button color="hover" mat-raised-button routerLink="/posts">
+                <mat-icon>feed</mat-icon>
+                All posts
+            </button>
+            <!-- <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" mat-raised-button
+                routerLink="/post-creation">
                 <span>Add Post</span>
+            </button> -->
+            <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" color="hover" mat-raised-button routerLink="/post-creation">
+                <mat-icon>add</mat-icon>
+                Add Post
             </button>
-            <button mat-raised-button routerLink="/posts">
+            <!-- <button mat-raised-button routerLink="/posts">
                 <span>Posts</span>
-            </button>
-            <button mat-raised-button routerLink="/about">
-                <span>About</span>
-            </button>
+            </button> -->
             <!-- Dodajte više dugmadi po potrebi -->
         </div>
     </div>
     <div class="right">
         <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="flex-end center">
-            <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/signup">
+            <!-- <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/signup">
                 <span>Sign up</span>
+            </button> -->
+            <button *ngIf="!hasSignedIn()" color="hover" mat-raised-button routerLink="/signup">
+                <mat-icon>person_add</mat-icon>
+                Sign up
             </button>
-            <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/login">
+            <!-- <button *ngIf="!hasSignedIn()" mat-raised-button routerLink="/login">
                 <span>Login</span>
+            </button> -->
+            <button *ngIf="!hasSignedIn()" color="hover" mat-raised-button routerLink="/login">
+                <mat-icon>login</mat-icon>
+                Login
             </button>
             <div *ngIf="hasSignedIn()" class="profile-actions">
-                <button *ngIf="isAdmin()" (click)="showUsers()" mat-raised-button>
-                    <span>Users</span>
-                </button>
-                <button (click)="logout()" mat-raised-button>
+                <!-- <button (click)="logout()" mat-raised-button>
                     <span>Log out</span>
+                </button> -->
+                <button (click)="logout()" color="hover" mat-raised-button>
+                    <mat-icon>logout</mat-icon>
+                    Logout
                 </button>
                 <button mat-button (click)="goToProfile()" class="profile-button" matTooltip="Show profile">
                     <div class="profile-container">

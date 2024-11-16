@@ -1,21 +1,38 @@
 <mat-toolbar *ngIf="!authService.isAdmin() && authService.isAuthenticated()" color="primary">
   <span>Welcome</span>
   <span class="spacer"></span>
-  <button mat-button routerLink="/posts">
+  <button color="hover" mat-raised-button routerLink="/posts">
     <mat-icon>subscriptions</mat-icon>
     Subscriptions
   </button>
-  <button mat-button routerLink="/trends">
+  <button color="hover" mat-raised-button routerLink="/trends">
     <mat-icon>trending_up</mat-icon>
     Trends
   </button>
-  <button mat-button routerLink="/map">
+  <button color="hover" mat-raised-button routerLink="/map">
     <mat-icon>near_me</mat-icon>
     Near Posts
   </button>
-  <button mat-button routerLink="/chat">
+  <button color="hover" mat-raised-button routerLink="/chat">
     <mat-icon>chat</mat-icon>
     Chat
+  </button>
+</mat-toolbar>
+
+<mat-toolbar *ngIf="authService.isAdmin() && authService.isAuthenticated()" color="primary">
+  <span>Welcome</span>
+  <span class="spacer"></span>
+  <button color="hover" mat-raised-button routerLink="/trends">
+    <mat-icon>trending_up</mat-icon>
+    Trends
+  </button>
+  <button color="hover" mat-raised-button routerLink="/">
+    <mat-icon>analytics</mat-icon>
+    Analytics
+  </button>
+  <button (click)="showUsers()" mat-raised-button color="hover" mat-button>
+    <mat-icon>group</mat-icon>
+    All Users
   </button>
 </mat-toolbar>
 

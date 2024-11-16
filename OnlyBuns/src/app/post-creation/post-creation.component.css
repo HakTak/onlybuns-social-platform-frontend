@@ -16,10 +16,9 @@
   
   /* The card that holds the form */
   .post-creation-card {
+    margin-top: 200px;
     width: 100%;
     max-width: 600px; /* Maximum width for the card */
-    height: 80vh; /* Set a height for the card */
-    max-height: 80vh; /* Prevent card from overflowing the screen */
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -29,6 +28,7 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
     overflow-y: auto; /* Allow scrolling if content overflows */
     position: relative;
+    box-shadow: 5px 5px 5px var(--primary);
   }
   
   .post-creation-card mat-card-header {

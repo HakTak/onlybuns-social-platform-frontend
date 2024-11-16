@@ -4,6 +4,13 @@
   color: rgb(93, 117, 196);
 }
 
+.custom-icon {
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  display: inline-block;
+}
+
 .app-logo {
   margin-top: 0px;
   height: 90px;
