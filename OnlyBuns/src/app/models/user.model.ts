@@ -5,7 +5,7 @@ export class User {
     lastname: String;
     email: String;
     numberOfPosts: String;
-    numberOfFollowedAccounts: String;
+    followingCount: String;
     username: String;
 
     constructor(
@@ -14,14 +14,14 @@ export class User {
         lastname: String,
         email: String,
         numberOfPosts: String,
-        numberOfFollowedAccounts: String,
+        followingCount: String,
         username: String
     ) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.numberOfFollowedAccounts = numberOfFollowedAccounts;
+        this.followingCount = followingCount;
         this.numberOfPosts = numberOfPosts;
         this.username=username;
     }
