@@ -34,6 +34,8 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
 import { ConfirmDeleteDialog } from './confirm-delete-dialog/confirm-delete-dialog.component';
 import { PostModificationComponent } from './post-modification/post-modification.component';
 import { AllUsersComponent } from './all-users/all-users.component';
+import { AnalyticsComponent } from './analytics/analytics.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -52,7 +54,8 @@ import { AllUsersComponent } from './all-users/all-users.component';
     ConfirmDeleteDialog,
     PostModificationComponent,
     AllUsersComponent,
-   
+    AnalyticsComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -64,7 +67,8 @@ import { AllUsersComponent } from './all-users/all-users.component';
     ReactiveFormsModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    NgxChartsModule
   ],
   providers: [ 
     {

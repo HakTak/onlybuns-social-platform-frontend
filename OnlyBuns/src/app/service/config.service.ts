@@ -8,6 +8,7 @@ export class ConfigService {
   private _api_url = 'http://localhost:8080/api';
   private _auth_url = 'http://localhost:8082/auth';
   private _user_url = this._api_url + '/users';
+  private _analytics_url = this._api_url + '/analytics';
   private _login_url = this._user_url + '/login';
   private _logout_url=this._user_url + '/logout'; 
   private _posts_url=this._api_url+'/posts'
@@ -17,6 +18,10 @@ export class ConfigService {
 
   get login_url(): string {
     return this._login_url;
+  }
+
+  get analytics_url(): string {
+    return this._analytics_url;
   }
 
   get prifile_url():string{

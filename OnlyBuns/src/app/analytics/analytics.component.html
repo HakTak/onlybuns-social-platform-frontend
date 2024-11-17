@@ -1,0 +1,31 @@
+<div *ngIf="postsAndComments">
+  <h2>Posts and Comments Analytics</h2>
+
+  <div>
+    <h3>Number of Comments</h3>
+    <ngx-charts-bar-vertical
+      [results]="commentsData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Time Period'"
+      [yAxisLabel]="'Number of Comments'">
+    </ngx-charts-bar-vertical>
+  </div>
+
+  <div>
+    <h3>Number of Posts</h3>
+    <ngx-charts-bar-vertical
+      [results]="postsData"
+      [xAxis]="true"
+      [yAxis]="true"
+      [legend]="true"
+      [showXAxisLabel]="true"
+      [showYAxisLabel]="true"
+      [xAxisLabel]="'Time Period'"
+      [yAxisLabel]="'Number of Posts'">
+    </ngx-charts-bar-vertical>
+  </div>
+</div>
