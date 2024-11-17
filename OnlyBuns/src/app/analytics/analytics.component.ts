@@ -11,7 +11,8 @@ export class AnalyticsComponent implements OnInit {
   postsAndComments: any;
   userActivity: any;
   postsData: any;
-  commentsData: any
+  commentsData: any;
+  radialChartData: any;
 
   constructor(private analyticsService: AnalyticsService) { }
 
@@ -31,6 +32,7 @@ export class AnalyticsComponent implements OnInit {
   loadUserActivityAnalytics(): void {
     this.analyticsService.getUserActivityAnalytics().subscribe(data => {
       this.userActivity = data;
+      this.radialChartData = this.prepareRadialChartData();
     });
   }
 
@@ -48,5 +50,25 @@ export class AnalyticsComponent implements OnInit {
       { name: 'Monthly', value: this.postsAndComments.monthlyPosts },
       { name: 'Yearly', value: this.postsAndComments.yearlyPosts }
     ];
+  }
+
+  prepareRadialChartData(): any {
+    const usersWithPosts = this.userActivity.usersWithPosts;
+    const usersWithCommentsOnly = this.userActivity.usersWithCommentsOnly;
+    const inactiveUsers = this.userActivity.inactiveUsers;
+
+    return [
+      { name: 'Made Posts', value: usersWithPosts },
+      { name: 'Made Only Comments', value: usersWithCommentsOnly },
+      { name: 'No Activity', value: inactiveUsers }
+    ];
+  }
+
+  valueFormatting(value: number): string {
+    return value.toString();
+  }
+
+  tooltipText(c: any): string {
+    return `${c.data.label}: ${c.data.value.toFixed(2)}%`;
   }
 }
