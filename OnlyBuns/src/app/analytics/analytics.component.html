@@ -1,0 +1,29 @@
+<div *ngIf="postsAndComments" class="main_div">
+  <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Analytics</h1>
+
+  <div style="display: flex;flex-direction: row;">
+
+    <div>
+      <h2 class="custom-font">Number of Comments</h2>
+      <ngx-charts-bar-vertical [results]="commentsData" [xAxis]="true" [yAxis]="true" [legend]="true"
+        [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Time Period'" [yAxisLabel]="'Number of Comments'"
+        [valueFormatting]="valueFormatting" [barPadding]="10" [legendTitle]="''" [view]="[700, 400]">
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <div>
+      <h2 class="custom-font">Number of Posts</h2>
+      <ngx-charts-bar-vertical [results]="postsData" [xAxis]="true" [yAxis]="true" [legend]="true"
+        [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Time Period'" [yAxisLabel]="'Number of Posts'"
+        [valueFormatting]="valueFormatting" [barPadding]="10" [legendTitle]="''" [view]="[700, 400]">
+      </ngx-charts-bar-vertical>
+    </div>
+  </div>
+
+  <div>
+    <h2 class="custom-font">User Activity Distribution</h2>
+    <ngx-charts-pie-chart [results]="radialChartData" [legend]="true" [labels]="true" [doughnut]="true"
+      [view]="[700, 400]" [tooltipText]="tooltipText">
+    </ngx-charts-pie-chart>
+  </div>
+</div>

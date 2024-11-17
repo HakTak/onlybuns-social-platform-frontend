@@ -1,0 +1,30 @@
+ng-chart {
+    display: block;
+    width: 100%;
+    height: 400px;
+  }
+
+.custom-font {
+  font-family: 'Pacifico', cursive;
+}
+
+ngx-charts-bar-vertical, ngx-charts-pie-chart {
+  width: 700px;
+}
+
+::ng-deep ngx-charts-legend {
+  max-height: auto;
+  width: 250px;
+  font-size: 1.5em; /* Increase legend font size */
+}
+
+::ng-deep ngx-charts-label {
+  font-size: 1.5em; /* Increase label font size */
+}
+
+.main_div{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
