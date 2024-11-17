@@ -1,27 +1,37 @@
-<div *ngIf="postsAndComments" class="main_div">
+<div *ngIf="combinedData" class="main_div">
   <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">Analytics</h1>
 
   <div style="display: flex;flex-direction: row;">
-
     <div>
-      <h2 class="custom-font">Number of Comments</h2>
-      <ngx-charts-bar-vertical [results]="commentsData" [xAxis]="true" [yAxis]="true" [legend]="true"
-        [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Time Period'" [yAxisLabel]="'Number of Comments'"
-        [valueFormatting]="valueFormatting" [barPadding]="10" [legendTitle]="''" [view]="[700, 400]">
-      </ngx-charts-bar-vertical>
+      <div style="display: flex;flex-direction: row;justify-content: space-evenly;">
+        <h2 class="custom-font" style="font-family: 'pacifico';">Number of Comments and Posts</h2>
+        <div>
+          <label for="select">Select year and/or month</label>
+          <select class="custom-select" (change)="onYearChange($event)">
+            <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+          </select>
+          <select class="custom-select" (change)="onMonthChange($event)">
+            <option value="all">All Months</option>
+            <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+          </select>
+        </div>
+      </div>
+      <ngx-charts-bar-vertical-2d [results]="combinedData" [xAxis]="true" [yAxis]="true" [legend]="true"
+        [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="xAxisLabel" [yAxisLabel]="'Number of Comments and Posts'"
+        [valueFormatting]="valueFormatting" [barPadding]="0" [groupPadding]="5" [legendTitle]="''" [view]="[1100, 500]">
+      </ngx-charts-bar-vertical-2d>
     </div>
-
-    <div>
-      <h2 class="custom-font">Number of Posts</h2>
-      <ngx-charts-bar-vertical [results]="postsData" [xAxis]="true" [yAxis]="true" [legend]="true"
-        [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Time Period'" [yAxisLabel]="'Number of Posts'"
-        [valueFormatting]="valueFormatting" [barPadding]="10" [legendTitle]="''" [view]="[700, 400]">
-      </ngx-charts-bar-vertical>
-    </div>
+  </div>
+  <div style="margin-top: 50px;">
+    <h2 class="custom-font" style="font-family: 'pacifico';">Number of Posts and Comments by Year</h2>
+    <ngx-charts-bar-vertical-2d [results]="yearlyPostsAndCommentsData" [xAxis]="true" [yAxis]="true" [legend]="true"
+      [showXAxisLabel]="true" [showYAxisLabel]="true" [xAxisLabel]="'Year'" [yAxisLabel]="'Number of Posts and Comments'"
+      [valueFormatting]="valueFormatting" [barPadding]="5" [legendTitle]="''" [view]="[700, 400]">
+    </ngx-charts-bar-vertical-2d>
   </div>
 
   <div>
-    <h2 class="custom-font">User Activity Distribution</h2>
+    <h2 class="custom-font" style="font-family: 'pacifico';">User Activity Distribution</h2>
     <ngx-charts-pie-chart [results]="radialChartData" [legend]="true" [labels]="true" [doughnut]="true"
       [view]="[700, 400]" [tooltipText]="tooltipText">
     </ngx-charts-pie-chart>
