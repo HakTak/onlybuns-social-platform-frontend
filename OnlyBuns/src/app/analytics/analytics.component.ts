@@ -15,6 +15,7 @@ export class AnalyticsComponent implements OnInit {
   availableYears: number[] = [];
   selectedYear: number = new Date().getFullYear();
   selectedMonth: string = 'all';
+  yearlyPostsAndCommentsData: any;
   months = [
     { name: 'January', value: 1 },
     { name: 'February', value: 2 },
@@ -37,6 +38,33 @@ export class AnalyticsComponent implements OnInit {
     this.generateAvailableYears();
     this.loadPostsAndCommentsAnalytics(this.selectedYear, this.selectedMonth);
     this.loadUserActivityAnalytics();
+    this.loadYearlyPostsAndCommentsData();
+  }
+
+  loadYearlyPostsAndCommentsData(): void {
+    this.analyticsService.getPostsAndCommentsByYear().subscribe(data => {
+      this.yearlyPostsAndCommentsData = this.prepareYearlyPostsAndCommentsData(data);
+    });
+  }
+
+  prepareYearlyPostsAndCommentsData(data: any): any {
+    const yearlyData:any[] = [];
+    const yearlyPosts = data.yearlyPosts || [];
+  const yearlyComments = data.yearlyComments || [];
+
+  yearlyPosts.forEach((post: any) => {
+    const year = post.year;
+    const comments = yearlyComments.find((comment: any) => comment.year === year);
+    yearlyData.push({
+      name: year.toString(),
+      series: [
+        { name: 'Comments', value: comments ? comments.count : 0 },
+        { name: 'Posts', value: post.count }
+      ]
+    });
+  });
+
+  return yearlyData;
   }
 
   generateAvailableYears(): void {
