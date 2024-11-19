@@ -36,6 +36,7 @@ import { PostModificationComponent } from './post-modification/post-modification
 import { AllUsersComponent } from './all-users/all-users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TrendsComponent } from './trends/trends.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     PostModificationComponent,
     AllUsersComponent,
     AnalyticsComponent,
+    TrendsComponent,
     
   ],
   imports: [

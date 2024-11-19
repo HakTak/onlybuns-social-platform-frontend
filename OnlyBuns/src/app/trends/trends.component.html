@@ -1,0 +1,47 @@
+<div class="trend-stats">
+  <h2>Network Statistics</h2>
+  <p>Total Posts: {{ stats?.totalPosts }}</p>
+  <p>Posts Last Month: {{ stats?.postsLastMonth }}</p>
+</div>
+
+<div class="popular-posts-week">
+  <h3>Top 5 Most Liked Posts (Last Week)</h3>
+  <div *ngIf="popularPostsLastWeek.length > 0; else noPostsWeekTemplate">
+    <div class="post-list">
+      <mat-card *ngFor="let post of popularPostsLastWeek" class="post-card">
+        <mat-card-header>
+          <mat-card-title>{{ post.description }}</mat-card-title>
+          <mat-card-subtitle>Likes: {{ post.likeNumber }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="post.imagePath" alt="Post image" *ngIf="post.imagePath">
+        <mat-card-content>
+          <p>Created At: {{ post.createdAt | date:'medium' }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #noPostsWeekTemplate>
+    <p>No posts available for the last week.</p>
+  </ng-template>
+</div>
+
+<div class="popular-posts-all-time">
+  <h3>Top 10 Most Liked Posts (All Time)</h3>
+  <div *ngIf="popularPostsAllTime.length > 0; else noPostsAllTimeTemplate">
+    <div class="post-list">
+      <mat-card *ngFor="let post of popularPostsAllTime" class="post-card">
+        <mat-card-header>
+          <mat-card-title>{{ post.description }}</mat-card-title>
+          <mat-card-subtitle>Likes: {{ post.likeNumber }}</mat-card-subtitle>
+        </mat-card-header>
+        <img mat-card-image [src]="post.imagePath" alt="Post image" *ngIf="post.imagePath">
+        <mat-card-content>
+          <p>Created At: {{ post.createdAt | date:'medium' }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #noPostsAllTimeTemplate>
+    <p>No posts available for all time.</p>
+  </ng-template>
+</div>

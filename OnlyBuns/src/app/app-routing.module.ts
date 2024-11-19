@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PostCreationComponent } from './post-creation/post-creation.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
+import { TrendsComponent } from './trends/trends.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,12 @@ const routes: Routes = [
     path: 'users',
     component: AllUsersComponent
   },
+
+  { 
+    path: 'trends',
+    component: TrendsComponent
+  },
+
   {
     path: 'analytics',
     component: AnalyticsComponent
