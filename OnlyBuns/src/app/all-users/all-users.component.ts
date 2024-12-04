@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from '../service/user.service';
 import { User } from '../models/user.model';
@@ -20,6 +20,9 @@ export class AllUsersComponent implements OnInit {
   sortDirection: string = 'asc';
   showSearchForm: boolean = false;
   searchForm: FormGroup;
+  @Input() followers = false;
+  @Input() followings = false;
+  @Input() username = '';
 
   constructor(
     private fb: FormBuilder,
@@ -42,11 +45,44 @@ export class AllUsersComponent implements OnInit {
       this.currentPage = +params['page'] || 0;
       this.searchQuery = params['search'] || '';
       this.sortDirection = params['sort'] || 'asc';
+      this.loadData();
+    });
+  }
+
+  loadData(): void {
+    if (this.followers) {
+      this.loadFollowers();
+    } else if (this.followings) {
+      this.loadFollowings();
+    } else {
       this.loadUsers();
+    }
+  }
+
+  loadFollowings(): void {
+    const searchParams = this.searchForm.value;
+    this.userService.getFollowings(this.currentPage, this.usersPerPage, searchParams, this.sortDirection,this.username).subscribe((users: User[]) => {
+      this.users = users;
+      this.checkNextPage();
+      if (this.users.length == 0 && this.currentPage > 0) {
+        this.goToPage(0);
+      }
+    });
+  }
+
+  loadFollowers(): void {
+    const searchParams = this.searchForm.value;
+    this.userService.getFollowers(this.currentPage, this.usersPerPage, searchParams, this.sortDirection, this.username).subscribe((users: User[]) => {
+      this.users = users;
+      this.checkNextPage();
+      if (this.users.length == 0 && this.currentPage > 0) {
+        this.goToPage(0);
+      }
     });
   }
 
   goToProfile(username: String): void {
+    this.username = username.toString();
     this.router.navigate(['/profile', username]);
   }
 
@@ -63,33 +99,53 @@ export class AllUsersComponent implements OnInit {
 
   checkNextPage(): void {
     const searchParams = this.searchForm.value;
-    this.userService.getUsers(this.currentPage + 1, this.usersPerPage, searchParams, this.sortDirection).subscribe((users: User[]) => {
-      if (users.length < 1) {
-        this.canGoNext = false;
-      } else {
-        this.canGoNext = true;
-      }
-    });
+    if (this.followers) {
+      this.userService.getFollowers(this.currentPage + 1, this.usersPerPage, searchParams, this.sortDirection, this.username).subscribe((users: User[]) => {
+        if (users.length < 1) {
+          this.canGoNext = false;
+        } else {
+          this.canGoNext = true;
+        }
+      });
+    } else if (this.followings) {
+      this.userService.getFollowings(this.currentPage + 1, this.usersPerPage, searchParams, this.sortDirection,this.username).subscribe((users: User[]) => {
+        if (users.length < 1) {
+          this.canGoNext = false;
+        } else {
+          this.canGoNext = true;
+        }
+      });
+    } else {
+      this.userService.getUsers(this.currentPage + 1, this.usersPerPage, searchParams, this.sortDirection).subscribe((users: User[]) => {
+        if (users.length < 1) {
+          this.canGoNext = false;
+        } else {
+          this.canGoNext = true;
+        }
+      });
+    }
   }
 
   nextPage(): void {
     this.currentPage++;
-    this.updateUrl();
-    this.loadUsers();
+    if (!this.followers && !this.followings) {
+      this.updateUrl();
+    }
+    this.loadData();
   }
 
   previousPage(): void {
     if (this.currentPage > 0) {
       this.currentPage--;
       this.updateUrl();
-      this.loadUsers();
+      this.loadData();
     }
   }
 
   goToPage(page: number): void {
     this.currentPage = page;
     this.updateUrl();
-    this.loadUsers();
+    this.loadData();
   }
 
   updateUrl(): void {
@@ -104,13 +160,13 @@ export class AllUsersComponent implements OnInit {
   onSearch(): void {
     this.currentPage = 0;
     this.updateUrl();
-    this.loadUsers();
+    this.loadData();
   }
 
   onSortChange(): void {
     this.currentPage = 0;
     this.updateUrl();
-    this.loadUsers();
+    this.loadData();
   }
 
   toggleSearchForm(): void {

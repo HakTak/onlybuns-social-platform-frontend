@@ -79,6 +79,60 @@ export class UserService {
     );
   }
 
+  getFollowings(page: number, size: number, searchParams: any, sort: string,username:string): Observable<User[]> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    const params = new URLSearchParams();
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+    params.append('username', username);
+    params.append('sort', sort);
+    for (const key in searchParams) {
+      if (searchParams[key]) {
+        params.append(key, searchParams[key]);
+      }
+    }
+    return this.http.get<User[]>(`${this.config.user_url}/allFollowingsPaged?${params.toString()}`, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          alert("You must be logged in");
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
+
+  getFollowers(page: number, size: number, searchParams: any, sort: string, username: string): Observable<User[]> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    const params = new URLSearchParams();
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+    params.append('username', username);
+    params.append('sort', sort);
+    for (const key in searchParams) {
+      if (searchParams[key]) {
+        params.append(key, searchParams[key]);
+      }
+    }
+    return this.http.get<User[]>(`${this.config.user_url}/allFollowersPaged?${params.toString()}`, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          alert("You must be logged in");
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
+
   getAll() {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({

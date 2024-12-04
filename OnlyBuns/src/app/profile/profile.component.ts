@@ -37,6 +37,8 @@ export class ProfileComponent implements OnInit {
   postsPerPage: number = 3;
   canGoNext: boolean = true;
   isThisMyProfile: boolean = false;
+  showFollowers=false;
+  showFollowings=false;
 
   constructor(
     private route: ActivatedRoute,
