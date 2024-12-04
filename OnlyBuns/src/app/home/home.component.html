@@ -37,6 +37,5 @@
 </mat-toolbar>
 
 <div class="home-content">
-  <h2>Dobrodošli na početnu stranicu!</h2>
-  <p>Izaberite opciju iz gornje navigacije za dalje aktivnosti.</p>
+  <app-all-posts [isHomePage]="true" *ngIf="!authService.isAdmin() && authService.isAuthenticated()"></app-all-posts>
 </div>

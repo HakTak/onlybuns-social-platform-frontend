@@ -297,6 +297,7 @@ export class ProfileComponent implements OnInit {
     this.userService.unfollowUser(userId).subscribe(
       () => {
         this.user.userFollowedByMe = false;
+        this.user.followersCount--;
         this.notificationService.notify('Unfollowing successfully',
         3000);
       },
@@ -322,6 +323,7 @@ export class ProfileComponent implements OnInit {
     this.userService.followUser(userId).subscribe(
       () => {
         this.user.userFollowedByMe = true;
+        this.user.followersCount++;
         this.notificationService.notify('Following successfully',
         3000);
       },

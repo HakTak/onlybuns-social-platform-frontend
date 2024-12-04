@@ -5,18 +5,20 @@ export class User {
     lastname: String;
     email: String;
     numberOfPosts: String;
-    followingCount: String;
     username: String;
     userFollowedByMe:boolean = false;
+    followersCount:number;
+    followingCount:number;
     constructor(
         id: number,
         firstname: String,
         lastname: String,
         email: String,
         numberOfPosts: String,
-        followingCount: String,
         username: String,
-        userFollowedByMe:boolean
+        userFollowedByMe:boolean,
+        followersCount:number,
+        followingCount:number,
     ) {
         this.id = id;
         this.firstname = firstname;
@@ -26,5 +28,6 @@ export class User {
         this.numberOfPosts = numberOfPosts;
         this.username=username;
         this.userFollowedByMe=userFollowedByMe;
+        this.followersCount=followersCount;
     }
 }

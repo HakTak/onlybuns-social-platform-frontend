@@ -73,12 +73,12 @@ export class PostService {
         return this.http.get<Post>(`${this.config.posts_url}/allPostComments?id=${id}`);
     }
 
-    getPosts(page: number, size: number): Observable<Post[]> {
+    getPosts(page: number, size: number,home:boolean): Observable<Post[]> {
         const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
         const headers = new HttpHeaders({
             'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
         });
-        return this.http.get<Post[]>(`${this.config.posts_url}/allPaged?page=${page}&size=${size}&sort=createdAt,DESC`, { headers }).pipe(
+        return this.http.get<Post[]>(`${this.config.posts_url}/allPaged/${home}?page=${page}&size=${size}&sort=createdAt,DESC`, { headers }).pipe(
             catchError(error => {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup

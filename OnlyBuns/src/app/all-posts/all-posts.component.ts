@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PostService } from '../service/post.service';
 import { Post } from '../models/posts.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,6 +37,7 @@ export class AllPostsComponent implements OnInit {
   postsPerPage: number = 3;
   canGoNext: boolean = true;
   imagePath: string | null = null;
+  @Input() isHomePage=false;
 
   constructor(
     private postService: PostService,
@@ -56,7 +57,7 @@ export class AllPostsComponent implements OnInit {
   }
 
   loadPosts(): void {
-    this.postService.getPosts(this.currentPage, this.postsPerPage).subscribe((posts: Post[]) => {
+    this.postService.getPosts(this.currentPage, this.postsPerPage,this.isHomePage).subscribe((posts: Post[]) => {
       this.posts = posts;
       this.checkNextPage();
       if (this.posts.length == 0 && this.currentPage > 0) {
@@ -66,7 +67,7 @@ export class AllPostsComponent implements OnInit {
   }
 
   checkNextPage(): void {
-    this.postService.getPosts(this.currentPage + 1, this.postsPerPage).subscribe((posts: Post[]) => {
+    this.postService.getPosts(this.currentPage + 1, this.postsPerPage,this.isHomePage).subscribe((posts: Post[]) => {
       if (posts.length < 1) {
         this.canGoNext = false;
       } else {

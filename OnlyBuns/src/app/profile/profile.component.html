@@ -4,11 +4,15 @@
       <img class="profile-image" src="assets/logo1.png" alt="Profile Image">
       <div class="profile-info">
         <h2 class="profile-username">{{ user.username }}</h2>
+        <div style="margin-top: 10px;display: flex;flex-direction: column;">
+          <button style="background-color: var(--primary); width: 150px;" class="follow-button">Followers: {{ user.followersCount }}</button>
+          <button style="background-color: var(--primary); width: 150px;" class="follow-button">Following: {{ user.followingCount }}</button>
+        </div>
         <div class="profile-actions" *ngIf="!isThisMyProfile">
-          <button *ngIf="!user.userFollowedByMe" class="follow-button" (click)="followUser(user.id)">
+          <button *ngIf="!user.userFollowedByMe" style="width: 100%;" class="follow-button" (click)="followUser(user.id)">
             Follow
           </button>
-          <button *ngIf="user.userFollowedByMe" class="unfollow-button" (click)="unfollowUser(user.id)">
+          <button *ngIf="user.userFollowedByMe" style="width: 100%;" class="unfollow-button" (click)="unfollowUser(user.id)">
             Unfollow
           </button>
         </div>
