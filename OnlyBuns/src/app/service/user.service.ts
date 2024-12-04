@@ -111,7 +111,7 @@ export class UserService {
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
-    );
+    )
   }
 
   unfollowUser(followdUserId: number) {

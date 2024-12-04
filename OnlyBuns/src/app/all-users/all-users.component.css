@@ -21,7 +21,7 @@
   text-overflow: ellipsis;
   background-color: rgba(229, 225, 184, 0.615);
   transition: background-color 0.3s ease;
-  box-shadow: 5px 5px 5px var(--accent-dark);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.8);
 }
 
 .post-card:hover {
@@ -61,7 +61,7 @@ mat-card-title {
   font-size: xx-large;
   font-weight: bold;
 
-  color: rgba(29, 194, 29, 0.86);
+  color: var(--primary);
   /* Koristite CSS varijablu za primarnu boju */
   transition: transform 0.3s ease;
 }

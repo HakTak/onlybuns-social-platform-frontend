@@ -291,9 +291,35 @@ export class ProfileComponent implements OnInit {
   }
 
   unfollowUser(userId: number) {
-    this.userService.followUser(userId)
+    this.userService.unfollowUser(userId).subscribe(
+      () => {
+        this.user.userFollowedByMe = false;
+        this.snackBar.open('Unfollowing successfully', 'Close', {
+          duration: 3000
+        });
+      },
+      (error) => {
+        console.error('Error during unfollowing:', error);
+        this.snackBar.open('Error during unfollowing', 'Close', {
+          duration: 3000
+        });
+      }
+    );
   }
   followUser(userId: number) {
-    this.userService.unfollowUser(userId)
+    this.userService.followUser(userId).subscribe(
+      () => {
+        this.user.userFollowedByMe = true;
+        this.snackBar.open('Following successfully', 'Close', {
+          duration: 3000
+        });
+      },
+      (error) => {
+        console.error('Error during following:', error);
+        this.snackBar.open('Error during following', 'Close', {
+          duration: 3000
+        });
+      }
+    );
   }
 }

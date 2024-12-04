@@ -8,7 +8,7 @@ export class ConfigService {
   private _api_url = 'http://localhost:8080/api';
   private _auth_url = 'http://localhost:8082/auth';
   private _user_url = this._api_url + '/users';
-  private _follow_url = this._api_url + '/follow';
+  private _follow_url = this._api_url + '/follower';
   private _analytics_url = this._api_url + '/analytics';
   private _login_url = this._user_url + '/login';
   private _logout_url=this._user_url + '/logout'; 

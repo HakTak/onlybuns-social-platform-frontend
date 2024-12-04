@@ -17,8 +17,9 @@ h2 {
 /* Zaglavlje profila */
 .profile-header {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   width: 100%;
   margin-bottom: 20px;
 }
@@ -113,8 +114,8 @@ p {
 }
 
 .delete-icon {
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   transition: transform 0.3s ease;
 }
 
@@ -129,7 +130,7 @@ strong {
 .profile-actions {
   margin-top: 10px;
   display: flex;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .profile-actions button {
@@ -263,9 +264,4 @@ mat-card-title:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.delete-icon {
-  width: 24px;
-  height: 24px;
 }
