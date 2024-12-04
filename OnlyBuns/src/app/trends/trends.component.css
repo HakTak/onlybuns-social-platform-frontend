@@ -1,0 +1,73 @@
+.trend-stats,
+.popular-posts-week,
+.popular-posts-all-time {
+  margin: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.trend-stats h2,
+.popular-posts-week h3,
+.popular-posts-all-time h3 {
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.post-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.post-card {
+  width: 300px;
+  transition: box-shadow 0.3s ease;
+}
+
+.post-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+mat-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+
+mat-card-header {
+  font-family: 'Roboto', sans-serif;
+}
+
+mat-card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #34495e;
+}
+
+mat-card-subtitle {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+mat-card-content p {
+  font-size: 14px;
+  color: #2c3e50;
+}
+
+mat-card-image {
+  border-radius: 5px;
+  max-height: 150px;
+  object-fit: cover;
+}
+
+.no-posts-message {
+  text-align: center;
+  font-size: 16px;
+  color: gray;
+  margin: 20px;
+}
