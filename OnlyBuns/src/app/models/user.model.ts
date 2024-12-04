@@ -7,7 +7,7 @@ export class User {
     numberOfPosts: String;
     followingCount: String;
     username: String;
-
+    isUserFollowedByMe:boolean = false;
     constructor(
         id: number,
         firstname: String,
@@ -15,7 +15,8 @@ export class User {
         email: String,
         numberOfPosts: String,
         followingCount: String,
-        username: String
+        username: String,
+        isUserFollowedByMe:boolean
     ) {
         this.id = id;
         this.firstname = firstname;
@@ -24,5 +25,6 @@ export class User {
         this.followingCount = followingCount;
         this.numberOfPosts = numberOfPosts;
         this.username=username;
+        this.isUserFollowedByMe=isUserFollowedByMe;
     }
 }

@@ -58,14 +58,14 @@ export class ProfileComponent implements OnInit {
         this.loadPosts();
       }
     });
-  
+
     // Pretplatite se na promene query parametara za paginaciju
     this.route.queryParams.subscribe(params => {
       this.currentPage = +params['page'] || 0;
       this.loadPosts();
     });
   }
-  
+
 
 
   modifyPost(post: Post) {
@@ -288,5 +288,12 @@ export class ProfileComponent implements OnInit {
         });
       }
     );
+  }
+
+  unfollowUser(userId: number) {
+    this.userService.followUser(userId)
+  }
+  followUser(userId: number) {
+    this.userService.unfollowUser(userId)
   }
 }

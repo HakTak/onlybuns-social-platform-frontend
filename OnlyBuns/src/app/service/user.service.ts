@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {ApiService} from './api.service';
-import {ConfigService} from './config.service';
-import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { ApiService } from './api.service';
+import { ConfigService } from './config.service';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';  
+import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
@@ -14,12 +14,12 @@ import { User } from '../models/user.model';
 })
 export class UserService {
 
-  currentUser!:any;
+  currentUser!: any;
 
   constructor(
     private apiService: ApiService,
     private config: ConfigService,
-    private router:Router,
+    private router: Router,
     private http: HttpClient,
   ) {
   }
@@ -33,7 +33,20 @@ export class UserService {
   }
 
   getUserByUsername(username: string): Observable<any> {
-    return this.apiService.get(`${this.config.prifile_url}/${username}`);
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.apiService.get(`${this.config.prifile_url}/${username}`, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          alert("You must be logged in as Admin");
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
   }
 
   getUserByEmail(email: string): Observable<any> {
@@ -82,6 +95,39 @@ export class UserService {
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
     );
+  }
 
+  followUser(followdUserId: number) {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.post(`${this.config.follow_url}/follow/${followdUserId}`, {}, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          alert("You must be logged as user")
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
+
+  unfollowUser(followdUserId: number) {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.post(`${this.config.follow_url}/unfollow/${followdUserId}`, {}, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          alert("You must be logged as user")
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
   }
 }

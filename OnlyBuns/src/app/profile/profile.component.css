@@ -2,6 +2,112 @@ h2 {
   color: #333;
 }
 
+/* Glavni kontejner */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto;
+  max-width: 600px;
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+}
+
+/* Zaglavlje profila */
+.profile-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Profilna slika */
+.profile-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 20px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+  transform: scale(1.05);
+}
+
+/* Informacije o korisniku */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.profile-username {
+  font-size: 2em;
+  font-weight: bold;
+  color: var(--primary);
+  margin-bottom: 10px;
+}
+
+/* Akcije praćenja */
+.profile-actions {
+  display: flex;
+  gap: 15px;
+}
+
+.follow-button,
+.unfollow-button {
+  font-size: 1em;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.follow-button {
+  background-color: #4caf50; /* Zelena za Follow */
+}
+
+.follow-button:hover {
+  background-color: #45a047;
+  transform: scale(1.05);
+}
+
+.unfollow-button {
+  background-color: #f44336; /* Crvena za Unfollow */
+}
+
+.unfollow-button:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
+}
+
+/* Detalji profila */
+.profile-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  font-size: 1.1em;
+  color: #555;
+}
+
+.profile-details p {
+  margin: 5px 0;
+}
+
+strong {
+  font-weight: bold;
+  color: #333;
+}
+
+
 p {
   font-size: 1.1em;
 }

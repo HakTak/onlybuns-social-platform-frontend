@@ -1,9 +1,27 @@
 <div *ngIf="user; else loading">
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Address:</strong> {{ user.address }}</p>
-    <p><strong>First Name:</strong> {{ user.firstname }}</p>
-    <p><strong>Last Name:</strong> {{ user.lastname }}</p>
+  <div class="profile-container">
+    <div class="profile-header">
+      <img class="profile-image" src="assets/logo1.png" alt="Profile Image">
+      <div class="profile-info">
+        <h2 class="profile-username">{{ user.username }}</h2>
+        <div class="profile-actions">
+          <button *ngIf="!user.isFollowed" class="follow-button" (click)="followUser(user.id)">
+            Follow
+          </button>
+          <button *ngIf="user.isFollowed" class="unfollow-button" (click)="unfollowUser(user.id)">
+            Unfollow
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="profile-details">
+      <p><strong>First Name:</strong> {{ user.firstname }}</p>
+      <p><strong>Last Name:</strong> {{ user.lastname }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Address:</strong> {{ user.address }}</p>
+    </div>
+  </div>
+  
     <div *ngIf="posts.length > 0; else noPostsTemplate">
       <div class="post-list">
         <mat-card *ngFor="let post of posts" class="post-card"
