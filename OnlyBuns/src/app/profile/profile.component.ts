@@ -13,7 +13,7 @@ import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { ConfirmDeleteDialog } from '../confirm-delete-dialog/confirm-delete-dialog.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PostModificationComponent } from '../post-modification/post-modification.component';
-
+import { NotificationService } from '../service/notification.service';
 
 @Component({
   selector: 'app-profile',
@@ -43,10 +43,10 @@ export class ProfileComponent implements OnInit {
     private userService: UserService,
     private postService: PostService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
     private config: ConfigService,
+    private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
@@ -150,10 +150,8 @@ export class ProfileComponent implements OnInit {
           data: { post: data }
         });
       } else {
-        this.snackBar.open('No comments to display', 'Close', {
-          duration: 3000,
-          panelClass: ['custom-snackbar']
-        });
+        this.notificationService.notify('No comments to display',
+        3000);
       }
     });
   }
@@ -181,20 +179,22 @@ export class ProfileComponent implements OnInit {
 
   toggleLike(post: Post): void {
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in with user role to like a post.', 'Login', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in with user role to like a post.',
+        3000,
+        'Login',
+        () => this.router.navigate(['/login'])
+      );
       return;
     }
     if (this.authService.getRole() !== 'AUTHENTICATED') {
-      this.snackBar.open('You must be logged in with user role to like a post.', 'Logout', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.authService.logout();
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in with user role to like a post.',
+        3000,
+        'Logout',
+        () => {
+          this.authService.logout();
+          this.router.navigate(['/login'])
+        }
+      );
       return;
     }
     if (post.likedByMe) {
@@ -209,16 +209,14 @@ export class ProfileComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber--;
-      this.snackBar.open('Post unliked successfully!', 'Close', {
-        duration: 3000
-      });
+      this.notificationService.notify('Post unliked successfully!',
+        3000);
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.snackBar.open('Error unliking post. Please try again later.', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error unliking post. Please try again later.',
+        3000);
       }
     );
   }
@@ -228,16 +226,14 @@ export class ProfileComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber++;
-      this.snackBar.open('Post liked successfully!', 'Close', {
-        duration: 3000
-      });
+      this.notificationService.notify('Post liked successfully!',
+        3000);
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.snackBar.open('Error liking post. Please try again later.', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error liking post. Please try again later.',
+        3000);
       }
     );
   }
@@ -245,11 +241,11 @@ export class ProfileComponent implements OnInit {
   addComment(post: Post): void {
 
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in to add a comment.', 'Login', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in to add a comment.',
+        3000,
+        'Login',
+        () => this.router.navigate(['/login'])
+      );
       return;
     }
 
@@ -276,69 +272,63 @@ export class ProfileComponent implements OnInit {
     this.postService.deletePost(post.id).subscribe(
       () => {
         this.loadPosts();
-        this.snackBar.open('Post deleted successfully', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Post deleted successfully',
+        3000);
         this.loadPosts(); // Reload posts after deletion
       },
       (error) => {
         console.error('Error deleting post:', error);
-        this.snackBar.open('Error deleting post', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error deleting post',
+        3000);
       }
     );
   }
 
   unfollowUser(userId: number) {
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in to unfollow.', 'Login', {
-        verticalPosition: 'top',
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in to unfollow.',
+        3000,
+        'Login',
+        () => this.router.navigate(['/login'])
+      );
       return;
     }
 
     this.userService.unfollowUser(userId).subscribe(
       () => {
         this.user.userFollowedByMe = false;
-        this.snackBar.open('Unfollowing successfully', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Unfollowing successfully',
+        3000);
       },
       (error) => {
         console.error('Error during unfollowing:', error);
-        this.snackBar.open('Error during unfollowing', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error during unfollowing',
+        3000);
       }
     );
   }
   
   followUser(userId: number) {
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in to follow.', 'Login', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify(
+        'You must be logged in to follow.',
+        3000,
+        'Login',
+        () => this.router.navigate(['/login'])
+      );
       return;
     }
 
     this.userService.followUser(userId).subscribe(
       () => {
         this.user.userFollowedByMe = true;
-        this.snackBar.open('Following successfully', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Following successfully',
+        3000);
       },
       (error) => {
         console.error('Error during following:', error);
-        this.snackBar.open('Error during following', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error during following',
+        3000);
       }
     );
   }

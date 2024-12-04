@@ -5,6 +5,7 @@
 :root {
     --primary: #673AB7; /* Deep Purple 500 */
     --primary-dark: #512DA8; /* Deep Purple 700 */
+    --primary-transparent: rgba(103, 58, 183, 0.8);
     --primary-light: #D1C4E9; /* Deep Purple 100 */
     --accent: #FFC107; /* Amber A200 */
     --accent-dark: #FFAB00; /* Amber A700 */
@@ -30,16 +31,4 @@ body {
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.custom-snackbar {
-  background-color: #673AB7 !important; /* Deep Purple 500 */
-  border-radius: 30px;
-  color: white !important;
-  font-size: 24px;
-  text-align: center;
-}
-
-.custom-snackbar .mat-simple-snackbar-action {
-  color: #FFC107 !important; /* Amber A200 */
 }

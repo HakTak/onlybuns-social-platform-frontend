@@ -4,13 +4,13 @@ import { Post } from '../models/posts.model';
 import { MatDialog } from '@angular/material/dialog';
 import { PostCommentsComponent } from '../post-comments/post-comments.component';
 import { PostComment } from '../models/postComment.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService, ConfigService } from '../service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
+import { NotificationService } from '../service/notification.service';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class AllPostsComponent implements OnInit {
   constructor(
     private postService: PostService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar,
+    private notificationService: NotificationService,
     private router: Router,
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -110,10 +110,8 @@ export class AllPostsComponent implements OnInit {
           data: { post: data }
         });
       } else {
-        this.snackBar.open('No comments to display', 'Close', {
-          duration: 3000,
-          panelClass: ['custom-snackbar']
-        });
+        this.notificationService.notify('No comments to display',
+          3000);
       }
     });
   }
@@ -134,27 +132,29 @@ export class AllPostsComponent implements OnInit {
     return moment(date).fromNow();
   }
 
-  getImage(imgPath : string) : string{
+  getImage(imgPath: string): string {
     const ret = `${this.config.posts_image_url}/${imgPath}`;
     return ret;
   }
 
   toggleLike(post: Post): void {
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in with user role to like a post.', 'Login', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in with user role to like a post.',
+        3000,
+        'Login',
+        () => this.router.navigate(['/login'])
+      );
       return;
     }
     if (this.authService.getRole() !== 'AUTHENTICATED') {
-      this.snackBar.open('You must be logged in with user role to like a post.', 'Logout', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.authService.logout();
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in with user role to like a post.',
+        3000,
+        'Logout',
+        () => {
+          this.authService.logout();
+          this.router.navigate(['/login'])
+        }
+      );
       return;
     }
     if (post.likedByMe) {
@@ -169,16 +169,14 @@ export class AllPostsComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber--;
-      this.snackBar.open('Post unliked successfully!', 'Close', {
-        duration: 3000
-      });
+      this.notificationService.notify('Post unliked successfully!',
+        3000);
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.snackBar.open('Error unliking post. Please try again later.', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error unliking post. Please try again later.',
+          3000);
       }
     );
   }
@@ -188,16 +186,14 @@ export class AllPostsComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber++;
-      this.snackBar.open('Post liked successfully!', 'Close', {
-        duration: 3000
-      });
+      this.notificationService.notify('Post liked successfully!',
+        3000);
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.snackBar.open('Error liking post. Please try again later.', 'Close', {
-          duration: 3000
-        });
+        this.notificationService.notify('Error liking post. Please try again later.',
+          3000);
       }
     );
   }
@@ -205,17 +201,17 @@ export class AllPostsComponent implements OnInit {
   addComment(post: Post): void {
 
     if (!this.authService.isAuthenticated()) {
-      this.snackBar.open('You must be logged in to add a comment.', 'Login', {
-        duration: 3000
-      }).onAction().subscribe(() => {
-        this.router.navigate(['/login']);
-      });
+      this.notificationService.notify('You must be logged in to add a comment.',
+        3000,
+        'Login',
+        () => this.router.navigate(['/login'])
+      );
       return;
     }
-    
+
     const dialogRef = this.dialog.open(CommentFormComponent, {
       width: '50%',
-      data: {postId : post.id}
+      data: { postId: post.id }
     });
   }
 }

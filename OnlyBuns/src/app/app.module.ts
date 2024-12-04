@@ -37,6 +37,7 @@ import { AllUsersComponent } from './all-users/all-users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TrendsComponent } from './trends/trends.component';
+import { NotificationComponent } from './notification/notification.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { TrendsComponent } from './trends/trends.component';
     AllUsersComponent,
     AnalyticsComponent,
     TrendsComponent,
+    NotificationComponent,
     
   ],
   imports: [
@@ -80,7 +82,7 @@ import { TrendsComponent } from './trends/trends.component';
     },
     { 
       provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, 
-      useValue: { duration: 3000, verticalPosition: 'bottom', horizontalPosition: 'right', panelClass: ['snackbar'] }
+      useValue: { duration: 1, verticalPosition: 'bottom', horizontalPosition: 'right', panelClass: ['snackbar'] }
     },
     FooService,
     AuthService,
