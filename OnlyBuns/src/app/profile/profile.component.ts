@@ -291,6 +291,16 @@ export class ProfileComponent implements OnInit {
   }
 
   unfollowUser(userId: number) {
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('You must be logged in to unfollow.', 'Login', {
+        verticalPosition: 'top',
+        duration: 3000
+      }).onAction().subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+      return;
+    }
+
     this.userService.unfollowUser(userId).subscribe(
       () => {
         this.user.userFollowedByMe = false;
@@ -306,7 +316,17 @@ export class ProfileComponent implements OnInit {
       }
     );
   }
+  
   followUser(userId: number) {
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('You must be logged in to follow.', 'Login', {
+        duration: 3000
+      }).onAction().subscribe(() => {
+        this.router.navigate(['/login']);
+      });
+      return;
+    }
+
     this.userService.followUser(userId).subscribe(
       () => {
         this.user.userFollowedByMe = true;

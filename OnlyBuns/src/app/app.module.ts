@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Use this for animations
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,7 +26,6 @@ import { AngularMaterialModule } from './angular-material/angular-material.modul
 import { AllPostsComponent } from './all-posts/all-posts.component';
 import { PostCommentsComponent } from './post-comments/post-comments.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProfileComponent } from './profile/profile.component';
 import { PostCreationComponent } from './post-creation/post-creation.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -77,6 +77,10 @@ import { TrendsComponent } from './trends/trends.component';
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
+    },
+    { 
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, 
+      useValue: { duration: 3000, verticalPosition: 'bottom', horizontalPosition: 'right', panelClass: ['snackbar'] }
     },
     FooService,
     AuthService,
