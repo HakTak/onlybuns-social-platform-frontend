@@ -6,14 +6,14 @@ import { ApiService } from './api.service';
 import { ConfigService } from './config.service';
 import { PostComment } from '../models/postComment.model';
 import { Router } from '@angular/router';
-
+import { NotificationService } from '../service/notification.service';
 @Injectable({
     providedIn: 'root'
 })
 export class PostService {
     
     constructor(private http: HttpClient,
-        private config: ConfigService, private router: Router) { }
+        private config: ConfigService, private router: Router,private notificationService: NotificationService) { }
 
     likePost(id: number) {
         const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
@@ -26,7 +26,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged as user")
+                    this.notificationService.notify('You must be logged as User',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
@@ -44,7 +44,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged as user")
+                    this.notificationService.notify('You must be logged as User',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
@@ -62,7 +62,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("Only the user who created this post can perform this action.")
+                    this.notificationService.notify('Only the user who created this post can perform this action.',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
@@ -83,7 +83,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged in")
+                    this.notificationService.notify('You must be logged in',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
@@ -100,7 +100,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged in")
+                    this.notificationService.notify('You must be logged in',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })
@@ -118,7 +118,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged as User")
+                    this.notificationService.notify('You must be logged as User',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             }));
@@ -139,7 +139,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged as User")
+                    this.notificationService.notify('You must be logged as User',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             }));
@@ -155,7 +155,7 @@ export class PostService {
                 if (error.status === 403) {
                     // Preusmeravanje na login ako je zabranjen pristup
                     this.router.navigate(['/login']);
-                    alert("You must be logged in");
+                    this.notificationService.notify('You must be logged in',3000,true);
                 }
                 return throwError(() => error);  // Prosleđivanje greške dalje
             })

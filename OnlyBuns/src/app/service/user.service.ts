@@ -8,7 +8,7 @@ import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
-
+import { NotificationService } from '../service/notification.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -21,6 +21,7 @@ export class UserService {
     private config: ConfigService,
     private router: Router,
     private http: HttpClient,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -42,7 +43,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged in as Admin");
+          this.notificationService.notify('You must be logged as Admin',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -72,7 +73,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged in as Admin");
+          this.notificationService.notify('You must be logged as Admin',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -99,7 +100,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged in");
+          this.notificationService.notify('You must be logged in',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -126,7 +127,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged in");
+          this.notificationService.notify('You must be logged in',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -144,7 +145,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged as Amin")
+          this.notificationService.notify('You must be logged as Admin',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -161,7 +162,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged as user")
+          this.notificationService.notify('You must be logged as User',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -178,7 +179,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged as user")
+          this.notificationService.notify('You must be logged as User',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })

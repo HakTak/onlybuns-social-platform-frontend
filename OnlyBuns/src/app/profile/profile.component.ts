@@ -183,6 +183,7 @@ export class ProfileComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.notificationService.notify('You must be logged in with user role to like a post.',
         3000,
+        true,
         'Login',
         () => this.router.navigate(['/login'])
       );
@@ -191,6 +192,7 @@ export class ProfileComponent implements OnInit {
     if (this.authService.getRole() !== 'AUTHENTICATED') {
       this.notificationService.notify('You must be logged in with user role to like a post.',
         3000,
+        true,
         'Logout',
         () => {
           this.authService.logout();
@@ -218,7 +220,7 @@ export class ProfileComponent implements OnInit {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
         this.notificationService.notify('Error unliking post. Please try again later.',
-        3000);
+        3000,true);
       }
     );
   }
@@ -235,7 +237,7 @@ export class ProfileComponent implements OnInit {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
         this.notificationService.notify('Error liking post. Please try again later.',
-        3000);
+        3000,true);
       }
     );
   }
@@ -245,6 +247,7 @@ export class ProfileComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.notificationService.notify('You must be logged in to add a comment.',
         3000,
+        true,
         'Login',
         () => this.router.navigate(['/login'])
       );
@@ -281,7 +284,7 @@ export class ProfileComponent implements OnInit {
       (error) => {
         console.error('Error deleting post:', error);
         this.notificationService.notify('Error deleting post',
-        3000);
+        3000,true);
       }
     );
   }
@@ -290,6 +293,7 @@ export class ProfileComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.notificationService.notify('You must be logged in to unfollow.',
         3000,
+        true,
         'Login',
         () => this.router.navigate(['/login'])
       );
@@ -306,7 +310,7 @@ export class ProfileComponent implements OnInit {
       (error) => {
         console.error('Error during unfollowing:', error);
         this.notificationService.notify('Error during unfollowing',
-        3000);
+        3000,true);
       }
     );
   }
@@ -316,6 +320,7 @@ export class ProfileComponent implements OnInit {
       this.notificationService.notify(
         'You must be logged in to follow.',
         3000,
+        true,
         'Login',
         () => this.router.navigate(['/login'])
       );
@@ -327,12 +332,12 @@ export class ProfileComponent implements OnInit {
         this.user.userFollowedByMe = true;
         this.user.followersCount++;
         this.notificationService.notify('Following successfully',
-        3000);
+        3000,false);
       },
       (error) => {
         console.error('Error during following:', error);
         this.notificationService.notify('Error during following',
-        3000);
+        3000,true);
       }
     );
   }

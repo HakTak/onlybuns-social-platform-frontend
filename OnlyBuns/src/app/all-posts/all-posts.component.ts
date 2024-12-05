@@ -112,7 +112,7 @@ export class AllPostsComponent implements OnInit {
         });
       } else {
         this.notificationService.notify('No comments to display',
-          3000);
+          3000,true);
       }
     });
   }
@@ -142,6 +142,7 @@ export class AllPostsComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.notificationService.notify('You must be logged in with user role to like a post.',
         3000,
+        true,
         'Login',
         () => this.router.navigate(['/login'])
       );
@@ -150,6 +151,7 @@ export class AllPostsComponent implements OnInit {
     if (this.authService.getRole() !== 'AUTHENTICATED') {
       this.notificationService.notify('You must be logged in with user role to like a post.',
         3000,
+        true,
         'Logout',
         () => {
           this.authService.logout();
@@ -177,7 +179,7 @@ export class AllPostsComponent implements OnInit {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
         this.notificationService.notify('Error unliking post. Please try again later.',
-          3000);
+          3000,true);
       }
     );
   }
@@ -194,7 +196,7 @@ export class AllPostsComponent implements OnInit {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
         this.notificationService.notify('Error liking post. Please try again later.',
-          3000);
+          3000,true);
       }
     );
   }
@@ -204,6 +206,7 @@ export class AllPostsComponent implements OnInit {
     if (!this.authService.isAuthenticated()) {
       this.notificationService.notify('You must be logged in to add a comment.',
         3000,
+        true,
         'Login',
         () => this.router.navigate(['/login'])
       );

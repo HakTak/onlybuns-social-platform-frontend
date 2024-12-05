@@ -5,7 +5,7 @@
 :root {
     --primary: #673AB7; /* Deep Purple 500 */
     --primary-dark: #512DA8; /* Deep Purple 700 */
-    --primary-transparent: rgba(103, 58, 183, 0.8);
+    --primary-transparent: rgba(103, 58, 183, 0.9);
     --primary-light: #D1C4E9; /* Deep Purple 100 */
     --accent: #FFC107; /* Amber A200 */
     --accent-dark: #FFAB00; /* Amber A700 */

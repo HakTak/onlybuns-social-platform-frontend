@@ -14,11 +14,19 @@ export class NotificationService {
   notify(
     message: string,
     duration: number = 3000,
+    isWarn?: boolean, // Dodan opcioni parametar
     action?: string,
-    actionCallback?: () => void
+    actionCallback?: () => void,
   ) {
     if (this.notificationComponent) {
-      this.notificationComponent.showNotification(message, duration, action, actionCallback);
+      const backgroundColor = isWarn ? 'red' : 'default'; // Primer kako postaviti boju
+      this.notificationComponent.showNotification(
+        message,
+        duration,
+        action,
+        actionCallback,
+        backgroundColor // Prosljeđivanje pozadine u komponentu
+      );
     }
   }
 }

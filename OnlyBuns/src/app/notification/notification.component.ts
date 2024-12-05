@@ -6,6 +6,7 @@ interface Notification {
   action?: string;
   actionCallback?: () => void;
   removing?: boolean; // Ovo je potrebno za animaciju uklanjanja
+  backgroundColor?: string; // Dodatna boja za obaveštenje
 }
 
 
@@ -14,10 +15,10 @@ interface Notification {
   template: `
     <div class="notification-container">
       <div
-        class="notification"
-        *ngFor="let notification of notifications; let i = index"
-        [style.bottom.px]="16 + i * 70"
-        [class.removing]="notification.removing">
+      [ngClass]="notification.backgroundColor=='red' ? 'warning' : 'notification'"
+      *ngFor="let notification of notifications; let i = index"
+      [style.bottom.px]="16 + i * 70"
+      [class.removing]="notification.removing">
         <span>{{ notification.message }}</span>
         <button *ngIf="notification.action" (click)="handleAction(notification)">
           {{ notification.action }}
@@ -29,14 +30,16 @@ interface Notification {
 })
 export class NotificationComponent {
   notifications: Notification[] = [];
+  backgroundColor: string = 'default'; // Dodatna boja za obaveštenje
 
   showNotification(
     message: string,
     duration: number = 3000,
     action?: string,
-    actionCallback?: () => void
+    actionCallback?: () => void,
+    backgroundColor?: string
   ) {
-    const notification: Notification = { message, timeout: duration, action, actionCallback };
+    const notification: Notification = { message, timeout: duration, action, actionCallback, backgroundColor };
     this.notifications.push(notification);
 
     // Automatsko uklanjanje nakon trajanja

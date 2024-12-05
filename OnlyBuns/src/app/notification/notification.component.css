@@ -19,7 +19,20 @@
     animation: slideIn 0.3s ease-out;
   }
 
-  .notification button {
+  .warning {
+    background-color: var(--warn); /* Zelena providna boja */
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border-radius: 10px 20px 0px 20px;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); */
+    margin-bottom: 8px;
+    width: 300px;
+    text-align: center;
+    animation: slideIn 0.3s ease-out;
+  }
+
+   button {
     background-color: transparent;
     border: none;
     color: var(--accent-light);
@@ -32,11 +45,11 @@
     text-decoration: underline;
   }
   
-  .notification button:hover {
+   button:hover {
     color: #ffc107; /* Amber za hover efekat */
   }
 
-  .notification.removing {
+  .removing {
     animation: slideOut 0.3s ease-out forwards; /* Aktivira animaciju izlaska */
   }
   

@@ -4,14 +4,14 @@ import { ConfigService } from './config.service';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { PostComment, PostCommentCreation } from '../models/postComment.model';
-
+import { NotificationService } from '../service/notification.service';
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
 
   constructor(private http: HttpClient,
-    private config: ConfigService, private router: Router) { }
+    private config: ConfigService, private router: Router,private notificationService: NotificationService) { }
 
     submitComment(comment : PostCommentCreation, postId : number) : Observable<PostComment>{
       const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
@@ -24,7 +24,7 @@ export class CommentService {
             if (error.status === 403) {
             // Preusmeravanje na login ako je zabranjen pristup
                 this.router.navigate(['/login']);
-                alert("You must be logged as User")
+                this.notificationService.notify('You must be logged as User',3000,true);
             }
             return throwError(() => error);  // Prosleđivanje greške dalje
         }));
@@ -41,7 +41,7 @@ export class CommentService {
             if (error.status === 403) {
             // Preusmeravanje na login ako je zabranjen pristup
                 this.router.navigate(['/login']);
-                alert("You must be logged as User")
+                this.notificationService.notify('You must be logged as User',3000,true);
             }
             return throwError(() => error);  // Prosleđivanje greške dalje
         }));

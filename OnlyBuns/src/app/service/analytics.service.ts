@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfigService } from './config.service';
+import { NotificationService } from '../service/notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AnalyticsService {
 
   private baseUrl = this.config.analytics_url;
 
-  constructor(private http: HttpClient, private router: Router, private config: ConfigService) { }
+  constructor(private http: HttpClient, private router: Router, private config: ConfigService,private notificationService: NotificationService) { }
 
   getPostsAndCommentsAnalytics(year: number, month: string): Observable<any> {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
@@ -24,7 +25,7 @@ export class AnalyticsService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged as Admin");
+          this.notificationService.notify('You must be logged as Admin',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -41,7 +42,7 @@ export class AnalyticsService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged as Admin");
+          this.notificationService.notify('You must be logged as Admin',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -58,7 +59,7 @@ export class AnalyticsService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          alert("You must be logged as Amin")
+          this.notificationService.notify('You must be logged as Admin',3000,true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
