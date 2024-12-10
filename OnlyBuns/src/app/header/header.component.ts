@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AuthService } from '../service';
 import { UserService } from '../service/user.service';
 import { trigger, state, style, animate, transition } from '@angular/animations';
@@ -23,6 +23,11 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
   email: string;
+  @Output() chatVariable = new EventEmitter<string>();
+
+  changeShowingChat() {
+    this.chatVariable.emit();
+  }
 
   constructor(private userService: UserService, 
     public authService:AuthService,

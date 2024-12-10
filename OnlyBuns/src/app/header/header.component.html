@@ -11,7 +11,7 @@
                 <mat-icon>home</mat-icon>
                 Home
             </button>
-            <button color="hover" mat-raised-button routerLink="/posts">
+            <button color="hover" *ngIf="authService.isAuthenticated()" mat-raised-button routerLink="/posts">
                 <mat-icon>feed</mat-icon>
                 All posts
             </button>
@@ -22,6 +22,10 @@
             <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" color="hover" mat-raised-button routerLink="/post-creation">
                 <mat-icon>add</mat-icon>
                 Add Post
+            </button>
+            <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" color="hover" mat-raised-button (click)="changeShowingChat()">
+                <mat-icon>chat</mat-icon>
+                Chat
             </button>
             <!-- <button mat-raised-button routerLink="/posts">
                 <span>Posts</span>

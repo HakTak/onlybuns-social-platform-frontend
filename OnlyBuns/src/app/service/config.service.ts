@@ -16,9 +16,13 @@ export class ConfigService {
   private _profile_url=this._user_url+'/getUserByName';
   private _posts_image_url=this._posts_url + '/images';
   private _post_comments_url = this._api_url + '/post/comment';
-
+  private _chat_url = this._api_url + '/chat';
   get login_url(): string {
     return this._login_url;
+  }
+
+  get chat_url(): string {
+    return this._chat_url;
   }
 
   get follow_url(): string {

@@ -10,12 +10,17 @@ import { PostCreationComponent } from './post-creation/post-creation.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { TrendsComponent } from './trends/trends.component';
+import { AllChatsComponent } from './all-chats/all-chats.component';
 
 const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     pathMatch: 'full'
+  },
+  {
+    path: 'chats/:id',
+    component: AllChatsComponent
   },
   {
     path: 'users',

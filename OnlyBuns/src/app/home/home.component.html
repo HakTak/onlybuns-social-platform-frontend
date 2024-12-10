@@ -13,10 +13,10 @@
     <mat-icon>near_me</mat-icon>
     Near Posts
   </button>
-  <button color="hover" mat-raised-button routerLink="/chat">
+  <!-- <button color="hover" mat-raised-button routerLink="/chat">
     <mat-icon>chat</mat-icon>
     Chat
-  </button>
+  </button> -->
 </mat-toolbar>
 
 <mat-toolbar *ngIf="authService.isAdmin() && authService.isAuthenticated()" color="primary">
@@ -38,4 +38,5 @@
 
 <div class="home-content">
   <app-all-posts [isHomePage]="true" *ngIf="!authService.isAdmin() && authService.isAuthenticated()"></app-all-posts>
+  <app-all-posts *ngIf="!authService.isAuthenticated()"></app-all-posts>
 </div>

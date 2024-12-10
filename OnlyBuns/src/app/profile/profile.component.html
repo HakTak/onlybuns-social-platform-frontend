@@ -20,6 +20,13 @@
             Unfollow
           </button>
         </div>
+        <div class="profile-actions" *ngIf="!isThisMyProfile">
+          <button style="width: 100%;background-color: var(--primary);" class="follow-button"
+            (click)="chatWithUser(user.id)" matTooltip="sent message">
+            Sent message
+            <mat-icon >chat</mat-icon>
+          </button>
+        </div>
       </div>
     </div>
     <div class="profile-details">
@@ -92,7 +99,7 @@
     <div style="width: 100%;display: flex;">
       <h1 style="justify-content: center; color: var(--primary); font-weight: bold;">Followers</h1>
     </div>
-    <span class="close" (click)="showFollowers = false">&times;</span>
+    <span class="close" (click)="showFollowers = false" matTooltip="Close window">&times;</span>
       <app-all-users [username]="user.username" [followers]="true"></app-all-users>
   </div>
 </div>
@@ -101,7 +108,7 @@
     <div style="width: 100%;display: flex;">
       <h1 style="justify-content: center; color: var(--primary); font-weight: bold;">Followings</h1>
     </div>
-    <span class="close" (click)="showFollowings = false">&times;</span>
+    <span class="close" matTooltip="Close window" (click)="showFollowings = false">&times;</span>
       <app-all-users [username]="user.username" [followings]="true"></app-all-users>
   </div>
 </div>

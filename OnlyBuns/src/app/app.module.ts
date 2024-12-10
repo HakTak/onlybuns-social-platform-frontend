@@ -38,6 +38,8 @@ import { AnalyticsComponent } from './analytics/analytics.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TrendsComponent } from './trends/trends.component';
 import { NotificationComponent } from './notification/notification.component';
+import { ChatComponent } from './chat/chat.component';
+import { AllChatsComponent } from './all-chats/all-chats.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { NotificationComponent } from './notification/notification.component';
     AnalyticsComponent,
     TrendsComponent,
     NotificationComponent,
+    ChatComponent,
+    AllChatsComponent,
     
   ],
   imports: [

@@ -1,0 +1,22 @@
+<div class="sidebar">
+  <div>
+    <span class="return" matTooltip="Return" (click)="returnToChats()">
+      <mat-icon style="font-size: 30px;">arrow_back</mat-icon>
+    </span>
+    <span class="close" matTooltip="Close chat" (click)="changeShowingChat()">&times;</span>
+  </div>
+  <div *ngIf="!chatId || chatId==0">
+    <h1>Chats</h1>
+    <div class="chat-list">
+      <div *ngFor="let chat of chats" class="chat-item" (click)="openChat(chat.id)">
+        {{ chat.name }}
+      </div>
+    </div>
+
+    <div class="new-chat">
+      <input type="text" [(ngModel)]="newChatName" placeholder="Enter new chat name" />
+      <button (click)="addNewChat()">Add Chat</button>
+    </div>
+  </div>
+  <app-chat *ngIf="chatId!=0" [chatId]="chatId"></app-chat>
+</div>

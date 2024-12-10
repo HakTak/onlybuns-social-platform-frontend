@@ -1,0 +1,25 @@
+<div class="chat-container">
+  <strong class="title">{{ chat?.name?.replace(currentUsername,'')?.replace('-','') }}</strong>
+  <div class="chat-messages" #chatMessages>
+    <div
+      *ngFor="let message of chat?.messages"
+      class="message"
+      [class.sent]="message.sender.email === currentUsername"
+      [class.received]="message.sender.email !== currentUsername"
+    >
+      <strong class="sender">{{ message.sender.username }}</strong>
+      <p class="content">{{ message.content }}</p>
+      <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
+    </div>
+  </div>
+  <div class="input-container">
+    <input
+      class="chat-input"
+      type="text"
+      [(ngModel)]="messageContent"
+      placeholder="Enter your message..."
+      (keyup.enter)="sendMessage()"
+    />
+    <button class="send-button" (click)="sendMessage()">Send</button>
+  </div>
+</div>

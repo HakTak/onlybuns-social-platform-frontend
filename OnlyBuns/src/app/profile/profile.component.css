@@ -103,6 +103,11 @@ h2 {
 
 .follow-button,
 .unfollow-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Razmak između ikone i teksta */
+  padding: 8px;
   font-size: 1em;
   font-weight: bold;
   padding: 10px 20px;
@@ -111,6 +116,10 @@ h2 {
   color: #fff;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.follow-button mat-icon {
+  font-size: 20px; /* Veličina ikone */
 }
 
 .follow-button {

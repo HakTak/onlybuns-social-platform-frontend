@@ -14,6 +14,8 @@ import { ConfirmDeleteDialog } from '../confirm-delete-dialog/confirm-delete-dia
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { PostModificationComponent } from '../post-modification/post-modification.component';
 import { NotificationService } from '../service/notification.service';
+import { ChatService } from '../service/chat.service';
+import { SharedStateService } from '../service/shared-state.service';
 
 @Component({
   selector: 'app-profile',
@@ -37,8 +39,8 @@ export class ProfileComponent implements OnInit {
   postsPerPage: number = 3;
   canGoNext: boolean = true;
   isThisMyProfile: boolean = false;
-  showFollowers=false;
-  showFollowings=false;
+  showFollowers = false;
+  showFollowings = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,7 +50,9 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private config: ConfigService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private chatService: ChatService,
+    private sharedStateService: SharedStateService
   ) { }
 
   ngOnInit(): void {
@@ -153,7 +157,7 @@ export class ProfileComponent implements OnInit {
         });
       } else {
         this.notificationService.notify('No comments to display',
-        3000);
+          3000);
       }
     });
   }
@@ -220,7 +224,7 @@ export class ProfileComponent implements OnInit {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
         this.notificationService.notify('Error unliking post. Please try again later.',
-        3000,true);
+          3000, true);
       }
     );
   }
@@ -237,7 +241,7 @@ export class ProfileComponent implements OnInit {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
         this.notificationService.notify('Error liking post. Please try again later.',
-        3000,true);
+          3000, true);
       }
     );
   }
@@ -278,13 +282,13 @@ export class ProfileComponent implements OnInit {
       () => {
         this.loadPosts();
         this.notificationService.notify('Post deleted successfully',
-        3000);
+          3000);
         this.loadPosts(); // Reload posts after deletion
       },
       (error) => {
         console.error('Error deleting post:', error);
         this.notificationService.notify('Error deleting post',
-        3000,true);
+          3000, true);
       }
     );
   }
@@ -305,16 +309,16 @@ export class ProfileComponent implements OnInit {
         this.user.userFollowedByMe = false;
         this.user.followersCount--;
         this.notificationService.notify('Unfollowing successfully',
-        3000);
+          3000);
       },
       (error) => {
         console.error('Error during unfollowing:', error);
         this.notificationService.notify('Error during unfollowing',
-        3000,true);
+          3000, true);
       }
     );
   }
-  
+
   followUser(userId: number) {
     if (!this.authService.isAuthenticated()) {
       this.notificationService.notify(
@@ -332,13 +336,17 @@ export class ProfileComponent implements OnInit {
         this.user.userFollowedByMe = true;
         this.user.followersCount++;
         this.notificationService.notify('Following successfully',
-        3000,false);
+          3000, false);
       },
       (error) => {
         console.error('Error during following:', error);
         this.notificationService.notify('Error during following',
-        3000,true);
+          3000, true);
       }
     );
+  }
+
+  chatWithUser(userId: number) {
+    this.sharedStateService.setShowChatAndChatId(true, userId);
   }
 }

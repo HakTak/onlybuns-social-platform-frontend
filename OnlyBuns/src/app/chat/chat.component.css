@@ -1,0 +1,117 @@
+/* Container for the entire chat */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80vh;
+    background-color: #fafafa; /* Instagram-like background */
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title styling */
+  .title {
+    color: var(--primary);
+    font-size: 20px;
+    font-family: 'pacifico';
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 2px solid var(--primary);
+    border-radius: 10px;
+    padding-bottom: 10px;
+  }
+  
+  /* Chat messages container */
+  .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
+  }
+  
+  /* Individual message styling */
+  .message {
+    max-width: 60%;
+    padding: 10px 15px;
+    overflow-x: visible;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.4;
+    position: relative;
+  }
+  
+  /* Sent messages */
+  .message.sent {
+    align-self: flex-end;
+    overflow: visible;
+    background-color: #0095f6; /* Instagram blue */
+    color: white;
+  }
+  
+  /* Received messages */
+  .message.received {
+    align-self: flex-start;
+    background-color: #e0e0e0;
+    color: #262626;
+  }
+  
+  /* Sender name */
+  .sender {
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  
+  /* Timestamp styling */
+  .timestamp {
+    font-size: 10px;
+    color: black;
+    margin-top: 5px;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+  }
+  
+  /* Input container for message box and button */
+  .input-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-top: 2px solid var(--primary);
+    border-radius: 10px;
+    padding-top: 10px;
+  }
+  
+  /* Input box */
+  .chat-input {
+    flex-grow: 2;
+    padding: 10px;
+    border: 1px solid var(--primary);
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+  }
+  
+  /* Send button */
+  .send-button {
+    padding: 10px 20px;
+    background-color: #0095f6;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .send-button:hover {
+    background-color: #007bb5; /* Darker blue on hover */
+  }
+  

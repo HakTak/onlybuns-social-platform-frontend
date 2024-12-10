@@ -1,3 +1,10 @@
-<app-header></app-header>
+<app-header (chatVariable)="showCloseChat()"></app-header>
 <app-notification></app-notification>
-<router-outlet></router-outlet>
+<div style="display: flex;flex-direction: row;" *ngIf="showChat">
+    <router-outlet>
+    </router-outlet>
+    <app-all-chats *ngIf="showChat">
+    </app-all-chats>
+</div>
+<router-outlet *ngIf="!showChat">
+</router-outlet>

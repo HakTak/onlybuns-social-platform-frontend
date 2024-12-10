@@ -14,17 +14,19 @@
     border-radius: 10px 20px 0px 20px;
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); */
     margin-bottom: 8px;
+    border: var(--primary) 3px ridge;
     width: 300px;
     text-align: center;
     animation: slideIn 0.3s ease-out;
   }
 
   .warning {
-    background-color: var(--warn); /* Zelena providna boja */
+    background-color: var(--warn-transparent); /* Zelena providna boja */
     color: white;
     padding: 16px;
     font-size: 16px;
     border-radius: 10px 20px 0px 20px;
+    border: var(--warn) 3px groove;
     /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.9); */
     margin-bottom: 8px;
     width: 300px;
