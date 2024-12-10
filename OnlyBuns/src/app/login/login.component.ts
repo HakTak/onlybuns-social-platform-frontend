@@ -4,6 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService, UserService} from '../service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import { SharedStateService } from '../service/shared-state.service';
 
 interface DisplayMessage {
   msgType: string;
@@ -41,10 +42,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private sharedStateService: SharedStateService,
   ) { }
 
   ngOnInit() {
+    this.sharedStateService.setChatId(0);
+    this.sharedStateService.setShowChat(false);
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((params: any) => {

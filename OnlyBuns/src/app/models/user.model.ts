@@ -1,3 +1,4 @@
+import { Chat } from "./chat.model";
 
 export class User {
     id: number;
@@ -9,6 +10,7 @@ export class User {
     userFollowedByMe:boolean = false;
     followersCount:number;
     followingCount:number;
+    chats:Chat[]=[];
     constructor(
         id: number,
         firstname: String,
@@ -19,6 +21,7 @@ export class User {
         userFollowedByMe:boolean,
         followersCount:number,
         followingCount:number,
+        chats:Chat[],
     ) {
         this.id = id;
         this.firstname = firstname;
@@ -29,5 +32,6 @@ export class User {
         this.username=username;
         this.userFollowedByMe=userFollowedByMe;
         this.followersCount=followersCount;
+        this.chats=chats;
     }
 }

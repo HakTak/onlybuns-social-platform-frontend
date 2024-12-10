@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { NotificationService } from '../service/notification.service';
+import { Chat } from '../models/chat.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -175,6 +176,23 @@ export class UserService {
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
     });
     return this.http.post(`${this.config.follow_url}/unfollow/${followdUserId}`, {}, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged as User',3000,true);
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
+
+  getMyChats(): Observable<User> { 
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.get<User>(`${this.config.user_url}/allChats`, { headers }).pipe(
       catchError(error => {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup

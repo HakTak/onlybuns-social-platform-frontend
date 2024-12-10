@@ -347,6 +347,6 @@ export class ProfileComponent implements OnInit {
   }
 
   chatWithUser(userId: number) {
-    this.sharedStateService.setShowChatAndChatId(true, userId);
+    this.sharedStateService.setShowChatAndChatIdandUserId(true, -1, userId);
   }
 }

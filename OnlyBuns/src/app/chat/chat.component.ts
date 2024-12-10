@@ -29,7 +29,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUsername = this.authService.getCurrentUserName()||'User1';
-    this.chatService.getChat(this.sharedStateService.getChatId()).subscribe(
+    this.chatService.getChat(this.sharedStateService.getUserId(),this.sharedStateService.getChatId()).subscribe(
       (chat) => {
         this.chat = chat
         this.chat.messages = this.chat.messages.sort((a, b) => {
