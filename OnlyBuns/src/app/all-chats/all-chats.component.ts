@@ -5,6 +5,8 @@ import { SharedStateService } from '../service/shared-state.service';
 import { Chat } from '../models/chat.model';
 import { AuthService, UserService } from '../service';
 import { NotificationService } from '../service/notification.service';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { query } from '@angular/animations';
 
 @Component({
   selector: 'app-all-chats',
@@ -15,7 +17,10 @@ export class AllChatsComponent implements OnInit {
   newChatName: string = ''; // Naziv za novi čet
   chatId: number = 0;
   chats: Chat[] = [];
-  currentUsername:string = 'User1';
+  currentUsername: string = 'User1';
+  searchQuery: string = '';
+  searchResults: any[] = [];
+  searchSubject: Subject<string> = new Subject<string>();
 
   constructor(
     private chatService: ChatService,
@@ -33,17 +38,46 @@ export class AllChatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // Čeka 300ms nakon poslednjeg unosa
+        distinctUntilChanged(), // Izbegava duplirane unose
+        switchMap((query) => this.userService.searchUsers(query)) // Poziva servis za pretragu
+      )
+      .subscribe(
+        (results) => (this.searchResults = results), // Ažurira rezultate pretrage
+        (error) => console.error(error) // Prikazuje greške (ako postoje)
+      );
   }
 
-  loadData(){
-    this.currentUsername = this.authService.getCurrentUserName()||'User1';
+  searchUsers(query: string): void {
+    if (query == '') {
+      this.ClearSearch(); // Očisti rezultate pretrage
+      return; // Prekini izvršavanje
+    }
+    this.searchSubject.next(query); // Prosleđuje unos za pretragu
+  }
+
+  ClearSearch() {
+    this.searchResults = []; // Očisti rezultate pretrage
+    this.searchQuery = '';
+  }
+
+  startChatWithUser(userId: number): void {
+    this.sharedStateService.setShowChatAndChatIdandUserId(true, -1, userId);
+  }
+
+  loadData() {
+    this.currentUsername = this.authService.getUserName() || 'User1';
+    this.searchResults = [];
+    this.searchQuery = '';
     this.userService.getMyChats().subscribe((value) => {
       this.chats = value.chats;
     },
-    (error) => {
-      console.log(error);
-      this.notificationService.notify('Unable to load chats',3000,true);
-    });
+      (error) => {
+        console.log(error);
+        this.notificationService.notify('Unable to load chats', 3000, true);
+      });
     this.sharedStateService.chatId$.subscribe((value) => {
       this.chatId = value;
     });

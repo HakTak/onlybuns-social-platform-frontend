@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ChatService } from '../service/chat.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SharedStateService } from '../service/shared-state.service';
 import { NotificationService } from '../service/notification.service';
 import { Chat } from '../models/chat.model';
@@ -24,11 +24,12 @@ export class ChatComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private sharedStateService: SharedStateService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
-    this.currentUsername = this.authService.getCurrentUserName()||'User1';
+    this.currentUsername = this.authService.getUserName()||'User1';
     this.chatService.getChat(this.sharedStateService.getUserId(),this.sharedStateService.getChatId()).subscribe(
       (chat) => {
         this.chat = chat
@@ -37,6 +38,7 @@ export class ChatComponent implements OnInit {
           const dateB = new Date(b.timestamp); // Pretvori timestamp u Date objekat
           return dateA.getTime() - dateB.getTime(); // Sortiraj po vremenu
         });
+        this.chat.name=chat?.name?.replace(this.currentUsername,'')?.replace('-','')
       },
       (error) => {
         console.log(error);
@@ -44,6 +46,10 @@ export class ChatComponent implements OnInit {
           3000, true);
       }
     );
+  }
+
+  goToProfile(username: string): void {
+    this.router.navigate(['/profile', username]);
   }
 
   sendMessage() {

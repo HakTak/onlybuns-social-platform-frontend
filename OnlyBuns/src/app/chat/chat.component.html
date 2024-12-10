@@ -1,5 +1,5 @@
 <div class="chat-container">
-  <strong class="title">{{ chat?.name?.replace(currentUsername,'')?.replace('-','') }}</strong>
+  <strong (click)="goToProfile(chat?.name||'')" matTooltip="Show profile" class="title">{{ chat?.name }}</strong>
   <div class="chat-messages" #chatMessages>
     <div
       *ngFor="let message of chat?.messages"

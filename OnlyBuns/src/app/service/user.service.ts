@@ -34,6 +34,30 @@ export class UserService {
       }));
   }
 
+  searchUsers(query: string): Observable<User[]> {
+    var page = 0;
+    var size = 10;
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    const params = new URLSearchParams();
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+    params.append('search', query);
+
+    return this.http.get<User[]>(`${this.config.user_url}/searchForUsers?${params.toString()}`, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged as User', 3000, true);
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
+
   getUserByUsername(username: string): Observable<any> {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
@@ -44,7 +68,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin',3000,true);
+          this.notificationService.notify('You must be logged as Admin', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -74,14 +98,14 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin',3000,true);
+          this.notificationService.notify('You must be logged as Admin', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
     );
   }
 
-  getFollowings(page: number, size: number, searchParams: any, sort: string,username:string): Observable<User[]> {
+  getFollowings(page: number, size: number, searchParams: any, sort: string, username: string): Observable<User[]> {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
@@ -101,7 +125,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged in',3000,true);
+          this.notificationService.notify('You must be logged in', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -128,7 +152,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged in',3000,true);
+          this.notificationService.notify('You must be logged in', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -146,7 +170,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin',3000,true);
+          this.notificationService.notify('You must be logged as Admin', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -163,7 +187,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User',3000,true);
+          this.notificationService.notify('You must be logged as User', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -180,14 +204,14 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User',3000,true);
+          this.notificationService.notify('You must be logged as User', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
     );
   }
 
-  getMyChats(): Observable<User> { 
+  getMyChats(): Observable<User> {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
@@ -197,7 +221,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User',3000,true);
+          this.notificationService.notify('You must be logged as User', 3000, true);
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })

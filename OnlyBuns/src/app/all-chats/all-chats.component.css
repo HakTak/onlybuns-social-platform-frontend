@@ -101,7 +101,7 @@
   
 
   .header h1 {
-    font-size: 20px;
+    font-size: 30px;
     margin: 0;
   }
   
@@ -133,7 +133,7 @@
   }
   
   .chat-name {
-    font-size: 16px;
+    font-size: 20px;
     font-weight: bold;
   }
   
@@ -142,4 +142,49 @@
     color: #888;
   }
   
+  .user-search {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-search input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .search-results {
+    margin-top: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .search-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-radius: 4px;
+    color: white;
+  }
+  
+  .search-item:hover {
+    background-color: #f0f0f0;
+    color: black;
+  }
+  
+  .search-item img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .search-item span {
+    font-size: 20px;
+    font-weight: bold;
+  }
   

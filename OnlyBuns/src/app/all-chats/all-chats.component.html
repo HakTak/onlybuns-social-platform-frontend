@@ -17,6 +17,35 @@
     </span>
     <h1 *ngIf="!chatId || chatId == 0">Chats</h1>
   </div>
+
+  <div class="user-search" *ngIf="!chatId || chatId==0">
+    <div style="display: flex;flex-direction: row;">
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        (input)="searchUsers(searchQuery)"
+        placeholder="Search users..."
+      />
+      <span
+      class="return"
+      matTooltip="clear search"
+      (click)="ClearSearch()"
+    >
+      <mat-icon>clear</mat-icon>
+    </span>
+    </div>
+    <div class="search-results" *ngIf="searchResults.length > 0">
+      <div
+        class="search-item"
+        *ngFor="let user of searchResults"
+        (click)="startChatWithUser(user.id)"
+      >
+        <span>{{ user.username }}</span>
+      </div>
+    </div>
+  </div>
+  
+
   <div class="chat-list-container" *ngIf="!chatId || chatId == 0">
     <div class="chat-list">
       <div
@@ -31,7 +60,7 @@
           />
         </div>
         <div class="chat-info">
-          <span class="chat-name">{{ chat?.name?.replace(currentUsername,'')?.replace('-','') }}</span>
+          <span class="chat-name">{{ chat?.name?.replace(currentUsername, '')?.replace('-', '') }}</span>
           <span class="last-message">Last message preview...</span>
         </div>
       </div>
@@ -46,5 +75,6 @@
       <button (click)="addNewChat()">Add Chat</button>
     </div>
   </div>
+
   <app-chat *ngIf="chatId != 0" [chatId]="chatId"></app-chat>
 </div>
