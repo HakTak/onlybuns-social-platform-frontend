@@ -4,8 +4,8 @@
     <div
       *ngFor="let message of chat?.messages"
       class="message"
-      [class.sent]="message.sender.email === currentUsername"
-      [class.received]="message.sender.email !== currentUsername"
+      [class.sent]="message.sender.username === currentUsername"
+      [class.received]="message.sender.username !== currentUsername"
     >
       <strong class="sender">{{ message.sender.username }}</strong>
       <p class="content">{{ message.content }}</p>

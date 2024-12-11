@@ -73,6 +73,9 @@ export class AllChatsComponent implements OnInit {
     this.searchQuery = '';
     this.userService.getMyChats().subscribe((value) => {
       this.chats = value.chats;
+      for (let i = 0; i < this.chats.length; i++) {
+        this.chatService.joinChat(this.chats[i].id);
+      }
     },
       (error) => {
         console.log(error);

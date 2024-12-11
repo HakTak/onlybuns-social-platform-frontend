@@ -3,7 +3,7 @@ import { Message } from '@stomp/stompjs';
 import * as StompJs from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, Observable, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, Subject, throwError } from 'rxjs';
 import { ConfigService } from './config.service';
 import { Chat } from '../models/chat.model';
 import { Router } from '@angular/router';
@@ -18,14 +18,16 @@ export class ChatService {
   private messages: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private config: ConfigService,
     private router: Router,
     private notificationService: NotificationService
   ) {
     this.stompClient = new StompJs.Client({
-      brokerURL: 'ws://localhost:8080/ws',
-      connectHeaders: {},
+      webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
+      connectHeaders: {
+        Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+      },
       debug: (str) => {
         console.log(str);
       },
@@ -44,9 +46,14 @@ export class ChatService {
     };
 
     this.stompClient.activate();
+
+    this.messages.subscribe((messages) => {
+      console.log('Messages updated:', messages);
+      
+    });
   }
 
-  getChat(userId: number,chatId:number): Observable<Chat> {
+  getChat(userId: number, chatId: number): Observable<Chat> {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
@@ -66,24 +73,27 @@ export class ChatService {
     );
   }
 
-  /*joinChat(chatId: number) {
-    this.stompClient.subscribe(`/topic/chat/${chatId}`, (message: Message) => {
+  joinChat(chatId: number) {
+    this.stompClient.subscribe(`/topic/chat/${chatId}`, (message: any) => {
       const body = JSON.parse(message.body);
-      this.messages.next([...this.messages.value, body]);
+      this.messages.next([...this.messages.getValue(), body]);
+      for (let i = 0; i < this.messages.getValue().length; i++) {
+        console.log(this.messages.getValue()[i]);
+      }
     });
-  }*/
+  }
 
-  sendMessage(chatId: number, message: any) {
-    alert("chatId: " + chatId + " message: " + message.content);
+  sendMessage(chatId: number, content: string) {
+    alert("chatId: " + chatId + " message: " + content);
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
     });
-    /*this.stompClient.publish({
+    this.stompClient.publish({
       destination: `/app/chat.sendMessage/${chatId}`,
-      body: JSON.stringify(message),
+      body: JSON.stringify(content),
       headers: { 'Authorization': `Bearer ${token}` }
-    });*/
+    });
   }
 
   getChats(): Observable<any[]> {

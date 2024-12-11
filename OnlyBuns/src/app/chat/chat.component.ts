@@ -33,6 +33,7 @@ export class ChatComponent implements OnInit {
     this.chatService.getChat(this.sharedStateService.getUserId(),this.sharedStateService.getChatId()).subscribe(
       (chat) => {
         this.chat = chat
+        this.chatService.joinChat(this.chat?.id||-1);
         this.chat.messages = this.chat.messages.sort((a, b) => {
           const dateA = new Date(a.timestamp); // Pretvori timestamp u Date objekat
           const dateB = new Date(b.timestamp); // Pretvori timestamp u Date objekat
@@ -53,8 +54,7 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    const message = { content: this.messageContent, sender: 'User1' };
-    this.chatService.sendMessage(this.sharedStateService.getChatId(), message);
+    this.chatService.sendMessage(this.chat?.id||-1, this.messageContent);
     this.messageContent = '';
   }
 
