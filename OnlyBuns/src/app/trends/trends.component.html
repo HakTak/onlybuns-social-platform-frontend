@@ -9,12 +9,13 @@
   <div *ngIf="popularPostsLastWeek.length > 0; else noPostsWeekTemplate">
     <div class="post-list">
       <mat-card *ngFor="let post of popularPostsLastWeek" class="post-card">
+        <div class="image-container">
+          <img mat-card-image [src]="getImage(post.imagePath)" alt="Post image" *ngIf="post.imagePath">
+        </div>
         <mat-card-header>
           <mat-card-title>{{ post.description }}</mat-card-title>
           <mat-card-subtitle>Likes: {{ post.likeNumber }}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image [src]="post.imagePath" alt="Post image" *ngIf="post.imagePath">
-        
         <mat-card-content>
           <p>Created At: {{ post.createdAt | date:'medium' }}</p>
         </mat-card-content>
@@ -31,11 +32,13 @@
   <div *ngIf="popularPostsAllTime.length > 0; else noPostsAllTimeTemplate">
     <div class="post-list">
       <mat-card *ngFor="let post of popularPostsAllTime" class="post-card">
+        <div class="image-container">
+          <img mat-card-image [src]="getImage(post.imagePath)" alt="Post image" *ngIf="post.imagePath">
+        </div>
         <mat-card-header>
           <mat-card-title>{{ post.description }}</mat-card-title>
           <mat-card-subtitle>Likes: {{ post.likeNumber }}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image [src]="post.imagePath" alt="Post image" *ngIf="post.imagePath">
         <mat-card-content>
           <p>Created At: {{ post.createdAt | date:'medium' }}</p>
         </mat-card-content>
@@ -46,11 +49,6 @@
     <p>No posts available for all time.</p>
   </ng-template>
 </div>
-
-
-
-
-
 
 <div class="top-likers">
   <h3>Top 10 Users Who Gave the Most Likes (Last 7 Days)</h3>
@@ -72,4 +70,3 @@
     <p>No users found for the last 7 days.</p>
   </ng-template>
 </div>
-

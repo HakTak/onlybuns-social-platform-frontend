@@ -57,11 +57,12 @@ export class TrendsComponent implements OnInit {
   }
   
 
+
+  
+
   getImage(imgPath: string): string {
     const ret = `${this.config.posts_image_url}/${imgPath}`;
     return ret;
   }
-
-
 
 }
