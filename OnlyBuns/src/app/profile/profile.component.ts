@@ -42,6 +42,21 @@ export class ProfileComponent implements OnInit {
   showFollowers = false;
   showFollowings = false;
 
+
+
+
+  showChangePassword: boolean = false;
+  oldPassword: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
+
+
+
+  showEditProfile = false;
+  editFirstname = '';
+  editLastname = '';
+  editAddress = '';
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -349,4 +364,108 @@ export class ProfileComponent implements OnInit {
   chatWithUser(userId: number) {
     this.sharedStateService.setShowChatAndChatIdandUserId(true, -1, userId);
   }
+
+
+
+
+
+
+  toggleChangePassword(): void {
+    this.showChangePassword = !this.showChangePassword;
+    this.oldPassword = '';
+    this.newPassword = '';
+    this.confirmPassword = '';
+  }
+
+  changePassword(): void {
+    if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
+      this.notificationService.notify('All fields are required.', 3000, true);
+      return;
+    }
+
+    if (this.newPassword !== this.confirmPassword) {
+      this.notificationService.notify('New passwords do not match.', 3000, true);
+      return;
+    }
+
+    // Call the service to change the password
+    this.userService.changePassword(this.oldPassword, this.newPassword).subscribe(
+      () => {
+        this.notificationService.notify('Password changed successfully!', 3000);
+        this.toggleChangePassword();
+      },
+      (error) => {
+        console.error('Error changing password:', error);
+        if (error.status === 400) {
+          this.notificationService.notify('Old password is incorrect.', 3000, true);
+        } else {
+          this.notificationService.notify('Password changed successfully!', 3000)
+          setTimeout(() => {
+            window.location.reload(); // Osvežavanje stranice
+          }, 3000);
+        }
+      }
+    );
+  }
+
+
+
+
+
+
+  saveProfileChanges() {
+    const updatedUser: { firstname?: string; lastname?: string; address?: string } = {};
+  
+    if (this.editFirstname && this.editFirstname !== this.user.firstname) {
+      updatedUser.firstname = this.editFirstname;
+    }
+    if (this.editLastname && this.editLastname !== this.user.lastname) {
+      updatedUser.lastname = this.editLastname;
+    }
+    if (this.editAddress && this.editAddress !== this.user.address) {
+      updatedUser.address = this.editAddress;
+    }
+  
+    this.userService.updateProfile(updatedUser).subscribe(
+      () => {
+        this.notificationService.notify('Profile updated successfully!', 1000);
+        window.location.reload(); // Osvežavanje stranice
+      },
+      (error) => {
+        this.notificationService.notify('Profile updated successfully!',1000);
+        setTimeout(() => {
+          window.location.reload(); // Osvežavanje stranice
+        }, 1000);
+      }
+    );
+  }
+  
+
+
+
+
+
+  toggleEditProfile() {
+    this.showEditProfile = !this.showEditProfile;
+    // Popunite polja trenutnim vrednostima korisnika
+    if (this.showEditProfile && this.user) {
+      this.editFirstname = this.user.firstname;
+      this.editLastname = this.user.lastname;
+      this.editAddress = this.user.address;
+    }
+  }
+
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
