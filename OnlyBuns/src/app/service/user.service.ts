@@ -185,4 +185,42 @@ export class UserService {
       })
     );
   }
+
+
+  changePassword(oldPassword: string, newPassword: string): Observable<void> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    const payload = { oldPassword, newPassword }; // Telo zahteva
+    return this.http.post<void>('http://localhost:8080/api/users/change-password', payload, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login stranicu ako je pristup zabranjen
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged in to change your password', 3000, true);
+        }
+        return throwError(() => error); // Prosleđivanje greške dalje
+      })
+    );
+  }
+  
+
+
+
+  updateProfile(updatedUser: { firstname?: string; lastname?: string; address?: string }): Observable<void> {
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.put<void>('http://localhost:8080/api/users/update-profile', updatedUser, { headers });
+  }
+
+
+
+
+
+
+
 }

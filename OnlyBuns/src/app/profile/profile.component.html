@@ -112,3 +112,57 @@
       <app-all-users [username]="user.username" [followings]="true"></app-all-users>
   </div>
 </div>
+
+
+
+
+<div class="change-password-container">
+  <button class="change-password-button" (click)="toggleChangePassword()">Change Password</button>
+  
+  <div *ngIf="showChangePassword" class="change-password-form">
+    <mat-form-field appearance="outline">
+      <mat-label>Old Password</mat-label>
+      <input matInput [(ngModel)]="oldPassword" type="password" placeholder="Enter your old password" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>New Password</mat-label>
+      <input matInput [(ngModel)]="newPassword" type="password" placeholder="Enter your new password" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Confirm New Password</mat-label>
+      <input matInput [(ngModel)]="confirmPassword" type="password" placeholder="Confirm your new password" required>
+    </mat-form-field>
+
+    <button mat-button color="primary" (click)="changePassword()">Save Changes</button>
+    <button mat-button color="warn" (click)="toggleChangePassword()">Cancel</button>
+  </div>
+</div>
+
+
+
+
+<div class="edit-profile-container">
+  <button class="edit-profile-button" (click)="toggleEditProfile()">Edit Profile</button>
+  
+  <div *ngIf="showEditProfile" class="edit-profile-form">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput [(ngModel)]="editFirstname" type="text" placeholder="Enter your first name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput [(ngModel)]="editLastname" type="text" placeholder="Enter your last name">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput [(ngModel)]="editAddress" type="text" placeholder="Enter your address">
+    </mat-form-field>
+
+    <button mat-button color="primary" (click)="saveProfileChanges()">Save Changes</button>
+    <button mat-button color="warn" (click)="toggleEditProfile()">Cancel</button>
+  </div>
+</div>

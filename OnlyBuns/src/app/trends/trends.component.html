@@ -45,3 +45,19 @@
     <p>No posts available for all time.</p>
   </ng-template>
 </div>
+
+<div class="top-likers">
+  <h3>Top 10 Users Who Gave the Most Likes (Last 7 Days)</h3>
+  <div *ngIf="topLikers.length > 0; else noTopLikersTemplate">
+    <ul class="liker-list">
+      <li *ngFor="let liker of topLikers" class="liker-item">
+        <span class="liker-username">{{ liker.username }}</span> - 
+        <span class="liker-count">{{ liker.likeCount }} Likes</span>
+      </li>
+    </ul>
+  </div>
+  <ng-template #noTopLikersTemplate>
+    <p>No users found for the last 7 days.</p>
+  </ng-template>
+</div>
+
