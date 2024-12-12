@@ -9,6 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ChatService } from './chat.service';
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class AuthService {
     private apiService: ApiService,
     private userService: UserService,
     private config: ConfigService,
-    private router: Router
+    private router: Router,
   ) {
   }
 
@@ -86,12 +87,8 @@ export class AuthService {
       );
   }
 
-
-
-
-
   getRole(): string | null {
-    return localStorage.getItem('role');
+    return localStorage.getItem("role");
   }
 
 
@@ -105,11 +102,10 @@ export class AuthService {
       );
   }
 
-
-
   logout() {
     this.userService.currentUser = null;
     localStorage.removeItem("jwt");
+    localStorage.setItem("role", "Neautentifikovan"); // Sačuvaj rolu korisnika
     this.access_token = null;
     this.router.navigate(['/login']);
   }

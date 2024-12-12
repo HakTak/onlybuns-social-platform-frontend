@@ -61,7 +61,7 @@
         </div>
         <div class="chat-info">
           <span class="chat-name">{{ chat?.name?.replace(currentUsername, '')?.replace('-', '') }}</span>
-          <span class="last-message">Last message preview...</span>
+          <span class="last-message">{{getRelativeTime(chat.lastActivity)}}</span>
         </div>
       </div>
     </div>

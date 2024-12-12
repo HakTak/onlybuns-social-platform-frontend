@@ -3,7 +3,7 @@ import { ChatService } from '../service/chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharedStateService } from '../service/shared-state.service';
 import { NotificationService } from '../service/notification.service';
-import { Chat } from '../models/chat.model';
+import { Chat, Message } from '../models/chat.model';
 import { User } from '../models/user.model';
 import { AuthService } from '../service';
 
@@ -33,10 +33,11 @@ export class ChatComponent implements OnInit {
     this.chatService.getChat(this.sharedStateService.getUserId(),this.sharedStateService.getChatId()).subscribe(
       (chat) => {
         this.chat = chat
-        this.chatService.joinChat(this.chat?.id||-1);
+        alert("Chat id:"+this.chat?.id)
+        this.chatService.openSocket(this.chat?.id);
         this.chat.messages = this.chat.messages.sort((a, b) => {
-          const dateA = new Date(a.timestamp); // Pretvori timestamp u Date objekat
-          const dateB = new Date(b.timestamp); // Pretvori timestamp u Date objekat
+          const dateA = new Date(a.timestamp ?? 0); // Pretvori timestamp u Date objekat
+          const dateB = new Date(b.timestamp ?? 0); // Pretvori timestamp u Date objekat
           return dateA.getTime() - dateB.getTime(); // Sortiraj po vremenu
         });
         this.chat.name=chat?.name?.replace(this.currentUsername,'')?.replace('-','')
@@ -47,6 +48,14 @@ export class ChatComponent implements OnInit {
           3000, true);
       }
     );
+    this.chatService.message$.subscribe((message) => {
+      this.onNewMessage(message);
+    });
+  }
+
+  onNewMessage(message: Message) {
+    this.chat?.messages.push(message);
+    this.scrollToBottom();
   }
 
   goToProfile(username: string): void {

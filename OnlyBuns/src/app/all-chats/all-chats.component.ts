@@ -7,6 +7,7 @@ import { AuthService, UserService } from '../service';
 import { NotificationService } from '../service/notification.service';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { query } from '@angular/animations';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-all-chats',
@@ -74,7 +75,7 @@ export class AllChatsComponent implements OnInit {
     this.userService.getMyChats().subscribe((value) => {
       this.chats = value.chats;
       for (let i = 0; i < this.chats.length; i++) {
-        this.chatService.joinChat(this.chats[i].id);
+        this.chatService.openSocket(this.chats[i].id);
       }
     },
       (error) => {
@@ -84,6 +85,10 @@ export class AllChatsComponent implements OnInit {
     this.sharedStateService.chatId$.subscribe((value) => {
       this.chatId = value;
     });
+  }
+
+  getRelativeTime(date: Date): string {
+    return moment(date).fromNow();
   }
 
   openChat(chatId: number): void {

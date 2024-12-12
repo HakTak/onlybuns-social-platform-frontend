@@ -9,7 +9,7 @@ export interface Chat {
   admin: User;
   participants: User[];
   messages: Message[];
-
+  lastActivity: Date;
 }
 
 export enum ChatType{
@@ -18,8 +18,10 @@ export enum ChatType{
 }
 
 export interface Message {
-  id: number;
+  id?: number;
   content: string;
   sender: User;
+  senderUsername: string;
+  chatId: number;
   timestamp: Date;
 }
