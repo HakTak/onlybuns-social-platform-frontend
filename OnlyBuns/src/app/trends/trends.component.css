@@ -71,3 +71,23 @@ mat-card-image {
   color: gray;
   margin: 20px;
 }
+
+
+
+.top-likers {
+  margin: 20px 0;
+}
+
+.liker-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.liker-card {
+  width: 300px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+

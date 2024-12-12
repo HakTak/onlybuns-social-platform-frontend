@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrendService } from '../service/trend.service';
 import { User } from '../models/user.model';
+import { ConfigService } from '../service';
 
 @Component({
   selector: 'app-trends',
@@ -16,7 +17,7 @@ export class TrendsComponent implements OnInit {
 
 
 
-  constructor(private trendService: TrendService) {}
+  constructor(private trendService: TrendService,    private config: ConfigService,) {}
 
   ngOnInit(): void {
     this.loadTrends();
@@ -56,7 +57,10 @@ export class TrendsComponent implements OnInit {
   }
   
 
-
+  getImage(imgPath: string): string {
+    const ret = `${this.config.posts_image_url}/${imgPath}`;
+    return ret;
+  }
 
 
 

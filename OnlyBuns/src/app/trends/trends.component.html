@@ -14,6 +14,7 @@
           <mat-card-subtitle>Likes: {{ post.likeNumber }}</mat-card-subtitle>
         </mat-card-header>
         <img mat-card-image [src]="post.imagePath" alt="Post image" *ngIf="post.imagePath">
+        
         <mat-card-content>
           <p>Created At: {{ post.createdAt | date:'medium' }}</p>
         </mat-card-content>
@@ -46,15 +47,26 @@
   </ng-template>
 </div>
 
+
+
+
+
+
 <div class="top-likers">
   <h3>Top 10 Users Who Gave the Most Likes (Last 7 Days)</h3>
   <div *ngIf="topLikers.length > 0; else noTopLikersTemplate">
-    <ul class="liker-list">
-      <li *ngFor="let liker of topLikers" class="liker-item">
-        <span class="liker-username">{{ liker.username }}</span> - 
-        <span class="liker-count">{{ liker.likeCount }} Likes</span>
-      </li>
-    </ul>
+    <div class="liker-card-list">
+      <mat-card *ngFor="let liker of topLikers" class="liker-card">
+        <mat-card-header>
+          <mat-card-title>{{ liker.firstName }} {{ liker.lastName }}</mat-card-title>
+          <mat-card-subtitle>{{ liker.username }}</mat-card-subtitle>
+          <mat-card-subtitle>{{ liker.email }}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Total Likes Given: {{ liker.likeCount }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
   </div>
   <ng-template #noTopLikersTemplate>
     <p>No users found for the last 7 days.</p>
