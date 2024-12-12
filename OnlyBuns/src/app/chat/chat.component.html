@@ -1,17 +1,32 @@
 <div class="chat-container">
-  <strong (click)="goToProfile(chat?.name||'')" matTooltip="Show profile" class="title">{{ chat?.name }}</strong>
-  <div class="chat-messages" #chatMessages>
-    <div
-      *ngFor="let message of chat?.messages"
-      class="message"
-      [class.sent]="message.sender.username === currentUsername"
-      [class.received]="message.sender.username !== currentUsername"
-    >
-      <strong class="sender">{{ message.sender.username }}</strong>
-      <p class="content">{{ message.content }}</p>
-      <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
+  <strong (click)="goToProfile(chat?.name || '')" matTooltip="Show profile" class="title">{{ chat?.name }}</strong>
+  <div class="chat-messages" #chatMessages (scroll)="onScroll()">
+    <div *ngFor="let group of groupedMessages" class="chat-messages-child">
+      <!-- Prikaz datuma -->
+      <div class="date-separator">{{ group.date }}</div>
+      <!-- Prikaz poruka za taj datum -->
+      <div
+        *ngFor="let message of group.messages"
+        class="message"
+        [class.sent]="message.sender.username === currentUsername"
+        [class.received]="message.sender.username !== currentUsername"
+      >
+        <strong class="sender">{{ message.sender.username }}</strong>
+        <p class="content">{{ message.content }}</p>
+        <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
+      </div>
     </div>
   </div>
+
+  <!-- Dugme za skrolovanje na dno -->
+  <button 
+    class="scroll-to-bottom" 
+    *ngIf="!isAtBottom" 
+    (click)="scrollToBottom()"
+    matTooltip="Scroll to bottom">
+    ⬇️
+  </button>
+
   <div class="input-container">
     <input
       class="chat-input"

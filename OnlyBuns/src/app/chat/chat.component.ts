@@ -15,10 +15,12 @@ import { AuthService } from '../service';
 export class ChatComponent implements OnInit {
   messages: any[] = [];
   messageContent: string = '';
-  chat: Chat|undefined;
-  currentUsername:string = 'User1';
-  @ViewChild('chatMessages') private chatMessagesContainer: ElementRef= new ElementRef(null);
-  
+  chat: Chat | undefined;
+  currentUsername: string = 'User1';
+  @ViewChild('chatMessages') private chatMessagesContainer: ElementRef = new ElementRef(null);
+  groupedMessages: { date: string; messages: Message[] }[] = [];
+  isAtBottom: boolean = true;
+
   constructor(
     private chatService: ChatService,
     private route: ActivatedRoute,
@@ -29,18 +31,20 @@ export class ChatComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.currentUsername = this.authService.getUserName()||'User1';
-    this.chatService.getChat(this.sharedStateService.getUserId(),this.sharedStateService.getChatId()).subscribe(
+    this.currentUsername = this.authService.getUserName() || 'User1';
+    this.chatService.getChat(this.sharedStateService.getUserId(), this.sharedStateService.getChatId()).subscribe(
       (chat) => {
         this.chat = chat
-        alert("Chat id:"+this.chat?.id)
+        // alert("Chat id:"+this.chat?.id)
         this.chatService.openSocket(this.chat?.id);
+        this.sharedStateService.setChatId(this.chat?.id || -1);
         this.chat.messages = this.chat.messages.sort((a, b) => {
           const dateA = new Date(a.timestamp ?? 0); // Pretvori timestamp u Date objekat
           const dateB = new Date(b.timestamp ?? 0); // Pretvori timestamp u Date objekat
           return dateA.getTime() - dateB.getTime(); // Sortiraj po vremenu
         });
-        this.chat.name=chat?.name?.replace(this.currentUsername,'')?.replace('-','')
+        this.chat.name = chat?.name?.replace(this.currentUsername, '')?.replace('-', '')
+        this.groupedMessages = this.groupMessagesByDate(this.chat.messages);
       },
       (error) => {
         console.log(error);
@@ -54,7 +58,29 @@ export class ChatComponent implements OnInit {
   }
 
   onNewMessage(message: Message) {
-    this.chat?.messages.push(message);
+    const messageDate = new Date(message.timestamp).toDateString(); // Datum poruke
+
+    // Pronađi postojeću grupu za datum
+    const group = this.groupedMessages.find(group => group.date === messageDate);
+
+    if (group) {
+      // Dodaj poruku u postojeću grupu
+      group.messages.push(message);
+
+      // Sortiraj poruke unutar grupe po vremenu
+      group.messages.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+    } else {
+      // Ako grupa za datum ne postoji, kreiraj novu
+      this.groupedMessages.push({
+        date: messageDate,
+        messages: [message]
+      });
+
+      // Sortiraj grupe po datumu (najnoviji na dnu)
+      this.groupedMessages.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+    }
+
+    // Skroluj na dno nakon dodavanja poruke
     this.scrollToBottom();
   }
 
@@ -63,12 +89,19 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMessage(this.chat?.id||-1, this.messageContent);
+    this.chatService.sendMessage(this.chat?.id || -1, this.messageContent);
     this.messageContent = '';
   }
 
-  ngAfterViewChecked() {
-    this.scrollToBottom();
+  ngAfterViewInit(): void {
+    const observer = new MutationObserver(() => {
+      this.scrollToBottom();
+    });
+
+    observer.observe(this.chatMessagesContainer.nativeElement, {
+      childList: true, // Prati promene u broju dece
+      subtree: true,   // Prati promene u svim nivoima DOM stabla
+    });
   }
 
   scrollToBottom(): void {
@@ -78,4 +111,26 @@ export class ChatComponent implements OnInit {
       console.error('Error scrolling to bottom:', err);
     }
   }
+
+  groupMessagesByDate(messages: Message[]): any[] {
+    const groupedMessages = messages.reduce((acc: { [key: string]: Message[] }, message) => {
+      const date = new Date(message.timestamp).toDateString(); // Formatirajte datum
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(message);
+      return acc;
+    }, {});
+
+    return Object.entries(groupedMessages).map(([date, msgs]) => ({
+      date,
+      messages: msgs,
+    }));
+  }
+
+  onScroll(): void {
+    const { scrollTop, scrollHeight, clientHeight } = this.chatMessagesContainer.nativeElement;
+    this.isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // Tolerancija od 10px
+  }
+
 }
