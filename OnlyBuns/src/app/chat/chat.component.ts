@@ -87,8 +87,10 @@ export class ChatComponent implements OnInit {
     this.scrollToBottom();
   }
 
-  goToProfile(username: string): void {
-    this.router.navigate(['/profile', username]);
+  goToProfile(username: string, type: string): void {
+    if (type != 'GROUP') {
+      this.router.navigate(['/profile', username]);
+    }
   }
 
   sendMessage() {
@@ -154,7 +156,7 @@ export class ChatComponent implements OnInit {
   toggleEmojiPicker() {
     this.showEmojiPicker = !this.showEmojiPicker;
   }
-  
+
   addEmoji(emoji: string) {
     this.messageContent += emoji;
     //this.showEmojiPicker = false;

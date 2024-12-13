@@ -60,8 +60,21 @@ export class ChatService {
     );
   }
 
-  createChat(name: string): Observable<any> {
-    return this.http.post<any>(this.config.chat_url, { name });
+  createChat(name: string): Observable<Chat> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.post<Chat>(this.config.chat_url+ `/${name}`,{},{headers}).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged as User', 3000, true);
+        }
+        return throwError(() => error);
+      })
+    );
   }
 
   initializeWebSocketConnection() {

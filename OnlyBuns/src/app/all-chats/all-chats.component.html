@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar" style="max-height: 90vh;">
   <div class="header">
     <span class="return" *ngIf="chatId != 0" matTooltip="Return" (click)="returnToChats()">
       <mat-icon>arrow_back</mat-icon>
@@ -6,10 +6,13 @@
     <span class="close" matTooltip="Close chat" (click)="changeShowingChat()">
       &times;
     </span>
+    <span class="close" matTooltip="Create group chat" (click)="changeShowingNewChat()">
+      <img src="assets/group-chat.png" style="width: 35px;" alt="group chat">
+    </span>
     <h1 *ngIf="!chatId || chatId == 0">Chats</h1>
   </div>
 
-  <div class="user-search" *ngIf="!chatId || chatId==0">
+  <div class="user-search" style="margin: 0px;" *ngIf="!chatId || chatId==0">
     <div style="display: flex;flex-direction: row;">
       <div class="inputGroup">
         <input type="text" required="" [(ngModel)]="searchQuery" (input)="searchUsers(searchQuery)" autocomplete="off">
@@ -27,9 +30,9 @@
   </div>
 
 
-  <div class="chat-list-container" *ngIf="!chatId || chatId == 0">
+  <div class="chat-list-container" *ngIf="!chatId || chatId == 0" style="overflow-y: scroll;">
     <div class="chat-list">
-      <div *ngFor="let chat of chats" class="chat-item" (click)="openChat(chat.id)">
+      <div *ngFor="let chat of chats" class="chat-item" style="padding: 5px;margin-right: 10px;" (click)="openChat(chat.id)">
         <div class="chat-avatar">
           <img src="assets/logo.png" alt="Chat Avatar" />
         </div>
@@ -40,11 +43,30 @@
       </div>
     </div>
 
-    <div class="new-chat">
-      <input type="text" [(ngModel)]="newChatName" placeholder="Enter new chat name" />
-      <button (click)="addNewChat()">Add Chat</button>
-    </div>
   </div>
 
   <app-chat *ngIf="chatId != 0" [chatId]="chatId"></app-chat>
+</div>
+
+<div *ngIf="showNewChat" class="new-chat" style="padding-top: 10px;" class="new-chat">
+  <span class="return" style="font-size: 40px;margin: 0px;margin-left: auto;" matTooltip="Close window"
+    (click)="changeShowingNewChat()">
+    &times;
+  </span>
+  <div class="wave-group">
+    <input required="" type="text" [(ngModel)]="newChatName" class="input">
+    <span class="bar"></span>
+    <label class="label">
+      <span class="label-char" style="--index: 0">C</span>
+      <span class="label-char" style="--index: 1">h</span>
+      <span class="label-char" style="--index: 2">a</span>
+      <span class="label-char" style="--index: 3">t</span>
+      <span class="label-char" style="--index: 3">&nbsp;</span>
+      <span class="label-char" style="--index: 0">n</span>
+      <span class="label-char" style="--index: 1">a</span>
+      <span class="label-char" style="--index: 2">m</span>
+      <span class="label-char" style="--index: 3">e</span>
+    </label>
+  </div>
+  <button (click)="addNewChat()">Add Chat</button>
 </div>

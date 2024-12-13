@@ -1,5 +1,5 @@
 <div class="chat-container">
-  <strong (click)="goToProfile(chat?.name || '')" matTooltip="Show profile" class="title">{{ chat?.name }}</strong>
+  <strong (click)="goToProfile(chat?.name || '',chat?.type||'')" matTooltip="Show profile" class="title">{{ chat?.name }}</strong>
   <div class="chat-messages" #chatMessages (scroll)="onScroll()">
     <div *ngFor="let group of groupedMessages" class="chat-messages-child">
       <!-- Prikaz datuma -->

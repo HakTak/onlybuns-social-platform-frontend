@@ -22,6 +22,7 @@ export class AllChatsComponent implements OnInit {
   searchQuery: string = '';
   searchResults: any[] = [];
   searchSubject: Subject<string> = new Subject<string>();
+  showNewChat: boolean = false;
 
   constructor(
     private chatService: ChatService,
@@ -109,7 +110,13 @@ export class AllChatsComponent implements OnInit {
         this.chats.push(newChat); // Dodaj novi čet u listu
         this.newChatName = ''; // Resetuj polje
         this.openChat(newChat.id); // Otvori novi čet
+        this.showNewChat = false;
+        this.notificationService.notify('Group chat created successfuly', 3000, false);
       });
     }
+  }
+
+  changeShowingNewChat(){
+    this.showNewChat = !this.showNewChat;
   }
 }
