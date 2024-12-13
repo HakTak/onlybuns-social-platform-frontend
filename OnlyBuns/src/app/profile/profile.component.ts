@@ -49,7 +49,7 @@ export class ProfileComponent implements OnInit {
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
-
+  loggedInUserName: any='';
 
 
   showEditProfile = false;
@@ -72,6 +72,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     // Pretplatite se na promene parametara za 'username'
+    this.loggedInUserName = this.authService.getUserName();
     this.route.paramMap.subscribe(params => {
       this.username = params.get('username') || '';
       if (this.username) {

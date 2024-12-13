@@ -1,18 +1,9 @@
 <div class="sidebar">
   <div class="header">
-    <span
-      class="return"
-      *ngIf="chatId != 0"
-      matTooltip="Return"
-      (click)="returnToChats()"
-    >
+    <span class="return" *ngIf="chatId != 0" matTooltip="Return" (click)="returnToChats()">
       <mat-icon>arrow_back</mat-icon>
     </span>
-    <span
-      class="close"
-      matTooltip="Close chat"
-      (click)="changeShowingChat()"
-    >
+    <span class="close" matTooltip="Close chat" (click)="changeShowingChat()">
       &times;
     </span>
     <h1 *ngIf="!chatId || chatId == 0">Chats</h1>
@@ -20,44 +11,27 @@
 
   <div class="user-search" *ngIf="!chatId || chatId==0">
     <div style="display: flex;flex-direction: row;">
-      <input
-        type="text"
-        [(ngModel)]="searchQuery"
-        (input)="searchUsers(searchQuery)"
-        placeholder="Search users..."
-      />
-      <span
-      class="return"
-      matTooltip="clear search"
-      (click)="ClearSearch()"
-    >
-      <mat-icon>clear</mat-icon>
-    </span>
+      <div class="inputGroup">
+        <input type="text" required="" [(ngModel)]="searchQuery" (input)="searchUsers(searchQuery)" autocomplete="off">
+        <label for="name">Search users</label>
+      </div>
+      <span class="return" matTooltip="clear search" (click)="ClearSearch()">
+        <mat-icon>clear</mat-icon>
+      </span>
     </div>
     <div class="search-results" *ngIf="searchResults.length > 0">
-      <div
-        class="search-item"
-        *ngFor="let user of searchResults"
-        (click)="startChatWithUser(user.id)"
-      >
+      <div class="search-item" *ngFor="let user of searchResults" (click)="startChatWithUser(user.id)">
         <span>{{ user.username }}</span>
       </div>
     </div>
   </div>
-  
+
 
   <div class="chat-list-container" *ngIf="!chatId || chatId == 0">
     <div class="chat-list">
-      <div
-        *ngFor="let chat of chats"
-        class="chat-item"
-        (click)="openChat(chat.id)"
-      >
+      <div *ngFor="let chat of chats" class="chat-item" (click)="openChat(chat.id)">
         <div class="chat-avatar">
-          <img
-            src="assets/logo.png"
-            alt="Chat Avatar"
-          />
+          <img src="assets/logo.png" alt="Chat Avatar" />
         </div>
         <div class="chat-info">
           <span class="chat-name">{{ chat?.name?.replace(currentUsername, '')?.replace('-', '') }}</span>
@@ -67,11 +41,7 @@
     </div>
 
     <div class="new-chat">
-      <input
-        type="text"
-        [(ngModel)]="newChatName"
-        placeholder="Enter new chat name"
-      />
+      <input type="text" [(ngModel)]="newChatName" placeholder="Enter new chat name" />
       <button (click)="addNewChat()">Add Chat</button>
     </div>
   </div>

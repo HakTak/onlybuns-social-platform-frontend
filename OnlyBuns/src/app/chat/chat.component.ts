@@ -20,6 +20,9 @@ export class ChatComponent implements OnInit {
   @ViewChild('chatMessages') private chatMessagesContainer: ElementRef = new ElementRef(null);
   groupedMessages: { date: string; messages: Message[] }[] = [];
   isAtBottom: boolean = true;
+  showEmojiPicker: boolean = false;
+  emojis: string[] = ['😊', '☹️', '😄', '😜', '❤️', '😮', '😉'];
+
 
   constructor(
     private chatService: ChatService,
@@ -133,4 +136,27 @@ export class ChatComponent implements OnInit {
     this.isAtBottom = scrollTop + clientHeight >= scrollHeight - 10; // Tolerancija od 10px
   }
 
+  convertEmojis(text: string): string {
+    const emojiMap: { [key: string]: string } = {
+      ':)': '😊',
+      ':(': '☹️',
+      ':D': '😄',
+      ':P': '😜',
+      '<3': '❤️',
+      ':o': '😮',
+      ';)': '😉'
+    };
+
+    // Regularno izražavanje za pronalaženje smajlija i zamenu sa emojijima
+    return text.replace(/[:;<(3)oP]+/g, match => emojiMap[match] || match);
+  }
+
+  toggleEmojiPicker() {
+    this.showEmojiPicker = !this.showEmojiPicker;
+  }
+  
+  addEmoji(emoji: string) {
+    this.messageContent += emoji;
+    //this.showEmojiPicker = false;
+  }
 }

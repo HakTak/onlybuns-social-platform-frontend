@@ -5,66 +5,41 @@
       <div class="profile-info">
         <h2 class="profile-username">{{ user.username }}</h2>
         <div style="margin-top: 10px;display: flex;flex-direction: column;">
-          <button (click)="showFollowers=true" style="background-color: var(--primary); width: 150px;" class="follow-button">Followers: {{
+          <button (click)="showFollowers=true" style="background-color: var(--primary); width: 150px;"
+            class="follow-button">Followers: {{
             user.followersCount }}</button>
-          <button (click)="showFollowings=true" style="background-color: var(--primary); width: 150px;" class="follow-button">Following: {{
+          <button (click)="showFollowings=true" style="background-color: var(--primary); width: 150px;"
+            class="follow-button">Following: {{
             user.followingCount }}</button>
         </div>
 
 
-        
+
 
 
         <div class="profile-actions-container">
-          <!-- Change Password Section -->
-          <div class="profile-action">
-            <h2>Change Password</h2>
-            <button class="action-button" (click)="toggleChangePassword()">Change Password</button>
-            
-            <div *ngIf="showChangePassword" class="action-form">
-              <mat-form-field appearance="outline">
-                <mat-label>Old Password</mat-label>
-                <input matInput [(ngModel)]="oldPassword" type="password" placeholder="Enter your old password" required>
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline">
-                <mat-label>New Password</mat-label>
-                <input matInput [(ngModel)]="newPassword" type="password" placeholder="Enter your new password" required>
-              </mat-form-field>
-        
-              <mat-form-field appearance="outline">
-                <mat-label>Confirm New Password</mat-label>
-                <input matInput [(ngModel)]="confirmPassword" type="password" placeholder="Confirm your new password" required>
-              </mat-form-field>
-        
-              <div class="action-buttons">
-                <button mat-button color="primary" (click)="changePassword()">Save Changes</button>
-                <button mat-button color="warn" (click)="toggleChangePassword()">Cancel</button>
-              </div>
-            </div>
-          </div>
-        
+
           <!-- Edit Profile Section -->
-          <div class="profile-action">
+          <div class="profile-action" *ngIf="user.username==loggedInUserName">
             <h2>Edit Profile</h2>
             <button class="action-button" (click)="toggleEditProfile()">Edit Profile</button>
-            
+
             <div *ngIf="showEditProfile" class="action-form">
               <mat-form-field appearance="outline">
                 <mat-label>First Name</mat-label>
                 <input matInput [(ngModel)]="editFirstname" type="text" placeholder="Enter your first name">
               </mat-form-field>
-        
+
               <mat-form-field appearance="outline">
                 <mat-label>Last Name</mat-label>
                 <input matInput [(ngModel)]="editLastname" type="text" placeholder="Enter your last name">
               </mat-form-field>
-        
+
               <mat-form-field appearance="outline">
                 <mat-label>Address</mat-label>
                 <input matInput [(ngModel)]="editAddress" type="text" placeholder="Enter your address">
               </mat-form-field>
-        
+
               <div class="action-buttons">
                 <button mat-button color="primary" (click)="saveProfileChanges()">Save Changes</button>
                 <button mat-button color="warn" (click)="toggleEditProfile()">Cancel</button>
@@ -72,12 +47,35 @@
             </div>
           </div>
         </div>
-        
 
+        <!-- Change Password Section -->
+        <div class="profile-action" *ngIf="user.username==loggedInUserName">
+          <h2>Change Password</h2>
+          <button class="action-button" (click)="toggleChangePassword()">Change Password</button>
 
+          <div *ngIf="showChangePassword" class="action-form">
+            <mat-form-field appearance="outline">
+              <mat-label>Old Password</mat-label>
+              <input matInput [(ngModel)]="oldPassword" type="password" placeholder="Enter your old password" required>
+            </mat-form-field>
 
+            <mat-form-field appearance="outline">
+              <mat-label>New Password</mat-label>
+              <input matInput [(ngModel)]="newPassword" type="password" placeholder="Enter your new password" required>
+            </mat-form-field>
 
+            <mat-form-field appearance="outline">
+              <mat-label>Confirm New Password</mat-label>
+              <input matInput [(ngModel)]="confirmPassword" type="password" placeholder="Confirm your new password"
+                required>
+            </mat-form-field>
 
+            <div class="action-buttons">
+              <button mat-button color="primary" (click)="changePassword()">Save Changes</button>
+              <button mat-button color="warn" (click)="toggleChangePassword()">Cancel</button>
+            </div>
+          </div>
+        </div>
 
 
         <div class="profile-actions" *ngIf="!isThisMyProfile">
@@ -94,7 +92,7 @@
           <button style="width: 100%;background-color: var(--primary);" class="follow-button"
             (click)="chatWithUser(user.id)" matTooltip="sent message">
             Sent message
-            <mat-icon >chat</mat-icon>
+            <mat-icon>chat</mat-icon>
           </button>
         </div>
       </div>
@@ -170,7 +168,7 @@
       <h1 style="justify-content: center; color: var(--primary); font-weight: bold;">Followers</h1>
     </div>
     <span class="close" (click)="showFollowers = false" matTooltip="Close window">&times;</span>
-      <app-all-users [username]="user.username" [followers]="true"></app-all-users>
+    <app-all-users [username]="user.username" [followers]="true"></app-all-users>
   </div>
 </div>
 <div *ngIf="showFollowings" class="modal">
@@ -179,11 +177,6 @@
       <h1 style="justify-content: center; color: var(--primary); font-weight: bold;">Followings</h1>
     </div>
     <span class="close" matTooltip="Close window" (click)="showFollowings = false">&times;</span>
-      <app-all-users [username]="user.username" [followings]="true"></app-all-users>
+    <app-all-users [username]="user.username" [followings]="true"></app-all-users>
   </div>
 </div>
-
-
-
-
-

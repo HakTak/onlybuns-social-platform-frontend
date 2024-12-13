@@ -5,36 +5,46 @@
       <!-- Prikaz datuma -->
       <div class="date-separator">{{ group.date }}</div>
       <!-- Prikaz poruka za taj datum -->
-      <div
-        *ngFor="let message of group.messages"
-        class="message"
+      <div *ngFor="let message of group.messages" class="message"
         [class.sent]="message.sender.username === currentUsername"
-        [class.received]="message.sender.username !== currentUsername"
-      >
+        [class.received]="message.sender.username !== currentUsername">
         <strong class="sender">{{ message.sender.username }}</strong>
-        <p class="content">{{ message.content }}</p>
+        <p class="content" [innerHTML]="convertEmojis(message.content)"></p>
         <span class="timestamp">{{ message.timestamp | date: 'shortTime' }}</span>
       </div>
     </div>
   </div>
 
   <!-- Dugme za skrolovanje na dno -->
-  <button 
-    class="scroll-to-bottom" 
-    *ngIf="!isAtBottom" 
-    (click)="scrollToBottom()"
-    matTooltip="Scroll to bottom">
+  <button class="scroll-to-bottom" *ngIf="!isAtBottom" (click)="scrollToBottom()" matTooltip="Scroll to bottom">
     ⬇️
   </button>
 
-  <div class="input-container">
-    <input
-      class="chat-input"
-      type="text"
-      [(ngModel)]="messageContent"
-      placeholder="Enter your message..."
-      (keyup.enter)="sendMessage()"
-    />
-    <button class="send-button" matTooltip="Send message" (click)="sendMessage()">Send</button>
+  <div class="input-container" (keyup.enter)="sendMessage()">
+    <div class="messageBox">
+      <div class="emoji-picker">
+        <button matTooltip="Add emoji" style="border-radius: 10px;background-color: var(--primary);"
+          (click)="toggleEmojiPicker()">😀</button>
+        <div *ngIf="showEmojiPicker" class="emoji-list">
+          <span *ngFor="let emoji of emojis" (click)="addEmoji(emoji)">{{ emoji }}</span>
+        </div>
+      </div>
+      <input required="" [(ngModel)]="messageContent" placeholder="Enter your message..." type="text"
+        id="messageInput" />
+      <button id="sendButton" matTooltip="Send message" (click)="sendMessage()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 664 663">
+          <path fill="none"
+            d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+          </path>
+          <path stroke-linejoin="round" stroke-linecap="round" stroke-width="33.67" stroke="#6c6c6c"
+            d="M646.293 331.888L17.7538 17.6187L155.245 331.888M646.293 331.888L17.753 646.157L155.245 331.888M646.293 331.888L318.735 330.228L155.245 331.888">
+          </path>
+        </svg>
+      </button>
+    </div>
+
+    <!-- <input class="chat-input" type="text" [(ngModel)]="messageContent" placeholder="Enter your message..."
+      (keyup.enter)="sendMessage()" />
+    <button class="send-button" matTooltip="Send message" (click)="sendMessage()">Send</button> -->
   </div>
 </div>
