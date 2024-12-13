@@ -170,11 +170,11 @@
   /* background-color: #2d2d2d; */
   padding: 0 15px;
   border-radius: 10px;
-  border: 2px solid var(--primary);
+  border: 1px dashed var(--primary);
 }
 
 .messageBox:focus-within {
-  border: 2px solid var(--primary);
+  border: 1px solid var(--primary);
 }
 
 .fileUploadWrapper {
@@ -305,4 +305,238 @@
 .emoji-list span {
   cursor: pointer;
   font-size: 20px;
+}
+
+
+.new-chat {
+  z-index: 20000;
+  position: absolute;
+  top: 15%;
+  right: 5%;
+  background-color: var(--primary);
+  padding: 30px;
+  border-radius: 10px;
+  break-inside: avoid;
+  height: 550px;
+  width: 400px;
+}
+
+.return {
+  color: #aaa;
+  z-index: 20000;
+  float: right;
+  font-size: 80px;
+  margin-right: auto;
+  margin-left: 15px;
+  margin-top: 0px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.return:hover,
+.return:focus {
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.user-search {
+  padding: 0px;
+  border-bottom: 1px solid #ddd;
+}
+
+.user-search input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-results {
+  margin-top: 0px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 4px;
+  color: white;
+}
+
+.search-item:hover {
+  background-color: #f0f0f0;
+  color: black;
+}
+
+.search-item img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.search-item span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+
+/* From Uiverse.io by Maximinodotpy */
+.inputGroup {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 1em 0 1em 0;
+  width: 400px;
+  position: relative;
+  cursor: text;
+}
+
+.inputGroup input {
+  font-size: 100%;
+  color: white;
+  padding: 0.4em;
+  font-size: x-large;
+  outline: none;
+  border: 2px solid rgb(200, 200, 200);
+  background-color: transparent;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.inputGroup label {
+  font-size: 100%;
+  position: absolute;
+  left: 0;
+  padding: 0.8em;
+  margin-left: 0.5em;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.inputGroup :is(input:focus, input:valid)~label {
+  transform: translateY(-50%) scale(.9);
+  margin: 0em;
+  margin-left: 1.3em;
+  padding: 0.4em;
+  background-color: var(--primary);
+  color: var(--accent);
+}
+
+.inputGroup :is(input:focus, input:valid) {
+  border-color: var(--accent)
+}
+
+/* From Uiverse.io by vinodjangid07 */ 
+.button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgb(20, 20, 20);
+  border: none;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+  cursor: pointer;
+  transition-duration: 0.3s;
+  overflow: hidden;
+  position: relative;
+  gap: 2px;
+}
+
+.svgIcon {
+  width: 12px;
+  transition-duration: 0.3s;
+}
+
+.svgIcon path {
+  fill: white;
+}
+
+.button:hover {
+  transition-duration: 0.3s;
+  background-color: rgb(255, 69, 69);
+  align-items: center;
+  gap: 0;
+}
+
+.bin-top {
+  transform-origin: bottom right;
+}
+.button:hover .bin-top {
+  transition-duration: 0.5s;
+  transform: rotate(160deg);
+}
+
+/* From Uiverse.io by OnCloud125252 */ 
+/* Note that you only needs to edit the config to customize the button! */
+
+.plusButton {
+  /* Config start */
+  --plus_sideLength: 1.5rem;
+  --plus_topRightTriangleSideLength: 0.9rem;
+  /* Config end */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--primary);
+  width: var(--plus_sideLength);
+  height: var(--plus_sideLength);
+  background-color: var(--accent);
+  overflow: hidden;
+}
+
+.plusButton::before {
+  position: absolute;
+  content: "";
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-width: 0 var(--plus_topRightTriangleSideLength) var(--plus_topRightTriangleSideLength) 0;
+  border-style: solid;
+  border-color: transparent var(--primary) transparent transparent;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.2s;
+}
+
+.plusButton:hover {
+  cursor: pointer;
+}
+
+.plusButton:hover::before {
+  --plus_topRightTriangleSideLength: calc(var(--plus_sideLength) * 2);
+}
+
+.plusButton:focus-visible::before {
+  --plus_topRightTriangleSideLength: calc(var(--plus_sideLength) * 2);
+}
+
+.plusButton>.plusIcon {
+  fill: black;
+  width: calc(var(--plus_sideLength) * 0.7);
+  height: calc(var(--plus_sideLength) * 0.7);
+  z-index: 1;
+  transition-timing-function: ease-in-out;
+  transition-duration: 0.2s;
+}
+
+.plusButton:hover>.plusIcon {
+  fill: white;
+  transform: rotate(180deg);
+}
+
+.plusButton:focus-visible>.plusIcon {
+  fill: white;
+  transform: rotate(180deg);
 }

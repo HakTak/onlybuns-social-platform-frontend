@@ -44,7 +44,7 @@ export class AllChatsComponent implements OnInit {
       .pipe(
         debounceTime(300), // Čeka 300ms nakon poslednjeg unosa
         distinctUntilChanged(), // Izbegava duplirane unose
-        switchMap((query) => this.userService.searchUsers(query)) // Poziva servis za pretragu
+        switchMap((query) => this.userService.searchUsers(query,10)) // Poziva servis za pretragu
       )
       .subscribe(
         (results) => (this.searchResults = results), // Ažurira rezultate pretrage

@@ -34,9 +34,8 @@ export class UserService {
       }));
   }
 
-  searchUsers(query: string): Observable<User[]> {
+  searchUsers(query: string,size:number): Observable<User[]> {
     var page = 0;
-    var size = 10;
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header

@@ -60,12 +60,32 @@ export class ChatService {
     );
   }
 
+  getChatParticipants(chatId: number): Observable<User[]> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.get<User[]>(this.config.chat_url + `/getParticipants/${chatId}`, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged as User', 3000, true);
+        }
+        if (error.status === 500) {
+          this.notificationService.notify('Internal server error', 3000, true);
+        }
+        return throwError(() => error);  // Prosleđivanje greške dalje
+      })
+    );
+  }
+
   createChat(name: string): Observable<Chat> {
     const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
     });
-    return this.http.post<Chat>(this.config.chat_url+ `/${name}`,{},{headers}).pipe(
+    return this.http.post<Chat>(this.config.chat_url + `/${name}`, {}, { headers }).pipe(
       catchError(error => {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
@@ -171,21 +191,21 @@ export class ChatService {
   openSocket(chatId: number) {
     if (this.isLoaded) {
       const topic = "/socket-publisher/" + chatId;
-  
+
       if (this.subscribedTopics.has(topic)) {
         console.log(`Already subscribed to topic: ${topic}`);
         return;
       }
-  
+
       const subscription = this.stompClient.subscribe(topic, (message: { body: string }) => {
         this.handleResult(message);
       });
-  
+
       this.subscribedTopics.set(topic, subscription.id); // Sačuvajte ID pretplate
       console.log(`Subscribed to topic: ${topic}`);
     }
   }
-  
+
   unsubscribe() {
     this.subscribedTopics.forEach((value, key) => {
       this.stompClient.unsubscribe(value);
@@ -195,7 +215,7 @@ export class ChatService {
 
   unsubscribeFromTopic(topic: string) {
     const subscriptionId = this.subscribedTopics.get(topic); // Preuzmite ID pretplate
-  
+
     if (subscriptionId) {
       this.stompClient.unsubscribe(subscriptionId); // Odjavite se koristeći ID
       this.subscribedTopics.delete(topic); // Uklonite topic iz mape
@@ -204,8 +224,23 @@ export class ChatService {
       console.warn(`No subscription found for topic: ${topic}`);
     }
   }
-  
-  
+
+  addUserToChat(chatId: number, userId: number): Observable<User> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.post<User>(this.config.chat_url + `/addUserToChat/${chatId}/${userId}`, {}, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged as User', 3000, true);
+        }
+        return throwError(() => error);
+      })
+    );
+  }
 
 
   // Funkcija koja se poziva kada server posalje poruku na topic na koji se klijent pretplatio

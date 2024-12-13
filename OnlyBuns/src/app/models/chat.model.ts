@@ -10,6 +10,7 @@ export interface Chat {
   participants: User[];
   messages: Message[];
   lastActivity: Date;
+  adminUsername: string;
 }
 
 export enum ChatType{

@@ -5,7 +5,8 @@ import { SharedStateService } from '../service/shared-state.service';
 import { NotificationService } from '../service/notification.service';
 import { Chat, Message } from '../models/chat.model';
 import { User } from '../models/user.model';
-import { AuthService } from '../service';
+import { AuthService, UserService } from '../service';
+import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
@@ -22,7 +23,12 @@ export class ChatComponent implements OnInit {
   isAtBottom: boolean = true;
   showEmojiPicker: boolean = false;
   emojis: string[] = ['😊', '☹️', '😄', '😜', '❤️', '😮', '😉'];
-
+  showParticipants: boolean = false;
+  showAddParticipants: boolean = false;
+  searchQuery: string = '';
+  searchResults: any[] = [];
+  searchSubject: Subject<string> = new Subject<string>();
+  chatParticipants: User[] = [];
 
   constructor(
     private chatService: ChatService,
@@ -30,7 +36,8 @@ export class ChatComponent implements OnInit {
     private authService: AuthService,
     private sharedStateService: SharedStateService,
     private notificationService: NotificationService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -58,6 +65,22 @@ export class ChatComponent implements OnInit {
     this.chatService.message$.subscribe((message) => {
       this.onNewMessage(message);
     });
+    this.searchSubject
+      .pipe(
+        debounceTime(300), // Čeka 300ms nakon poslednjeg unosa
+        distinctUntilChanged(), // Izbegava duplirane unose
+        switchMap((query) => this.userService.searchUsers(query, 20)) // Poziva servis za pretragu
+      )
+      .subscribe(
+        (results) => {
+          this.searchResults = results;
+          this.chatParticipants.forEach(participant => {
+            this.searchResults = this.searchResults.filter(user => user.id != participant.id);
+          });
+        }, // Ažurira rezultate pretrage
+        (error) => console.error(error) // Prikazuje greške (ako postoje)
+      );
+    this.searchUsers('');
   }
 
   onNewMessage(message: Message) {
@@ -161,4 +184,62 @@ export class ChatComponent implements OnInit {
     this.messageContent += emoji;
     //this.showEmojiPicker = false;
   }
+
+  changeShowingParticipants() {
+    if (this.chatParticipants.length == 0) {
+      this.loadChatParticipants();
+    }
+    this.showParticipants = !this.showParticipants;
+  }
+
+  changeAddShowingParticipants() {
+    if (this.chatParticipants.length == 0) {
+      this.loadChatParticipants();
+    }
+    this.showAddParticipants = !this.showAddParticipants;
+  }
+
+  searchUsers(query: string): void {
+    this.searchSubject.next(query); // Prosleđuje unos za pretragu
+  }
+
+  ClearSearch() {
+    this.searchResults = []; // Očisti rezultate pretrage
+    this.searchQuery = '';
+    this.searchUsers('');
+  }
+
+  loadChatParticipants(): void {
+    if (this.chat?.type == 'GROUP') {
+      this.chatService.getChatParticipants(this.sharedStateService.getChatId()).subscribe(
+        (participants) => {
+          this.chatParticipants = participants
+          this.chatParticipants.forEach(participant => {
+            this.searchResults = this.searchResults.filter(user => user.id != participant.id);
+          });
+        },
+        (error) => {
+          console.log(error);
+          this.notificationService.notify('Error during loading participants',
+            3000, true);
+        }
+      );
+    }
+  }
+
+  addUserToChat(user: number): void {
+    this.chatService.addUserToChat(this.sharedStateService.getChatId(), user).subscribe(
+      (response) => {
+        this.notificationService.notify('User added to chat',
+          3000, false);
+        this.loadChatParticipants();
+      },
+      (error) => {
+        console.log(error);
+        this.notificationService.notify('Error during adding user to chat',
+          3000, true);
+      }
+    );
+  }
+
 }
