@@ -242,6 +242,23 @@ export class ChatService {
     );
   }
 
+  removeUserFromChat(chatId: number, userId: number): Observable<User> {
+    const token = localStorage.getItem('jwt'); // Preuzimanje tokena iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodavanje tokena u Authorization header
+    });
+    return this.http.post<User>(this.config.chat_url + `/removeUserFromChat/${chatId}/${userId}`, {}, { headers }).pipe(
+      catchError(error => {
+        if (error.status === 403) {
+          // Preusmeravanje na login ako je zabranjen pristup
+          this.router.navigate(['/login']);
+          this.notificationService.notify('You must be logged as User', 3000, true);
+        }
+        return throwError(() => error);
+      })
+    );
+  }
+
 
   // Funkcija koja se poziva kada server posalje poruku na topic na koji se klijent pretplatio
   handleResult(message: { body: string; }) {

@@ -67,8 +67,7 @@ export class ChatComponent implements OnInit {
     });
     this.searchSubject
       .pipe(
-        debounceTime(300), // Čeka 300ms nakon poslednjeg unosa
-        distinctUntilChanged(), // Izbegava duplirane unose
+        debounceTime(0), // Čeka 300ms nakon poslednjeg unosa
         switchMap((query) => this.userService.searchUsers(query, 20)) // Poziva servis za pretragu
       )
       .subscribe(
@@ -204,7 +203,6 @@ export class ChatComponent implements OnInit {
   }
 
   ClearSearch() {
-    this.searchResults = []; // Očisti rezultate pretrage
     this.searchQuery = '';
     this.searchUsers('');
   }
@@ -217,6 +215,13 @@ export class ChatComponent implements OnInit {
           this.chatParticipants.forEach(participant => {
             this.searchResults = this.searchResults.filter(user => user.id != participant.id);
           });
+          if (this.chat?.adminUsername) {
+            this.chatParticipants.sort((a, b) => {
+              if (a.username === this.chat?.adminUsername) return -1;
+              if (b.username === this.chat?.adminUsername) return 1;
+              return 0;
+            });
+          }
         },
         (error) => {
           console.log(error);
@@ -233,6 +238,22 @@ export class ChatComponent implements OnInit {
         this.notificationService.notify('User added to chat',
           3000, false);
         this.loadChatParticipants();
+      },
+      (error) => {
+        console.log(error);
+        this.notificationService.notify('Error during adding user to chat',
+          3000, true);
+      }
+    );
+  }
+
+  removeUserFromChat(user: number): void {
+    this.chatService.removeUserFromChat(this.sharedStateService.getChatId(), user).subscribe(
+      (response) => {
+        this.notificationService.notify('User removed from chat',
+          3000, false);
+        this.loadChatParticipants();
+        this.searchSubject.next('');
       },
       (error) => {
         console.log(error);

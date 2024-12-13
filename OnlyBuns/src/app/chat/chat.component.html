@@ -81,7 +81,8 @@
       <div class="search-item" *ngFor="let user of searchResults">
         <div style="display: flex;flex-direction: row;justify-content: space-between;width: 100%;">
           <span>{{ user.username }}</span>
-          <div *ngIf="chat?.adminUsername==currentUsername" (click)="addUserToChat(user.id)" matTooltip="Add to chat" tabindex="0" class="plusButton">
+          <div *ngIf="chat?.adminUsername==currentUsername" (click)="addUserToChat(user.id)" matTooltip="Add to chat"
+            tabindex="0" class="plusButton">
             <svg class="plusIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
               <g mask="url(#mask0_21_345)">
                 <path d="M13.75 23.75V16.25H6.25V13.75H13.75V6.25H16.25V13.75H23.75V16.25H16.25V23.75H13.75Z"></path>
@@ -102,11 +103,11 @@
   </span>
   <h1 style="color: white;">Chat participants</h1>
   <div class="user-search" style="margin: 0px;margin-top: 20px;">
-    <div class="search-results" *ngIf="searchResults.length > 0">
+    <div class="search-results" *ngIf="chatParticipants.length > 0">
       <div class="search-item" *ngFor="let user of chatParticipants">
         <div style="display: flex;flex-direction: row;justify-content: space-between;width: 100%;">
-          <span>{{ user.username }}</span>
-          <button *ngIf="chat?.adminUsername!=currentUsername" matTooltip="Remove user from chat" class="button">
+          <span (click)="goToProfile(user.username.toString(),'Private')" matTooltip="go to profile">{{ user.username }}</span>
+          <button (click)="removeUserFromChat(user.id)" *ngIf="chat?.adminUsername!=user.username && chat?.adminUsername==currentUsername" matTooltip="Remove user from chat" class="button">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 69 14" class="svgIcon bin-top">
               <g clip-path="url(#clip0_35_24)">
                 <path fill="black"
@@ -133,7 +134,7 @@
               </defs>
             </svg>
           </button>
-          <img src="assets/admin.png" *ngIf="chat?.adminUsername==currentUsername" style="width: 30px;height: 30px;"
+          <img src="assets/admin.png" *ngIf="chat?.adminUsername==user.username" style="width: 30px;height: 30px;"
             matTooltip="Chat admin" alt="admin">
         </div>
       </div>
