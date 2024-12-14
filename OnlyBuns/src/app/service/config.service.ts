@@ -7,6 +7,7 @@ export class ConfigService {
 
   private _api_url = 'http://localhost:8080/api';
   private _auth_url = 'http://localhost:8082/auth';
+  private _socket_url = this._api_url + '/socket';
   private _user_url = this._api_url + '/users';
   private _follow_url = this._api_url + '/follower';
   private _analytics_url = this._api_url + '/analytics';
@@ -23,6 +24,10 @@ export class ConfigService {
 
   get chat_url(): string {
     return this._chat_url;
+  }
+
+  get socket_url(): string {
+    return this._socket_url;
   }
 
   get follow_url(): string {

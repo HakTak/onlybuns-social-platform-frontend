@@ -13,6 +13,7 @@
 .popular-posts-all-time h3 {
   color: #2c3e50;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .post-list {
@@ -23,23 +24,44 @@
 }
 
 .post-card {
-  width: 300px;
-  transition: box-shadow 0.3s ease;
+  width: 300px; /* Fiksna širina */
+  height: 400px; /* Fiksna visina */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .post-card:hover {
+  transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.image-container {
+  width: 100%;
+  height: 200px; /* Maksimalna visina prostora za sliku */
+  overflow: hidden;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Prilagodljiva slika */
 }
 
 mat-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
   border-radius: 8px;
+  overflow: hidden;
 }
 
 mat-card-header {
+  padding: 10px;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -54,15 +76,18 @@ mat-card-subtitle {
   color: #7f8c8d;
 }
 
+mat-card-content {
+  padding: 10px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 mat-card-content p {
   font-size: 14px;
   color: #2c3e50;
-}
-
-mat-card-image {
-  border-radius: 5px;
-  max-height: 150px;
-  object-fit: cover;
 }
 
 .no-posts-message {
@@ -70,4 +95,46 @@ mat-card-image {
   font-size: 16px;
   color: gray;
   margin: 20px;
+}
+
+.liker-card-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.liker-card {
+  width: 300px;
+  height: 200px; /* Uniformna visina za sve kartice */
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.liker-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.liker-card mat-card-title {
+  font-size: 16px;
+  font-weight: bold;
+  color: #34495e;
+}
+
+.liker-card mat-card-subtitle {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.liker-card p {
+  font-size: 14px;
+  color: #2c3e50;
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrendService } from '../service/trend.service';
+import { User } from '../models/user.model';
+import { ConfigService } from '../service';
 
 @Component({
   selector: 'app-trends',
@@ -11,11 +13,15 @@ export class TrendsComponent implements OnInit {
   popularPostsLastWeek: any[] = [];
   popularPostsAllTime: any[] = [];
   topLikersLastWeek: any[] = [];
+  topLikers: any[] = [];
 
-  constructor(private trendService: TrendService) {}
+
+
+  constructor(private trendService: TrendService,    private config: ConfigService,) {}
 
   ngOnInit(): void {
     this.loadTrends();
+    this.loadTopLikers();
   }
 
   loadTrends(): void {
@@ -36,4 +42,27 @@ export class TrendsComponent implements OnInit {
 
    
   }
+
+
+
+  loadTopLikers(): void {
+    this.trendService.getTopLikersLastWeek().subscribe(
+      (data) => {
+        this.topLikers = data; 
+      },
+      (error) => {
+        console.error('Error fetching top likers:', error);
+      }
+    );
+  }
+  
+
+
+  
+
+  getImage(imgPath: string): string {
+    const ret = `${this.config.posts_image_url}/${imgPath}`;
+    return ret;
+  }
+
 }

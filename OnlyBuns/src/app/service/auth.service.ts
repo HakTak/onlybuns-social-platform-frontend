@@ -9,6 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ChatService } from './chat.service';
 
 
 @Injectable()
@@ -21,7 +22,7 @@ export class AuthService {
     private apiService: ApiService,
     private userService: UserService,
     private config: ConfigService,
-    private router: Router
+    private router: Router,
   ) {
   }
 
@@ -58,43 +59,39 @@ export class AuthService {
 
 
 
-login(user: any): Observable<string> {
-  const body = {
-    email: user.email,
-    password: user.password
-  };
-  this.loggedIn.next(true);
-  return this.apiService.post(this.config.login_url, body)
-    .pipe(
-      map((response: any) => {
-        console.log('Full response body:', response);  // Proverava se ceo odgovor
-        
-        // Proveri da li `access_token` i `role` postoje u odgovoru
-        const accessToken = response?.access_token;
-        const role = response?.role;
+  login(user: any): Observable<string> {
+    const body = {
+      email: user.email,
+      password: user.password
+    };
+    this.loggedIn.next(true);
+    return this.apiService.post(this.config.login_url, body)
+      .pipe(
+        map((response: any) => {
+          console.log('Full response body:', response);  // Proverava se ceo odgovor
 
-        if (accessToken) {
-          localStorage.setItem("jwt", accessToken);
-          localStorage.setItem("role", role); // Sačuvaj rolu korisnika
-          this.access_token = accessToken;
-        } else {
-          console.error("No access token found in response");
-        }
+          // Proveri da li `access_token` i `role` postoje u odgovoru
+          const accessToken = response?.access_token;
+          const role = response?.role;
 
-        return accessToken;
-      })
-    );
-}
+          if (accessToken) {
+            localStorage.setItem("jwt", accessToken);
+            localStorage.setItem("role", role); // Sačuvaj rolu korisnika
+            this.access_token = accessToken;
+          } else {
+            console.error("No access token found in response");
+          }
 
-
-
-
+          return accessToken;
+        })
+      );
+  }
 
   getRole(): string | null {
-    return localStorage.getItem('role');
+    return localStorage.getItem("role");
   }
-  
-  
+
+
   signup(user: any): Observable<string> {
     return this.apiService.post(this.config.signup_url, user)
       .pipe(
@@ -104,18 +101,26 @@ login(user: any): Observable<string> {
         })
       );
   }
-  
-
 
   logout() {
     this.userService.currentUser = null;
     localStorage.removeItem("jwt");
+    localStorage.setItem("role", "Neautentifikovan"); // Sačuvaj rolu korisnika
     this.access_token = null;
     this.router.navigate(['/login']);
   }
 
-    
-    
+  /*FUNKCIJA VRACA USERNAME ULOGOVANOG KORISNIKA */
+  getUserName(): string | null {
+    const token = localStorage.getItem("jwt");
+    if (token) {
+      const decodedToken: any = jwtDecode(token);
+      return decodedToken.username;
+    }
+    return null;
+  }
+
+
   isAdmin(): boolean {
     return this.getRole() === 'ADMIN';
   }
@@ -135,12 +140,12 @@ login(user: any): Observable<string> {
   }
 
 
-
+  /*FUNKCIJA VRACA EMAIL ULOGOVANOG KORISNIKA */
   getCurrentUserName(): string | null {
     const token = localStorage.getItem("jwt");
     if (token) {
       const decodedToken: any = jwtDecode(token);
-      return decodedToken.sub; 
+      return decodedToken.sub;
     }
     return null;
   }

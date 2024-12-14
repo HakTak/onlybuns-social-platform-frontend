@@ -4,6 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService, UserService} from '../service';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import { SharedStateService } from '../service/shared-state.service';
+import { ChatService } from '../service/chat.service';
+import { NotificationService } from '../service/notification.service';
 
 interface DisplayMessage {
   msgType: string;
@@ -41,10 +44,16 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private sharedStateService: SharedStateService,
+    private chatService: ChatService,
+    private notificationService: NotificationService,
   ) { }
 
   ngOnInit() {
+    this.sharedStateService.setChatId(0);
+    this.sharedStateService.setShowChat(false);
+    this.chatService.unsubscribe();
     this.route.params
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((params: any) => {
@@ -82,6 +91,7 @@ export class LoginComponent implements OnInit {
         };
         this.router.navigate(['/']); // Redirekcija na početnu stranicu nakon prijave
         this.submitted = false;
+        this.chatService.initializeWebSocketConnection();
       },
       error: (error) => {
         this.submitted = false;

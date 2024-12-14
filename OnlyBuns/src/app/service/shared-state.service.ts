@@ -12,6 +12,9 @@ export class SharedStateService {
   private chatIdSubject = new BehaviorSubject<number>(0);
   chatId$ = this.chatIdSubject.asObservable();
 
+  private userIdSubject = new BehaviorSubject<number>(0);
+  userId$ = this.chatIdSubject.asObservable();
+
   toggleShowChat() {
     this.showChatSubject.next(!this.showChatSubject.value);
   }
@@ -20,9 +23,10 @@ export class SharedStateService {
     this.showChatSubject.next(value);
   }
 
-  setShowChatAndChatId(value: boolean, chatId: number) {
+  setShowChatAndChatIdandUserId(value: boolean, chatId: number, userId: number) {
     this.showChatSubject.next(value);
     this.chatIdSubject.next(chatId);
+    this.userIdSubject.next(userId);
   }
 
   getShowChat() {
@@ -31,5 +35,17 @@ export class SharedStateService {
 
   getChatId() {
     return this.chatIdSubject.value;
+  }
+
+  setChatId(value: number) {
+    this.chatIdSubject.next(value);
+  }
+
+  getUserId() {
+    return this.userIdSubject.value;
+  }
+
+  setUserId(value: number) {
+    this.userIdSubject.next(value);
   }
 }
