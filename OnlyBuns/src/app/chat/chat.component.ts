@@ -257,7 +257,7 @@ export class ChatComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.notificationService.notify('Error during adding user to chat',
+        this.notificationService.notify('Error during removing user from chat',
           3000, true);
       }
     );
