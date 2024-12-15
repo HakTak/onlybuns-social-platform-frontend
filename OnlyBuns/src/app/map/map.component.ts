@@ -3,6 +3,7 @@ import * as L from 'leaflet';
 import { MapService } from './map.service';
 import { UserService } from '../service';
 import { NotificationService } from '../service/notification.service';
+import { NotificationType } from '../models/notificationType.enum';
 
 
 @Component({
@@ -196,23 +197,23 @@ export class MapComponent implements AfterViewInit {
 
   saveSelectedLocation(): void {
     if (!this.currentMarker) {
-      this.notificationService.notify('Please select a location on the map.', 3000); // Trajanje notifikacije u ms
+      this.notificationService.notify({message:'Please select a location on the map.',duration:3000, notificationType:NotificationType.INFO}); // Trajanje notifikacije u ms
       return;
     }
   
     const { lat, lng } = this.currentMarker.getLatLng();
   
     if (!this.user || !this.user.username) {
-      this.notificationService.notify('User data is not available.', 3000); // Trajanje notifikacije u ms
+      this.notificationService.notify({message:'User data is not available.', duration:3000, notificationType:NotificationType.WARNING}); // Trajanje notifikacije u ms
       return;
     }
   
     this.userService.updateUserLocation(this.user.username, { latitude: lat, longitude: lng }).subscribe({
       next: () => {
-        this.notificationService.notify('Location saved successfully!', 3000); // Trajanje notifikacije u ms
+        this.notificationService.notify({message:'Location saved successfully!', duration:3000, notificationType:NotificationType.SUCCESS}); // Trajanje notifikacije u ms
       },
       error: () => {
-         this.notificationService.notify('Location saved successfully!', 3000); // Trajanje notifikacije u ms
+         this.notificationService.notify({message:'Location saved successfully!', duration:3000, notificationType:NotificationType.SUCCESS}); // Trajanje notifikacije u ms
       },
     });
   }

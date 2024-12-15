@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { PostComment, PostCommentCreation } from '../models/postComment.model';
 import { NotificationService } from '../service/notification.service';
+import { NotificationType } from '../models/notificationType.enum';
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +25,7 @@ export class CommentService {
             if (error.status === 403) {
             // Preusmeravanje na login ako je zabranjen pristup
                 this.router.navigate(['/login']);
-                this.notificationService.notify('You must be logged as User',3000,true);
+                this.notificationService.notify({message:'You must be logged as User',duration:3000,notificationType:NotificationType.WARNING});
             }
             return throwError(() => error);  // Prosleđivanje greške dalje
         }));
@@ -41,7 +42,7 @@ export class CommentService {
             if (error.status === 403) {
             // Preusmeravanje na login ako je zabranjen pristup
                 this.router.navigate(['/login']);
-                this.notificationService.notify('You must be logged as User',3000,true);
+                this.notificationService.notify({message:'You must be logged as User',duration:3000,notificationType:NotificationType.WARNING});
             }
             return throwError(() => error);  // Prosleđivanje greške dalje
         }));

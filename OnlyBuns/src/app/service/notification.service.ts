@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { NotificationComponent } from '../notification/notification.component';
+import { NotificationComponent, NotifyOptions } from '../notification/notification.component';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -11,22 +12,23 @@ export class NotificationService {
     this.notificationComponent = notificationComponent;
   }
 
-  notify(
-    message: string,
-    duration: number = 3000,
-    isWarn?: boolean, // Dodan opcioni parametar
-    action?: string,
-    actionCallback?: () => void,
+  notify({
+      message,
+      duration = 3000,
+      action,
+      actionCallback,
+      messageSender= 'Duško',
+      notificationType = NotificationType.INFO}: NotifyOptions
   ) {
     if (this.notificationComponent) {
-      const backgroundColor = isWarn ? 'red' : 'default'; // Primer kako postaviti boju
-      this.notificationComponent.showNotification(
+      this.notificationComponent.showNotification({
         message,
         duration,
         action,
         actionCallback,
-        backgroundColor // Prosljeđivanje pozadine u komponentu
-      );
+        messageSender,
+        notificationType
+    });
     }
   }
 }

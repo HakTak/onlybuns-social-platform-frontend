@@ -11,6 +11,7 @@ import { AuthService, ConfigService } from '../service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { NotificationService } from '../service/notification.service';
+import { NotificationType } from '../models/notificationType.enum';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class AllPostsComponent implements OnInit {
   postsPerPage: number = 3;
   canGoNext: boolean = true;
   imagePath: string | null = null;
-  @Input() isHomePage=false;
+  @Input() isHomePage = false;
 
   constructor(
     private postService: PostService,
@@ -57,7 +58,7 @@ export class AllPostsComponent implements OnInit {
   }
 
   loadPosts(): void {
-    this.postService.getPosts(this.currentPage, this.postsPerPage,this.isHomePage).subscribe((posts: Post[]) => {
+    this.postService.getPosts(this.currentPage, this.postsPerPage, this.isHomePage).subscribe((posts: Post[]) => {
       this.posts = posts;
       this.checkNextPage();
       if (this.posts.length == 0 && this.currentPage > 0) {
@@ -67,7 +68,7 @@ export class AllPostsComponent implements OnInit {
   }
 
   checkNextPage(): void {
-    this.postService.getPosts(this.currentPage + 1, this.postsPerPage,this.isHomePage).subscribe((posts: Post[]) => {
+    this.postService.getPosts(this.currentPage + 1, this.postsPerPage, this.isHomePage).subscribe((posts: Post[]) => {
       if (posts.length < 1) {
         this.canGoNext = false;
       } else {
@@ -111,8 +112,10 @@ export class AllPostsComponent implements OnInit {
           data: { post: data }
         });
       } else {
-        this.notificationService.notify('No comments to display',
-          3000,true);
+        this.notificationService.notify({
+          message: 'No comments to display',
+          duration: 3000, notificationType: NotificationType.INFO
+        });
       }
     });
   }
@@ -140,23 +143,22 @@ export class AllPostsComponent implements OnInit {
 
   toggleLike(post: Post): void {
     if (!this.authService.isAuthenticated()) {
-      this.notificationService.notify('You must be logged in with user role to like a post.',
-        3000,
-        true,
-        'Login',
-        () => this.router.navigate(['/login'])
+      this.notificationService.notify({message:'You must be logged in with user role to like a post.',
+        duration:3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
     if (this.authService.getRole() !== 'AUTHENTICATED') {
-      this.notificationService.notify('You must be logged in with user role to like a post.',
-        3000,
-        true,
-        'Logout',
-        () => {
-          this.authService.logout();
-          this.router.navigate(['/login'])
-        }
+      this.notificationService.notify({message:'You must be logged in with user role to like a post.',
+        duration:3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
@@ -172,14 +174,14 @@ export class AllPostsComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber--;
-      this.notificationService.notify('Post unliked successfully!',
-        3000);
+      this.notificationService.notify({message:'Post unliked successfully!',
+        duration:3000,notificationType: NotificationType.SUCCESS});
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.notificationService.notify('Error unliking post. Please try again later.',
-          3000,true);
+        this.notificationService.notify({message:'Error unliking post. Please try again later.',
+          duration:3000, notificationType: NotificationType.ERROR});
       }
     );
   }
@@ -189,14 +191,14 @@ export class AllPostsComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber++;
-      this.notificationService.notify('Post liked successfully!',
-        3000);
+      this.notificationService.notify({message:'Post liked successfully!',
+        duration:3000,notificationType: NotificationType.SUCCESS});
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.notificationService.notify('Error liking post. Please try again later.',
-          3000,true);
+        this.notificationService.notify({message:'Error liking post. Please try again later.',
+          duration:3000, notificationType: NotificationType.ERROR});
       }
     );
   }
@@ -204,11 +206,12 @@ export class AllPostsComponent implements OnInit {
   addComment(post: Post): void {
 
     if (!this.authService.isAuthenticated()) {
-      this.notificationService.notify('You must be logged in to add a comment.',
-        3000,
-        true,
-        'Login',
-        () => this.router.navigate(['/login'])
+      this.notificationService.notify({message:'You must be logged in with user role to add a comment.',
+        duration:3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }

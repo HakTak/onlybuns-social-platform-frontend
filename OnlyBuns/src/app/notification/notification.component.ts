@@ -11,6 +11,14 @@ interface Notification {
   removing?: boolean; // Ovo je potrebno za animaciju uklanjanja
 }
 
+export interface NotifyOptions {
+  message: string,
+    duration: number,
+    action?: string,
+    actionCallback?: () => void,
+    messageSender?: string,
+    notificationType?: NotificationType,
+}
 
 @Component({
   selector: 'app-notification',
@@ -21,13 +29,13 @@ export class NotificationComponent {
   notifications: Notification[] = [];
   backgroundColor: string = 'default'; // Dodatna boja za obaveštenje
 
-  showNotification(
-    message: string,
-    duration: number = 3000,
-    action?: string,
-    actionCallback?: () => void,
-    messageSender: string = 'Dusko',
-    notificationType: NotificationType = NotificationType.MESSAGE,
+  showNotification({
+    message,
+    duration = 3000,
+    action,
+    actionCallback,
+    messageSender= 'Duško',
+    notificationType = NotificationType.INFO}: NotifyOptions
   ) {
     const notification: Notification = { message: message, timeout: duration + 3000, action: action, actionCallback: actionCallback, sender: messageSender, notificationType: notificationType };
     this.notifications.push(notification);

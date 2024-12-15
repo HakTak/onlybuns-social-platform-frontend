@@ -3,6 +3,7 @@ import { MapComponent } from '../map/map.component';
 import { NotificationService } from '../service/notification.service';
 import { UserService } from '../service/user.service';
 import { ActivatedRoute } from '@angular/router';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Component({
   selector: 'app-map-post',
@@ -70,7 +71,7 @@ export class MapPostComponent implements OnInit {
 
   onSearch(): void {
     if (!this.searchQuery || this.searchQuery.trim() === '') {
-      this.notificationService.notify('Please enter a location to search.', 3000, true);
+      this.notificationService.notify({message:'Please enter a location to search.', duration:3000, notificationType:NotificationType.INFO});
       return;
     }
 

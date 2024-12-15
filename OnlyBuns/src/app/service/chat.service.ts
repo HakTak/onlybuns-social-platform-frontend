@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { SharedStateService } from './shared-state.service';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -50,10 +51,10 @@ export class ChatService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({message:'You must be logged as User', duration:3000, notificationType:NotificationType.WARNING});
         }
         if (error.status === 500) {
-          this.notificationService.notify('Internal server error', 3000, true);
+          this.notificationService.notify({message:'Internal server error', duration:3000, notificationType:NotificationType.ERROR});
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -70,10 +71,10 @@ export class ChatService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({message:'You must be logged as User', duration:3000, notificationType:NotificationType.WARNING});
         }
         if (error.status === 500) {
-          this.notificationService.notify('Internal server error', 3000, true);
+          this.notificationService.notify({message:'Internal server error', duration:3000, notificationType:NotificationType.ERROR});
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -90,7 +91,7 @@ export class ChatService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({message:'You must be logged as User', duration:3000, notificationType:NotificationType.WARNING});
         }
         return throwError(() => error);
       })
@@ -123,7 +124,7 @@ export class ChatService {
           },
           (error) => {
             console.log(error);
-            this.notificationService.notify('Error during loading chats', 3000, true);
+            this.notificationService.notify({message:'Error during loading chats', duration:3000, notificationType:NotificationType.ERROR});
           }
         );
       }
@@ -235,7 +236,7 @@ export class ChatService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({message:'You must be logged as User', duration:3000, notificationType:NotificationType.WARNING});
         }
         return throwError(() => error);
       })
@@ -252,7 +253,7 @@ export class ChatService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({message:'You must be logged as User', duration:3000, notificationType:NotificationType.WARNING});
         }
         return throwError(() => error);
       })
@@ -267,7 +268,7 @@ export class ChatService {
       console.log(messageResult);
       if (this.sharedStateService.getChatId() != messageResult.chatId) {
         //alert('New message from ' + messageResult.senderUsername + ' in chat ' + messageResult.chatId);
-        this.notificationService.notify(messageResult.senderUsername + ': ' + messageResult.content, 3000, false);
+        this.notificationService.notify({messageSender:messageResult.senderUsername,message: messageResult.content, duration:3000, notificationType:NotificationType.MESSAGE});
       } else {
         this.messageSubject.next(messageResult);
       }

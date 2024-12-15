@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { NotificationService } from '../service/notification.service';
 import { Chat } from '../models/chat.model';
+import { NotificationType } from '../models/notificationType.enum';
 @Injectable({
   providedIn: 'root'
 })
@@ -50,7 +51,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as User', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -67,7 +68,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as Admin', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -97,7 +98,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as Admin', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -124,7 +125,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged in', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged in', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -151,7 +152,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged in', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged in', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -169,7 +170,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as Admin', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -186,7 +187,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as User', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -203,7 +204,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as User', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -220,7 +221,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as User', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged as User', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -239,7 +240,7 @@ export class UserService {
         if (error.status === 403) {
           // Preusmeravanje na login stranicu ako je pristup zabranjen
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged in to change your password', 3000, true);
+          this.notificationService.notify({ message: 'You must be logged in to change your password', duration: 3000, notificationType: NotificationType.WARNING });
         }
         return throwError(() => error); // Prosleđivanje greške dalje
       })

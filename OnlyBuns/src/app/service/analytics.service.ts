@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfigService } from './config.service';
 import { NotificationService } from '../service/notification.service';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +26,7 @@ export class AnalyticsService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin',3000,true);
+          this.notificationService.notify({message:'You must be logged as Admin',duration:3000,notificationType:NotificationType.WARNING});
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -42,7 +43,7 @@ export class AnalyticsService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin',3000,true);
+          this.notificationService.notify({message:'You must be logged as Admin',duration:3000,notificationType:NotificationType.WARNING});
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })
@@ -59,7 +60,7 @@ export class AnalyticsService {
         if (error.status === 403) {
           // Preusmeravanje na login ako je zabranjen pristup
           this.router.navigate(['/login']);
-          this.notificationService.notify('You must be logged as Admin',3000,true);
+          this.notificationService.notify({message:'You must be logged as Admin',duration:3000,notificationType:NotificationType.WARNING});
         }
         return throwError(() => error);  // Prosleđivanje greške dalje
       })

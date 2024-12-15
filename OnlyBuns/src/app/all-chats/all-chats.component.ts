@@ -8,6 +8,7 @@ import { NotificationService } from '../service/notification.service';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
 import { query } from '@angular/animations';
 import * as moment from 'moment';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Component({
   selector: 'app-all-chats',
@@ -44,7 +45,7 @@ export class AllChatsComponent implements OnInit {
       .pipe(
         debounceTime(300), // Čeka 300ms nakon poslednjeg unosa
         distinctUntilChanged(), // Izbegava duplirane unose
-        switchMap((query) => this.userService.searchUsers(query,10)) // Poziva servis za pretragu
+        switchMap((query) => this.userService.searchUsers(query, 10)) // Poziva servis za pretragu
       )
       .subscribe(
         (results) => (this.searchResults = results), // Ažurira rezultate pretrage
@@ -81,7 +82,7 @@ export class AllChatsComponent implements OnInit {
     },
       (error) => {
         console.log(error);
-        this.notificationService.notify('Unable to load chats', 3000, true);
+        this.notificationService.notify({ message: 'Unable to load chats', duration: 3000, notificationType: NotificationType.ERROR });
       });
     this.sharedStateService.chatId$.subscribe((value) => {
       this.chatId = value;
@@ -111,12 +112,12 @@ export class AllChatsComponent implements OnInit {
         this.newChatName = ''; // Resetuj polje
         this.openChat(newChat.id); // Otvori novi čet
         this.showNewChat = false;
-        this.notificationService.notify('Group chat created successfuly', 3000, false);
+        this.notificationService.notify({message:'Group chat created successfuly', duration:3000, notificationType: NotificationType.SUCCESS});
       });
     }
   }
 
-  changeShowingNewChat(){
+  changeShowingNewChat() {
     this.showNewChat = !this.showNewChat;
   }
 }

@@ -18,6 +18,7 @@ import { ChatService } from '../service/chat.service';
 import { SharedStateService } from '../service/shared-state.service';
 import { MapComponent } from '../map/map.component'; // Importujte komponentu mape
 import { ViewChild } from '@angular/core';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Component({
   selector: 'app-profile',
@@ -34,7 +35,7 @@ import { ViewChild } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  @ViewChild(MapComponent) mapComponent!: MapComponent; 
+  @ViewChild(MapComponent) mapComponent!: MapComponent;
   username: string = '';
   user: any;
   posts: Post[] = [];
@@ -52,7 +53,7 @@ export class ProfileComponent implements OnInit {
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
-  loggedInUserName: any='';
+  loggedInUserName: any = '';
 
 
   showEditProfile = false;
@@ -175,8 +176,10 @@ export class ProfileComponent implements OnInit {
           data: { post: data }
         });
       } else {
-        this.notificationService.notify('No comments to display',
-          3000);
+        this.notificationService.notify({
+          message: 'No comments to display',
+          duration: 3000, notificationType: NotificationType.INFO
+        });
       }
     });
   }
@@ -204,23 +207,24 @@ export class ProfileComponent implements OnInit {
 
   toggleLike(post: Post): void {
     if (!this.authService.isAuthenticated()) {
-      this.notificationService.notify('You must be logged in with user role to like a post.',
-        3000,
-        true,
-        'Login',
-        () => this.router.navigate(['/login'])
+      this.notificationService.notify({
+        message: 'You must be logged in with user role to like a post.',
+        duration: 3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
     if (this.authService.getRole() !== 'AUTHENTICATED') {
-      this.notificationService.notify('You must be logged in with user role to like a post.',
-        3000,
-        true,
-        'Logout',
-        () => {
-          this.authService.logout();
-          this.router.navigate(['/login'])
-        }
+      this.notificationService.notify({
+        message: 'You must be logged in with user role to like a post.',
+        duration: 3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
@@ -236,14 +240,18 @@ export class ProfileComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber--;
-      this.notificationService.notify('Post unliked successfully!',
-        3000);
+      this.notificationService.notify({
+        message: 'Post unliked successfully!',
+        duration: 3000, notificationType: NotificationType.SUCCESS
+      });
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.notificationService.notify('Error unliking post. Please try again later.',
-          3000, true);
+        this.notificationService.notify({
+          message: 'Error unliking post. Please try again later.',
+          duration: 3000, notificationType: NotificationType.ERROR
+        });
       }
     );
   }
@@ -253,14 +261,18 @@ export class ProfileComponent implements OnInit {
       // Uspešno izvršen zahtev
       post.likedByMe = !post.likedByMe;
       post.likeNumber++;
-      this.notificationService.notify('Post liked successfully!',
-        3000);
+      this.notificationService.notify({
+        message: 'Post liked successfully!',
+        duration: 3000, notificationType: NotificationType.SUCCESS
+      });
     },
       (error: HttpErrorResponse) => {
         // Greška pri izvršavanju zahteva
         console.error('Error liking post:', error);
-        this.notificationService.notify('Error liking post. Please try again later.',
-          3000, true);
+        this.notificationService.notify({
+          message: 'Error liking post. Please try again later.',
+          duration: 3000, notificationType: NotificationType.ERROR
+        });
       }
     );
   }
@@ -268,11 +280,13 @@ export class ProfileComponent implements OnInit {
   addComment(post: Post): void {
 
     if (!this.authService.isAuthenticated()) {
-      this.notificationService.notify('You must be logged in to add a comment.',
-        3000,
-        true,
-        'Login',
-        () => this.router.navigate(['/login'])
+      this.notificationService.notify({
+        message: 'You must be logged in to add a comment.',
+        duration: 3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
@@ -300,25 +314,31 @@ export class ProfileComponent implements OnInit {
     this.postService.deletePost(post.id).subscribe(
       () => {
         this.loadPosts();
-        this.notificationService.notify('Post deleted successfully',
-          3000);
+        this.notificationService.notify({
+          message: 'Post deleted successfully',
+          duration: 3000, notificationType: NotificationType.SUCCESS
+        });
         this.loadPosts(); // Reload posts after deletion
       },
       (error) => {
         console.error('Error deleting post:', error);
-        this.notificationService.notify('Error deleting post',
-          3000, true);
+        this.notificationService.notify({
+          message: 'Error deleting post',
+          duration: 3000, notificationType: NotificationType.ERROR
+        });
       }
     );
   }
 
   unfollowUser(userId: number) {
     if (!this.authService.isAuthenticated()) {
-      this.notificationService.notify('You must be logged in to unfollow.',
-        3000,
-        true,
-        'Login',
-        () => this.router.navigate(['/login'])
+      this.notificationService.notify({
+        message: 'You must be logged in to unfollow.',
+        duration: 3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
@@ -327,25 +347,30 @@ export class ProfileComponent implements OnInit {
       () => {
         this.user.userFollowedByMe = false;
         this.user.followersCount--;
-        this.notificationService.notify('Unfollowing successfully',
-          3000);
+        this.notificationService.notify({
+          message: 'Unfollowing successfully',
+          duration: 3000, notificationType: NotificationType.SUCCESS
+        });
       },
       (error) => {
         console.error('Error during unfollowing:', error);
-        this.notificationService.notify('Error during unfollowing',
-          3000, true);
+        this.notificationService.notify({
+          message: 'Error during unfollowing',
+          duration: 3000, notificationType: NotificationType.ERROR
+        });
       }
     );
   }
 
   followUser(userId: number) {
     if (!this.authService.isAuthenticated()) {
-      this.notificationService.notify(
-        'You must be logged in to follow.',
-        3000,
-        true,
-        'Login',
-        () => this.router.navigate(['/login'])
+      this.notificationService.notify({
+        message: 'You must be logged in to follow.',
+        duration: 3000,
+        action: 'Login',
+        actionCallback: () => this.router.navigate(['/login']),
+        notificationType: NotificationType.WARNING
+      }
       );
       return;
     }
@@ -354,13 +379,17 @@ export class ProfileComponent implements OnInit {
       () => {
         this.user.userFollowedByMe = true;
         this.user.followersCount++;
-        this.notificationService.notify('Following successfully',
-          3000, false);
+        this.notificationService.notify({
+          message: 'Following successfully',
+          duration: 3000, notificationType: NotificationType.SUCCESS
+        });
       },
       (error) => {
         console.error('Error during following:', error);
-        this.notificationService.notify('Error during following',
-          3000, true);
+        this.notificationService.notify({
+          message: 'Error during following',
+          duration: 3000, notificationType: NotificationType.ERROR
+        });
       }
     );
   }
@@ -383,27 +412,27 @@ export class ProfileComponent implements OnInit {
 
   changePassword(): void {
     if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
-      this.notificationService.notify('All fields are required.', 3000, true);
+      this.notificationService.notify({ message: 'All fields are required.', duration: 3000, notificationType: NotificationType.WARNING });
       return;
     }
 
     if (this.newPassword !== this.confirmPassword) {
-      this.notificationService.notify('New passwords do not match.', 3000, true);
+      this.notificationService.notify({ message: 'New passwords do not match.', duration: 3000, notificationType: NotificationType.WARNING });
       return;
     }
 
     // Call the service to change the password
     this.userService.changePassword(this.oldPassword, this.newPassword).subscribe(
       () => {
-        this.notificationService.notify('Password changed successfully!', 3000);
+        this.notificationService.notify({ message: 'Password changed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         this.toggleChangePassword();
       },
       (error) => {
         console.error('Error changing password:', error);
         if (error.status === 400) {
-          this.notificationService.notify('Old password is incorrect.', 3000, true);
+          this.notificationService.notify({ message: 'Old password is incorrect.', duration: 3000, notificationType: NotificationType.ERROR });
         } else {
-          this.notificationService.notify('Password changed successfully!', 3000)
+          this.notificationService.notify({ message: 'Password changed successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
           setTimeout(() => {
             window.location.reload(); // Osvežavanje stranice
           }, 3000);
@@ -419,7 +448,7 @@ export class ProfileComponent implements OnInit {
 
   saveProfileChanges() {
     const updatedUser: { firstname?: string; lastname?: string; address?: string } = {};
-  
+
     if (this.editFirstname && this.editFirstname !== this.user.firstname) {
       updatedUser.firstname = this.editFirstname;
     }
@@ -429,21 +458,21 @@ export class ProfileComponent implements OnInit {
     if (this.editAddress && this.editAddress !== this.user.address) {
       updatedUser.address = this.editAddress;
     }
-  
+
     this.userService.updateProfile(updatedUser).subscribe(
       () => {
-        this.notificationService.notify('Profile updated successfully!', 1000);
+        this.notificationService.notify({ message: 'Profile updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         window.location.reload(); // Osvežavanje stranice
       },
       (error) => {
-        this.notificationService.notify('Profile updated successfully!',1000);
+        this.notificationService.notify({ message: 'Profile updated successfully!', duration: 3000, notificationType: NotificationType.SUCCESS });
         setTimeout(() => {
           window.location.reload(); // Osvežavanje stranice
         }, 1000);
       }
     );
   }
-  
+
 
 
 
@@ -461,26 +490,26 @@ export class ProfileComponent implements OnInit {
 
 
 
-  searchQuery: string = ''; 
+  searchQuery: string = '';
   selectedLocation: { latitude: number; longitude: number } | null = null;
 
   onSearch(): void {
     if (!this.searchQuery || this.searchQuery.trim() === '') {
-      this.notificationService.notify('Please enter a location to search.', 3000, true);
+      this.notificationService.notify({ message: 'Please enter a location to search.', duration: 3000, notificationType: NotificationType.INFO });
       return;
     }
-  
-    
+
+
     this.mapComponent?.search(this.searchQuery);
   }
-  
+
 
   setLocation(latlng: number[]): void {
     this.selectedLocation = { latitude: latlng[0], longitude: latlng[1] };
     console.log('Selected Location:', this.selectedLocation);
   }
-  
-  
+
+
 
 
 }

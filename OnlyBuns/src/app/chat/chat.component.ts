@@ -7,6 +7,7 @@ import { Chat, Message } from '../models/chat.model';
 import { User } from '../models/user.model';
 import { AuthService, UserService } from '../service';
 import { debounceTime, distinctUntilChanged, Subject, switchMap } from 'rxjs';
+import { NotificationType } from '../models/notificationType.enum';
 
 @Component({
   selector: 'app-chat',
@@ -58,8 +59,8 @@ export class ChatComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.notificationService.notify('Error during opening chat',
-          3000, true);
+        this.notificationService.notify({message:'Error during opening chat',
+          duration:3000, notificationType:NotificationType.ERROR});
       }
     );
     this.chatService.message$.subscribe((message) => {
@@ -225,8 +226,8 @@ export class ChatComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-          this.notificationService.notify('Error during loading participants',
-            3000, true);
+          this.notificationService.notify({message:'Error during loading participants',
+            duration:3000, notificationType:NotificationType.ERROR});
         }
       );
     }
@@ -235,14 +236,14 @@ export class ChatComponent implements OnInit {
   addUserToChat(user: number): void {
     this.chatService.addUserToChat(this.sharedStateService.getChatId(), user).subscribe(
       (response) => {
-        this.notificationService.notify('User added to chat',
-          3000, false);
+        this.notificationService.notify({message:'User added to chat',
+          duration:3000, notificationType:NotificationType.SUCCESS});
         this.loadChatParticipants();
       },
       (error) => {
         console.log(error);
-        this.notificationService.notify('Error during adding user to chat',
-          3000, true);
+        this.notificationService.notify({message:'Error during adding user to chat',
+          duration:3000, notificationType:NotificationType.ERROR});
       }
     );
   }
@@ -250,15 +251,15 @@ export class ChatComponent implements OnInit {
   removeUserFromChat(user: number): void {
     this.chatService.removeUserFromChat(this.sharedStateService.getChatId(), user).subscribe(
       (response) => {
-        this.notificationService.notify('User removed from chat',
-          3000, false);
+        this.notificationService.notify({message:'User removed from chat',
+          duration:3000, notificationType:NotificationType.INFO});
         this.loadChatParticipants();
         this.searchSubject.next('');
       },
       (error) => {
         console.log(error);
-        this.notificationService.notify('Error during removing user from chat',
-          3000, true);
+        this.notificationService.notify({message:'Error during removing user from chat',
+          duration:3000, notificationType:NotificationType.ERROR});
       }
     );
   }

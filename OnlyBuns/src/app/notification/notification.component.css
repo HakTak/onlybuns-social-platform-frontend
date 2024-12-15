@@ -208,12 +208,13 @@ body {
   background-color: transparent;
   border: none;
   font-size: 18px;
+  color: #03fff5;
   cursor: pointer;
   text-decoration: underline;
 }
 
 .buttons-action:hover{
-  color: black;
+  color: rgb(255, 0, 51);
 }
 
 .custom-style{
