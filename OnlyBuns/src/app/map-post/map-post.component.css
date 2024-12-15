@@ -1,0 +1,34 @@
+.profile-map-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centriranje horizontalno */
+    justify-content: center; /* Centriranje vertikalno */
+    height: 100vh; /* Visina zauzima ceo prozor */
+    width: 100vw; /* Širina zauzima ceo prozor */
+    box-sizing: border-box; /* Da padding ne utiče na dimenzije */
+    gap: 20px; /* Razmak između pretraživanja i mape */
+    padding: 20px; /* Dodatno unutrašnje odstojanje */
+  }
+  
+  .search-container {
+    width: 100%; /* Širina za pretraživanje */
+    max-width: 600px; /* Maksimalna širina pretraživanja */
+  }
+  
+  .mat-form-field {
+    width: 100%;
+  }
+
+
+  .map-container {
+    flex-grow: 1 !important; /* Osigurava da se ovo pravilo primeni */
+    width: 100% !important;
+    max-width: 1200px !important; /* Maksimalna širina za mapu */
+    height: 8000px !important; /* Udvostručena visina */
+    border: 1px solid #ccc !important; /* Opcionalna ivica */
+    border-radius: 8px !important; /* Zakruženi uglovi */
+    overflow: hidden !important; /* Sprečava preklapanje sadržaja */
+  }
+  
+  
+  

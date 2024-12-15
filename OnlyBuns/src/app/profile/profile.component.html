@@ -210,3 +210,43 @@
     <app-all-users [username]="user.username" [followings]="true"></app-all-users>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="profile-map-container">
+  <!-- Search Field -->
+  <div class="search-container">
+    <mat-form-field class="full-width">
+      <mat-label>Search Location</mat-label>
+      <input matInput [(ngModel)]="searchQuery" placeholder="Enter location" />
+      <button mat-icon-button matSuffix type="button" (click)="onSearch()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <!-- Map Component -->
+  <app-map [user]="user" (setLocation)="setLocation($event)"></app-map>
+</div>
+
+
+
+
+

@@ -40,6 +40,7 @@ import { TrendsComponent } from './trends/trends.component';
 import { NotificationComponent } from './notification/notification.component';
 import { ChatComponent } from './chat/chat.component';
 import { AllChatsComponent } from './all-chats/all-chats.component';
+import { MapPostComponent } from './map-post/map-post.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,8 @@ import { AllChatsComponent } from './all-chats/all-chats.component';
     NotificationComponent,
     ChatComponent,
     AllChatsComponent,
+    MapPostComponent
+    
     
   ],
   imports: [

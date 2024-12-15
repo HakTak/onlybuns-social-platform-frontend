@@ -491,3 +491,14 @@ mat-card-title:hover {
   transition-duration: 0.5s;
   transform: rotate(160deg);
 }
+
+
+
+.profile-map-container #map {
+  height: 150px; /* Nova visina mape */
+  width: 50px;  /* Nova širina mape */
+  border: 1px solid #ccc; /* Opcionalno: okvir za mapu */
+  border-radius: 8px;     /* Opcionalno: zaobljeni uglovi */
+  margin: 0 auto;         /* Centriranje unutar kontejnera */
+}
+

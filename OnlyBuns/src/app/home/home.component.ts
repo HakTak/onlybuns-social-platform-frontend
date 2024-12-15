@@ -25,4 +25,21 @@ export class HomeComponent implements OnInit {
   showUsers() {
     this.router.navigate(['/users']);
   }
+
+
+
+
+  openMap() {
+    const username = this.authService.getUserName(); // Pretpostavka: `getUserName()` vraća trenutni `username`
+    if (username) {
+      this.router.navigate([`${username}/mapPost`]); // Navigacija sa username-om
+    } else {
+      console.error('User is not authenticated or username is missing.');
+    }
+  }
+  
+
+
+
+
 }
