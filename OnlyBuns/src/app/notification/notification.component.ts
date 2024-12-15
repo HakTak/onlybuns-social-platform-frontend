@@ -6,9 +6,9 @@ interface Notification {
   timeout: number;
   action?: string;
   notificationType: NotificationType;
+  sender?: string;
   actionCallback?: () => void;
   removing?: boolean; // Ovo je potrebno za animaciju uklanjanja
-  backgroundColor?: string; // Dodatna boja za obaveštenje
 }
 
 
@@ -26,9 +26,10 @@ export class NotificationComponent {
     duration: number = 3000,
     action?: string,
     actionCallback?: () => void,
-    backgroundColor?: string
+    messageSender: string = 'Dusko',
+    notificationType: NotificationType = NotificationType.MESSAGE,
   ) {
-    const notification: Notification = { message, timeout: duration+2000, action, actionCallback, backgroundColor, notificationType: NotificationType.ERROR };
+    const notification: Notification = { message: message, timeout: duration + 3000, action: action, actionCallback: actionCallback, sender: messageSender, notificationType: notificationType };
     this.notifications.push(notification);
 
     // Automatsko uklanjanje nakon trajanja

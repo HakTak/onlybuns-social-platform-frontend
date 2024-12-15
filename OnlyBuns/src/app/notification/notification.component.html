@@ -75,7 +75,7 @@
                         <span class="sr-only">Close</span>
                     </button>
                     <i class="start-icon fa fa-envelope faa-bounce animated"></i>
-                    <strong class="font__weight-semibold">Message!</strong><br> {{notification.message}}
+                    <strong class="font__weight-semibold">Message from: {{notification.sender}}</strong><br> {{notification.message}}
                     <button class="buttons-action" *ngIf="notification.action" (click)="handleAction(notification)">{{notification.action}}</button>
                 </div>
 
