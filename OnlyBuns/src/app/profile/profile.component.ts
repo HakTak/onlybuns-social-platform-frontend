@@ -16,6 +16,8 @@ import { PostModificationComponent } from '../post-modification/post-modificatio
 import { NotificationService } from '../service/notification.service';
 import { ChatService } from '../service/chat.service';
 import { SharedStateService } from '../service/shared-state.service';
+import { MapComponent } from '../map/map.component'; // Importujte komponentu mape
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +34,7 @@ import { SharedStateService } from '../service/shared-state.service';
 })
 export class ProfileComponent implements OnInit {
 
+  @ViewChild(MapComponent) mapComponent!: MapComponent; 
   username: string = '';
   user: any;
   posts: Post[] = [];
@@ -457,6 +460,27 @@ export class ProfileComponent implements OnInit {
   }
 
 
+
+  searchQuery: string = ''; 
+  selectedLocation: { latitude: number; longitude: number } | null = null;
+
+  onSearch(): void {
+    if (!this.searchQuery || this.searchQuery.trim() === '') {
+      this.notificationService.notify('Please enter a location to search.', 3000, true);
+      return;
+    }
+  
+    
+    this.mapComponent?.search(this.searchQuery);
+  }
+  
+
+  setLocation(latlng: number[]): void {
+    this.selectedLocation = { latitude: latlng[0], longitude: latlng[1] };
+    console.log('Selected Location:', this.selectedLocation);
+  }
+  
+  
 
 
 }

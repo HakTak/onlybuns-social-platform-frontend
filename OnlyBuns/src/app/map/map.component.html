@@ -1,6 +1,15 @@
 <div class="map-frame">
-    <div id="map">
-        
-    </div>
+  <!-- Mapa -->
+  <div id="map"></div>
+
+  <!-- Dugme za čuvanje lokacije -->
+  <button
+  mat-button
+  color="primary"
+  (click)="saveSelectedLocation()"
+  class="save-location-button"
+  *ngIf="!isMapPostPage">
+  Save Location
+</button>
+
 </div>
-  

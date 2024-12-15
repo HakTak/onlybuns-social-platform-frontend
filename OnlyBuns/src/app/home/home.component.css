@@ -17,4 +17,16 @@ mat-toolbar {
   button {
     margin: 0 10px;
   }
+
+  .map-button-container {
+    position: relative; /* Potrebno ako dugme nije direktno u root elementu */
+  }
+  
+  .bottom-left-button {
+    position: fixed;
+    bottom: 20px; /* Razmak od dna */
+    left: 20px; /* Razmak od leve strane */
+    z-index: 1000; /* Osigurava da dugme bude iznad ostalog sadržaja */
+  }
+  
   

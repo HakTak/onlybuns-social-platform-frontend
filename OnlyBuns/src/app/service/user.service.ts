@@ -260,7 +260,29 @@ export class UserService {
 
 
 
-
+  updateUserLocation(username: string, location: { latitude: number; longitude: number }): Observable<void> {
+    const token = localStorage.getItem('jwt'); // Dohvatite token iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodajte Authorization header
+    });
+  
+    return this.http.put<void>(`http://localhost:8080/api/users/${username}/location`, location, { headers });
+  }
+  
+  
+  
+  getUserLocation(username: string): Observable<{ latitude: number; longitude: number }> {
+    const token = localStorage.getItem('jwt'); // Dohvatite token iz localStorage
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Dodajte Authorization header
+    });
+  
+    return this.http.get<{ latitude: number; longitude: number }>(
+      `http://localhost:8080/api/users/${username}/currentlocation`,
+      { headers }
+    );
+  }
+  
 
 
 

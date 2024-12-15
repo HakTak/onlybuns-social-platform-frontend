@@ -40,3 +40,13 @@
   <app-all-posts [isHomePage]="true" *ngIf="!authService.isAdmin() && authService.isAuthenticated()"></app-all-posts>
   <app-all-posts *ngIf="!authService.isAuthenticated()"></app-all-posts>
 </div>
+
+
+
+<div *ngIf="authService.isAuthenticated()" class="map-button-container">
+  <button mat-raised-button color="primary" class="bottom-left-button" (click)="openMap()">
+    Open Map
+  </button>
+</div>
+
+

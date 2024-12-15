@@ -19,4 +19,10 @@ export class MapService {
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&<params>`
     );
   }
+
+
+  getPostLocations(): Observable<any> {
+    return this.http.get('http://localhost:8080/api/posts/locations');
+  }
+  
 }

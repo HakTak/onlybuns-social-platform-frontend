@@ -11,6 +11,8 @@ import { AllUsersComponent } from './all-users/all-users.component';
 import { AnalyticsComponent } from './analytics/analytics.component';
 import { TrendsComponent } from './trends/trends.component';
 import { AllChatsComponent } from './all-chats/all-chats.component';
+import { MapComponent } from './map/map.component';
+import { MapPostComponent } from './map-post/map-post.component';
 
 const routes: Routes = [
   {
@@ -49,6 +51,12 @@ const routes: Routes = [
     path: 'posts',
     component: AllPostsComponent,
   },
+
+  {
+    path: ':username/mapPost',
+    component: MapPostComponent,
+  },
+  
   {
     path: 'signup',
     component: SignUpComponent,
