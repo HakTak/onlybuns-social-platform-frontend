@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { NotificationType } from '../models/notificationType.enum';
 
 interface Notification {
   message: string;
   timeout: number;
   action?: string;
+  notificationType: NotificationType;
   actionCallback?: () => void;
   removing?: boolean; // Ovo je potrebno za animaciju uklanjanja
   backgroundColor?: string; // Dodatna boja za obaveštenje
@@ -12,20 +14,7 @@ interface Notification {
 
 @Component({
   selector: 'app-notification',
-  template: `
-    <div class="notification-container">
-      <div
-      [ngClass]="notification.backgroundColor=='red' ? 'warning' : 'notification'"
-      *ngFor="let notification of notifications; let i = index"
-      [style.bottom.px]="16 + i * 70"
-      [class.removing]="notification.removing">
-        <span>{{ notification.message }}</span>
-        <button *ngIf="notification.action" (click)="handleAction(notification)">
-          {{ notification.action }}
-        </button>
-      </div>
-    </div>
-  `,
+  templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.css'],
 })
 export class NotificationComponent {
@@ -39,7 +28,7 @@ export class NotificationComponent {
     actionCallback?: () => void,
     backgroundColor?: string
   ) {
-    const notification: Notification = { message, timeout: duration, action, actionCallback, backgroundColor };
+    const notification: Notification = { message, timeout: duration+2000, action, actionCallback, backgroundColor, notificationType: NotificationType.ERROR };
     this.notifications.push(notification);
 
     // Automatsko uklanjanje nakon trajanja
