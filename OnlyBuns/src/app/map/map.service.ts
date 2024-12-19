@@ -24,5 +24,13 @@ export class MapService {
   getPostLocations(): Observable<any> {
     return this.http.get('http://localhost:8080/api/posts/locations');
   }
+
+  getRabbitCareLocations(): Observable<any> {
+    // Slanje GET zahteva na backend bez dodatnih zaglavlja
+    return this.http.get<any>(
+      'http://localhost:8080/api/careLocations' // URL za dohvat lokacija
+    );
+  }
+  
   
 }

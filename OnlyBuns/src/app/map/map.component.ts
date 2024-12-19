@@ -15,6 +15,7 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private currentMarker: L.Marker | null = null; // Marker za pretragu
   private postMarkers: L.Marker[] = []; // Svi markeri za postove
+  private rabbitCareMarkers: L.Marker[] = []; 
   @Output() setLocation = new EventEmitter<number[]>();
   @Input() user: any;
   @Input() longitude = 45.2396;
@@ -42,6 +43,7 @@ export class MapComponent implements AfterViewInit {
     this.setMarker(this.latitude, this.longitude);
     this.registerOnClick();
     this.loadPostLocations(); 
+    this.loadRabbitCareLocations();
   }
 
   ngAfterViewInit(): void {
@@ -214,6 +216,54 @@ export class MapComponent implements AfterViewInit {
       },
       error: () => {
          this.notificationService.notify({message:'Location saved successfully!', duration:3000, notificationType:NotificationType.SUCCESS}); // Trajanje notifikacije u ms
+      },
+    });
+  }
+
+
+
+
+  private loadRabbitCareLocations(): void {
+    const rabbitCareIcon = L.icon({
+      iconUrl: 'assets/pharmacy.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32],
+    });
+  
+    this.mapService.getRabbitCareLocations().subscribe({
+      next: (locations) => {
+        console.log('Received locations from backend:', locations); // Log celog odgovora
+  
+        const bounds = L.latLngBounds([]);
+  
+        locations.forEach((location: any, index: number) => {
+          console.log(`Processing location #${index + 1}:`, location); // Log svakog objekta iz liste
+  
+          const [latitude, longitude] = location.location.split(',').map(parseFloat);
+          console.log(`Parsed coordinates: latitude=${latitude}, longitude=${longitude}`); // Log koordinata
+  
+          const marker = L.marker(
+            [latitude, longitude],
+            { icon: rabbitCareIcon }
+          )
+            .addTo(this.map)
+            .bindPopup(`<b>${location.name}</b><br>`);
+          
+          this.rabbitCareMarkers.push(marker);
+  
+          bounds.extend([latitude, longitude]);
+        });
+  
+        if (locations.length > 0) {
+          console.log('Fitting map to bounds:', bounds); // Log granice mape
+          this.map.fitBounds(bounds);
+        } else {
+          console.warn('No locations received to display on the map.');
+        }
+      },
+      error: (err) => {
+        console.error('Error loading rabbit care locations:', err); // Log greške ako postoji problem sa pozivom
       },
     });
   }
