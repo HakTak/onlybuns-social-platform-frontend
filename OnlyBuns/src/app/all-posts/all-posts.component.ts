@@ -108,6 +108,7 @@ export class AllPostsComponent implements OnInit {
   viewComments(post: Post): void {
     this.postService.getCommentsForPost(post.id).subscribe((data: Post) => {
       if (data.comments && data.comments.length > 0) {
+        data.comments.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
         this.dialog.open(PostCommentsComponent, {
           data: { post: data }
         });
