@@ -26,6 +26,12 @@ export class CommentService {
             // Preusmeravanje na login ako je zabranjen pristup
                 this.router.navigate(['/login']);
                 this.notificationService.notify({message:'You must be logged as User',duration:3000,notificationType:NotificationType.WARNING});
+            } else if (error.status === 429) {
+              this.notificationService.notify({
+                message: 'You can only comment 60 times in an hour.',
+                duration: 6000,
+                notificationType: NotificationType.INFO
+              });
             }
             return throwError(() => error);  // Prosleđivanje greške dalje
         }));
