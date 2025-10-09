@@ -114,7 +114,7 @@
           </div>
   
           <!-- Map Component -->
-          <app-map [user]="user" (setLocation)="setLocation($event)"></app-map>
+          <app-map *ngIf="showMapProfile" [user]="user" (setLocation)="setLocation($event)"></app-map>
         </div>
       </div>
     </div>
