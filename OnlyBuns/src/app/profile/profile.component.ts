@@ -60,6 +60,7 @@ export class ProfileComponent implements OnInit {
   editFirstname = '';
   editLastname = '';
   editAddress = '';
+  showMapProfile = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -95,12 +96,14 @@ export class ProfileComponent implements OnInit {
 
 
   modifyPost(post: Post) {
+    this.showMapProfile = false;
     const dialogRef = this.dialog.open(PostModificationComponent, {
       width: '600px',
       data: { post }
     });
 
     dialogRef.afterClosed().subscribe(result => {
+    this.showMapProfile = true;
       if (result === true) {
         this.loadPosts(); // Reload posts after modification
       }
