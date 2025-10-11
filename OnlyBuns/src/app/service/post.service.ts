@@ -162,4 +162,28 @@ export class PostService {
             })
         );
     }
+    
+    advertisePost(postId: number): void {
+  this.http.post<void>(
+    `${this.config.posts_url}/markForAdvertising/${postId}`,
+    {} // telo prazno, jer backend ne očekuje telo
+  ).subscribe({
+    next: () => {
+      this.notificationService.notify({
+        message: 'You successfully advertised post!',
+        duration: 5000,
+        notificationType: NotificationType.SUCCESS
+      });
+    },
+    error: (err) => {
+      console.error(err);
+      this.notificationService.notify({
+        message: 'Failed to advertise post.',
+        duration: 4000,
+        notificationType: NotificationType.ERROR
+      });
+    }
+  });
+}
+
 }

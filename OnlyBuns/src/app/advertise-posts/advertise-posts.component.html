@@ -1,0 +1,41 @@
+<div *ngIf="posts.length > 0; else noPostsTemplate">
+  <div class="post-list">
+    <mat-card *ngFor="let post of posts" class="post-card"
+              (mouseover)="onMouseOver(post)" (mouseout)="onMouseOut(post)">
+              <mat-card-header class="post-header">
+                <div class="post-header-content">
+                  <mat-card-title (click)="goToProfile(post.authorUsername)" matTooltip="Show profile" class="clickable">
+                    {{ post.authorUsername }}
+                  </mat-card-title>
+                  <mat-card-subtitle class="post-subtitle">
+                    {{ getRelativeTime(post.createdAt) }}
+                  </mat-card-subtitle>
+                </div>
+              </mat-card-header>
+      <mat-card-content>
+        <img mat-card-image [src]="getImage(post.imagePath)" alt="Post image">
+      </mat-card-content>
+      <mat-card-footer>
+        <mat-card-content>
+          <p>{{ post.description }}</p>
+        </mat-card-content>
+        <mat-card-actions class="ad-footer">
+            <button mat-button color="primary" (click)="sendAd(post.id)" matTooltip="Send Advertisement">
+                <mat-icon>campaign</mat-icon>
+                <span>Send Advertisement</span>
+            </button>
+        </mat-card-actions>
+      </mat-card-footer>
+    </mat-card>
+  </div>
+  <div class="pagination">
+    <button class="dugme" mat-button (click)="previousPage()" [disabled]="currentPage === 0">Previous</button>
+    <span class="dugme" style="color: var(--primary);">Page {{ currentPage + 1 }}</span>
+    <button class="dugme" mat-button (click)="nextPage()" [disabled]="!canGoNext">Next</button>
+    <button class="dugme" mat-button (click)="goToPage(0)" [disabled]="currentPage === 0">First Page</button>
+    <!-- Dodajte dugmad za ostale stranice po potrebi -->
+  </div>
+</div>
+<ng-template #noPostsTemplate>
+  <div class="no-posts-message">There are no posts</div>
+</ng-template>

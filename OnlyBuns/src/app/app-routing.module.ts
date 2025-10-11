@@ -13,6 +13,7 @@ import { TrendsComponent } from './trends/trends.component';
 import { AllChatsComponent } from './all-chats/all-chats.component';
 import { MapComponent } from './map/map.component';
 import { MapPostComponent } from './map-post/map-post.component';
+import { AdvertisePostsComponent } from './advertise-posts/advertise-posts.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,10 @@ const routes: Routes = [
   {
     path: 'post-creation',
     component: PostCreationComponent,
+  },
+  {
+    path: 'advertise-posts',
+    component: AdvertisePostsComponent
   }
 ];
 
