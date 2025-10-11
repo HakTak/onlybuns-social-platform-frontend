@@ -15,10 +15,10 @@
                 <mat-icon>feed</mat-icon>
                 All posts
             </button>
-            <!-- <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" mat-raised-button
-                routerLink="/post-creation">
-                <span>Add Post</span>
-            </button> -->
+            <button color="hover" *ngIf="authService.isAdmin()" mat-raised-button routerLink="/advertise-posts">
+                <mat-icon>campaign</mat-icon>
+                <span>Advertise posts</span>
+            </button>
             <button *ngIf="!authService.isAdmin() && authService.isAuthenticated()" color="hover" mat-raised-button routerLink="/post-creation">
                 <mat-icon>add</mat-icon>
                 Add Post
